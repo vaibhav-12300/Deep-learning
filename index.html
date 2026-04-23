@@ -1,0 +1,2099 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NPTEL Deep Learning – Complete Exam Guide (Week 1–12)</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Inter:wght@400;500;600&family=Fira+Mono:wght@500&display=swap');
+
+  :root {
+    --bg: #0f0f13;
+    --card: #16161e;
+    --border: #2a2a3a;
+    --accent: #7c6dfa;
+    --accent2: #00d4aa;
+    --correct: #22c55e;
+    --text: #e2e2ef;
+    --muted: #8888aa;
+    --option-bg: #1e1e2e;
+    --highlight: #7c6dfa22;
+    --week-colors: #7c6dfa, #00d4aa, #f59e0b, #ef4444, #3b82f6, #ec4899, #10b981, #f97316, #8b5cf6, #06b6d4, #84cc16, #f43f5e;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Inter', sans-serif;
+    line-height: 1.7;
+    min-height: 100vh;
+  }
+
+  /* ── HEADER ── */
+  .header {
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+    padding: 48px 32px 40px;
+    text-align: center;
+    border-bottom: 2px solid var(--accent);
+    position: relative;
+    overflow: hidden;
+  }
+  .header::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse at 50% 0%, #7c6dfa33 0%, transparent 70%);
+  }
+  .header-badge {
+    display: inline-block;
+    background: var(--accent);
+    color: #fff;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 4px 14px;
+    border-radius: 20px;
+    margin-bottom: 16px;
+  }
+  .header h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(28px, 5vw, 52px);
+    font-weight: 900;
+    background: linear-gradient(135deg, #fff 0%, #a78bfa 60%, #00d4aa 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    line-height: 1.2;
+    margin-bottom: 12px;
+    position: relative;
+  }
+  .header p {
+    color: var(--muted);
+    font-size: 15px;
+    position: relative;
+  }
+  .stats-row {
+    display: flex;
+    justify-content: center;
+    gap: 32px;
+    margin-top: 24px;
+    position: relative;
+    flex-wrap: wrap;
+  }
+  .stat {
+    text-align: center;
+  }
+  .stat-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--accent2);
+  }
+  .stat-label {
+    font-size: 11px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  /* ── NAV ── */
+  .nav {
+    background: var(--card);
+    border-bottom: 1px solid var(--border);
+    padding: 16px 24px;
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+    flex-wrap: wrap;
+    justify-content: center;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .nav a {
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--muted);
+    padding: 6px 14px;
+    border-radius: 20px;
+    border: 1px solid var(--border);
+    transition: all 0.2s;
+    white-space: nowrap;
+  }
+  .nav a:hover {
+    color: #fff;
+    border-color: var(--accent);
+    background: var(--highlight);
+  }
+
+  /* ── MAIN ── */
+  .container { max-width: 900px; margin: 0 auto; padding: 32px 20px 80px; }
+
+  /* ── WEEK SECTION ── */
+  .week-section { margin-bottom: 60px; }
+  .week-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 28px;
+    padding: 20px 24px;
+    background: var(--card);
+    border-radius: 14px;
+    border-left: 4px solid var(--accent);
+  }
+  .week-number {
+    font-family: 'Playfair Display', serif;
+    font-size: 36px;
+    font-weight: 900;
+    color: var(--accent);
+    min-width: 60px;
+    line-height: 1;
+  }
+  .week-info h2 {
+    font-size: 20px;
+    font-weight: 700;
+    color: #fff;
+  }
+  .week-info p {
+    font-size: 13px;
+    color: var(--muted);
+    margin-top: 2px;
+  }
+  .week-badge {
+    margin-left: auto;
+    background: var(--highlight);
+    color: var(--accent);
+    font-size: 12px;
+    font-weight: 600;
+    padding: 4px 12px;
+    border-radius: 20px;
+    border: 1px solid var(--accent);
+    white-space: nowrap;
+  }
+
+  /* ── QUESTION CARD ── */
+  .question-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    margin-bottom: 20px;
+    overflow: hidden;
+    transition: border-color 0.2s;
+  }
+  .question-card:hover { border-color: #444466; }
+
+  .question-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 16px 20px;
+    background: #1a1a28;
+    border-bottom: 1px solid var(--border);
+  }
+  .q-num {
+    background: var(--accent);
+    color: #fff;
+    font-size: 12px;
+    font-weight: 700;
+    width: 28px; height: 28px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+    font-family: 'Fira Mono', monospace;
+  }
+  .q-label {
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  .question-body { padding: 20px; }
+
+  .question-text {
+    font-size: 15px;
+    font-weight: 500;
+    color: #d4d4f0;
+    margin-bottom: 18px;
+    line-height: 1.75;
+  }
+
+  .math-hint {
+    background: #1e1e3a;
+    border-left: 3px solid var(--accent);
+    padding: 10px 14px;
+    border-radius: 6px;
+    font-family: 'Fira Mono', monospace;
+    font-size: 13px;
+    color: #a78bfa;
+    margin-bottom: 14px;
+    overflow-x: auto;
+  }
+
+  /* ── OPTIONS ── */
+  .options { display: flex; flex-direction: column; gap: 8px; margin-bottom: 16px; }
+  .option {
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+    padding: 11px 14px;
+    background: var(--option-bg);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    font-size: 14px;
+    transition: background 0.2s;
+  }
+  .option.correct {
+    background: #052e16;
+    border-color: var(--correct);
+  }
+  .option-letter {
+    font-family: 'Fira Mono', monospace;
+    font-weight: 600;
+    font-size: 13px;
+    color: var(--muted);
+    min-width: 20px;
+    padding-top: 1px;
+  }
+  .option.correct .option-letter { color: var(--correct); }
+  .option-text { color: #c8c8e0; line-height: 1.5; }
+  .option.correct .option-text { color: #86efac; }
+
+  /* ── ANSWER ── */
+  .answer-box {
+    background: #052e16;
+    border: 1px solid var(--correct);
+    border-radius: 8px;
+    padding: 12px 16px;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .answer-tick { color: var(--correct); font-size: 18px; }
+  .answer-text { font-size: 14px; font-weight: 600; color: var(--correct); }
+
+  /* ── SOLUTION ── */
+  .solution-box {
+    background: #0f0f1e;
+    border-left: 3px solid var(--accent2);
+    border-radius: 6px;
+    padding: 14px 16px;
+  }
+  .solution-label {
+    font-size: 11px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--accent2);
+    font-weight: 600;
+    margin-bottom: 6px;
+  }
+  .solution-text {
+    font-size: 14px;
+    color: #a0a0c0;
+    line-height: 1.7;
+  }
+
+  /* ── TABLE (for matrix questions) ── */
+  .matrix-table {
+    border-collapse: collapse;
+    font-family: 'Fira Mono', monospace;
+    font-size: 13px;
+    margin: 10px 0;
+  }
+  .matrix-table td {
+    border: 1px solid var(--border);
+    padding: 6px 10px;
+    color: #c8c8e0;
+    text-align: center;
+  }
+
+  /* ── FOOTER ── */
+  .footer {
+    text-align: center;
+    padding: 32px;
+    color: var(--muted);
+    font-size: 13px;
+    border-top: 1px solid var(--border);
+  }
+  .footer strong { color: var(--accent); }
+
+  /* ── PRINT ── */
+  @media print {
+    .nav { display: none; }
+    .question-card { break-inside: avoid; }
+    body { background: white; color: black; }
+    .header { background: #eee; }
+  }
+
+  /* ── RESPONSIVE ── */
+  @media(max-width: 600px) {
+    .week-header { flex-wrap: wrap; }
+    .week-badge { margin-left: 0; }
+    .header { padding: 32px 16px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+  <div class="header-badge">📚 NPTEL Exam Preparation</div>
+  <h1>NPTEL Deep Learning<br>Complete Exam Guide</h1>
+  <p>Indian Institute of Technology Kharagpur &nbsp;|&nbsp; Week 1 to Week 12</p>
+  <div class="stats-row">
+    <div class="stat"><div class="stat-num">12</div><div class="stat-label">Weeks</div></div>
+    <div class="stat"><div class="stat-num">120</div><div class="stat-label">Questions</div></div>
+    <div class="stat"><div class="stat-num">MCQ</div><div class="stat-label">Type</div></div>
+    <div class="stat"><div class="stat-num">✅</div><div class="stat-label">Answers Included</div></div>
+  </div>
+</div>
+
+<!-- NAV -->
+<div class="nav">
+  <a href="#week1">Week 1</a>
+  <a href="#week2">Week 2</a>
+  <a href="#week3">Week 3</a>
+  <a href="#week4">Week 4</a>
+  <a href="#week5">Week 5</a>
+  <a href="#week6">Week 6</a>
+  <a href="#week7">Week 7</a>
+  <a href="#week8">Week 8</a>
+  <a href="#week9">Week 9</a>
+  <a href="#week10">Week 10</a>
+  <a href="#week11">Week 11</a>
+  <a href="#week12">Week 12</a>
+</div>
+
+<div class="container">
+
+<!-- ═══════════════════════════════════════════════════════════ WEEK 1 -->
+<div class="week-section" id="week1">
+  <div class="week-header">
+    <div class="week-number">01</div>
+    <div class="week-info">
+      <h2>Feature Descriptors & Deep Learning Basics</h2>
+      <p>Signature, MFCC, Histogram, PCA, Bayesian Classifier</p>
+    </div>
+    <div class="week-badge">10 Questions · 2 Marks Each</div>
+  </div>
+
+  <!-- Q1 -->
+  <div class="question-card">
+    <div class="question-header">
+      <div class="q-num">1</div>
+      <div class="q-label">Week 1 · Question 1</div>
+    </div>
+    <div class="question-body">
+      <div class="question-text">In the context of a <strong>signature descriptor</strong>, how is the "signature" of a shape generated?</div>
+      <div class="options">
+        <div class="option"><div class="option-letter">a.</div><div class="option-text">By calculating the Fourier coefficients of the boundary points.</div></div>
+        <div class="option correct"><div class="option-letter">b.</div><div class="option-text">By plotting the distance of boundary points from the centroid in various orientations.</div></div>
+        <div class="option"><div class="option-letter">c.</div><div class="option-text">By recursively subdividing a shape into polygonal segments.</div></div>
+        <div class="option"><div class="option-letter">d.</div><div class="option-text">None of the above.</div></div>
+      </div>
+      <div class="answer-box"><div class="answer-tick">✔</div><div class="answer-text">Correct Answer: B</div></div>
+      <div class="solution-box"><div class="solution-label">📖 Explanation</div><div class="solution-text">A signature is generated by calculating the distance from the shape's centroid to its boundary points and plotting it for different angles (orientations).</div></div>
+    </div>
+  </div>
+
+  <!-- Q2 -->
+  <div class="question-card">
+    <div class="question-header"><div class="q-num">2</div><div class="q-label">Week 1 · Question 2</div></div>
+    <div class="question-body">
+      <div class="question-text">Why is a <strong>logarithmic transformation</strong> used in the computation of Mel Frequency Cepstral Coefficients (MFCC) for audio signals?</div>
+      <div class="options">
+        <div class="option"><div class="option-letter">a.</div><div class="option-text">To normalize the frequency spectrum.</div></div>
+        <div class="option correct"><div class="option-letter">b.</div><div class="option-text">Because the human auditory system is more sensitive to signals that are not very loud.</div></div>
+        <div class="option"><div class="option-letter">c.</div><div class="option-text">To remove high-frequency noise from the microphone.</div></div>
+        <div class="option"><div class="option-letter">d.</div><div class="option-text">To convert the signal into a two-dimensional matrix.</div></div>
+      </div>
+      <div class="answer-box"><div class="answer-tick">✔</div><div class="answer-text">Correct Answer: B</div></div>
+      <div class="solution-box"><div class="solution-label">📖 Explanation</div><div class="solution-text">The human ear perceives loudness on a logarithmic scale. Applying a log transformation models how we actually hear sounds — we notice the difference between quiet sounds more than loud ones.</div></div>
+    </div>
+  </div>
+
+  <!-- Q3 -->
+  <div class="question-card">
+    <div class="question-header"><div class="q-num">3</div><div class="q-label">Week 1 · Question 3</div></div>
+    <div class="question-body">
+      <div class="question-text">Which of the following is a <strong>region descriptor</strong>?</div>
+      <div class="options">
+        <div class="option"><div class="option-letter">a.</div><div class="option-text">Polygonal Representation</div></div>
+        <div class="option"><div class="option-letter">b.</div><div class="option-text">Fourier descriptor</div></div>
+        <div class="option"><div class="option-letter">c.</div><div class="option-text">Signature</div></div>
+        <div class="option correct"><div class="option-letter">d.</div><div class="option-text">Intensity histogram</div></div>
+      </div>
+      <div class="answer-box"><div class="answer-tick">✔</div><div class="answer-text">Correct Answer: D</div></div>
+      <div class="solution-box"><div class="solution-label">📖 Explanation</div><div class="solution-text">An intensity histogram describes the entire region of an image (all pixel intensity values inside the region), so it is a region descriptor. The others (Fourier, Signature, Polygon) are boundary descriptors.</div></div>
+    </div>
+  </div>
+
+  <!-- Q4 -->
+  <div class="question-card">
+    <div class="question-header"><div class="q-num">4</div><div class="q-label">Week 1 · Question 4</div></div>
+    <div class="question-body">
+      <div class="question-text">What is the primary difference between <strong>Traditional Machine Learning</strong> and <strong>Deep Learning</strong> regarding feature extraction?</div>
+      <div class="options">
+        <div class="option"><div class="option-letter">a.</div><div class="option-text">Traditional machine learning ignores the raw signal.</div></div>
+        <div class="option"><div class="option-letter">b.</div><div class="option-text">Deep learning requires the user to manually define and extract features before training.</div></div>
+        <div class="option correct"><div class="option-letter">c.</div><div class="option-text">In deep learning, the machine learns to extract relevant features directly from the raw signal.</div></div>
+        <div class="option"><div class="option-letter">d.</div><div class="option-text">Deep learning cannot process audio signals whereas traditional machine learning can.</div></div>
+      </div>
+      <div class="answer-box"><div class="answer-tick">✔</div><div class="answer-text">Correct Answer: C</div></div>
+      <div class="solution-box"><div class="solution-label">📖 Explanation</div><div class="solution-text">In traditional ML, humans manually extract features (like edges, textures). In deep learning, the neural network automatically learns which features are important directly from raw data.</div></div>
+    </div>
+  </div>
+
+  <!-- Q5 -->
+  <div class="question-card">
+    <div class="question-header"><div class="q-num">5</div><div class="q-label">Week 1 · Question 5</div></div>
+    <div class="question-body">
+      <div class="question-text">In statistical moment calculation for a normalized histogram h(rᵢ), what does the <strong>second-order moment (k=2)</strong> represent?</div>
+      <div class="options">
+        <div class="option"><div class="option-letter">a.</div><div class="option-text">The mean intensity.</div></div>
+        <div class="option"><div class="option-letter">b.</div><div class="option-text">The skewness of the distribution.</div></div>
+        <div class="option"><div class="option-letter">c.</div><div class="option-text">The maximum probability of the distribution.</div></div>
+        <div class="option correct"><div class="option-letter">d.</div><div class="option-text">The variance (spread) of the histogram.</div></div>
+      </div>
+      <div class="answer-box"><div class="answer-tick">✔</div><div class="answer-text">Correct Answer: D</div></div>
+      <div class="solution-box"><div class="solution-label">📖 Explanation</div><div class="solution-text">1st order moment = Mean. 2nd order moment = Variance (how spread out the data is). 3rd order moment = Skewness.</div></div>
+    </div>
+  </div>
+
+  <!-- Q6 -->
+  <div class="question-card">
+    <div class="question-header"><div class="q-num">6</div><div class="q-label">Week 1 · Question 6</div></div>
+    <div class="question-body">
+      <div class="question-text">The signature descriptor of an unknown shape is given in a figure showing varying distances from centroid. Can you identify the unknown shape?</div>
+      <div class="options">
+        <div class="option"><div class="option-letter">a.</div><div class="option-text">Circle</div></div>
+        <div class="option"><div class="option-letter">b.</div><div class="option-text">Square</div></div>
+        <div class="option"><div class="option-letter">c.</div><div class="option-text">Straight line</div></div>
+        <div class="option correct"><div class="option-letter">d.</div><div class="option-text">Rectangle</div></div>
+      </div>
+      <div class="answer-box"><div class="answer-tick">✔</div><div class="answer-text">Correct Answer: D</div></div>
+      <div class="solution-box"><div class="solution-label">📖 Explanation</div><div class="solution-text">For a rectangle: distance from centroid is smaller at longer sides and larger at shorter sides. This creates an alternating pattern in the signature — which matches a rectangle, not a square (which would have equal distances).</div></div>
+    </div>
+  </div>
+
+  <!-- Q7 -->
+  <div class="question-card">
+    <div class="question-header"><div class="q-num">7</div><div class="q-label">Week 1 · Question 7</div></div>
+    <div class="question-body">
+      <div class="question-text">Under what condition are the <strong>Bayes Minimum Risk Classifier</strong> and the <strong>Bayes Minimum Error Classifier</strong> mathematically identical?</div>
+      <div class="options">
+        <div class="option correct"><div class="option-letter">a.</div><div class="option-text">When the loss function is a zero-one (0/1) loss function.</div></div>
+        <div class="option"><div class="option-letter">b.</div><div class="option-text">When the a priori probabilities of all classes are equal.</div></div>
+        <div class="option"><div class="option-letter">c.</div><div class="option-text">When the feature space is exactly two-dimensional.</div></div>
+        <div class="option"><div class="option-letter">d.</div><div class="option-text">When the likelihood ratio is close to 1.</div></div>
+      </div>
+      <div class="answer-box"><div class="answer-tick">✔</div><div class="answer-text">Correct Answer: A</div></div>
+      <div class="solution-box"><div class="solution-label">📖 Explanation</div><div class="solution-text">If the loss = 0 for correct decision and loss = 1 for wrong decision (zero-one loss), then minimizing risk is the same as minimizing error. Both classifiers become identical under this loss function.</div></div>
+    </div>
+  </div>
+
+  <!-- Q8 -->
+  <div class="question-card">
+    <div class="question-header"><div class="q-num">8</div><div class="q-label">Week 1 · Question 8</div></div>
+    <div class="question-body">
+      <div class="question-text">Given an image I and a gray co-occurrence matrix C with displacement vector d = (1, 1) (one pixel right, one pixel below), what is the value of X in the partially filled matrix?</div>
+      <div class="options">
+        <div class="option correct"><div class="option-letter">a.</div><div class="option-text">0</div></div>
+        <div class="option"><div class="option-letter">b.</div><div class="option-text">1</div></div>
+        <div class="option"><div class="option-letter">c.</div><div class="option-text">2</div></div>
+        <div class="option"><div class="option-letter">d.</div><div class="option-text">3</div></div>
+      </div>
+      <div class="answer-box"><div class="answer-tick">✔</div><div class="answer-text">Correct Answer: A (X = 0)</div></div>
+      <div class="solution-box"><div class="solution-label">📖 Explanation</div><div class="solution-text">By completing the gray co-occurrence matrix counting all diagonal pairs in the image, the value of X is found to be 0.</div></div>
+    </div>
+  </div>
+
+  <!-- Q9 -->
+  <div class="question-card">
+    <div class="question-header"><div class="q-num">9</div><div class="q-label">Week 1 · Question 9</div></div>
+    <div class="question-body">
+      <div class="question-text">Discrete radial distances: rᵢ ∈ {2, 4, 6} with probabilities p(2)=0.25, p(4)=0.50, p(6)=0.25. Calculate the <strong>second-order statistical moment</strong> (variance) of this boundary segment.</div>
+      <div class="options">
+        <div class="option correct"><div class="option-letter">a.</div><div class="option-text">2</div></div>
+        <div class="option"><div class="option-letter">b.</div><div class="option-text">4</div></div>
+        <div class="option"><div class="option-letter">c.</div><div class="option-text">4.5</div></div>
+        <div class="option"><div class="option-letter">d.</div><div class="option-text">3</div></div>
+      </div>
+      <div class="answer-box"><div class="answer-tick">✔</div><div class="answer-text">Correct Answer: A</div></div>
+      <div class="solution-box"><div class="solution-label">📖 Explanation</div><div class="solution-text">Mean μ = 2×0.25 + 4×0.50 + 6×0.25 = 0.5 + 2 + 1.5 = 4.<br>Variance σ² = (2−4)²×0.25 + (4−4)²×0.50 + (6−4)²×0.25 = 1 + 0 + 1 = <strong>2</strong>.</div></div>
+    </div>
+  </div>
+
+  <!-- Q10 -->
+  <div class="question-card">
+    <div class="question-header"><div class="q-num">10</div><div class="q-label">Week 1 · Question 10</div></div>
+    <div class="question-body">
+      <div class="question-text">When using <strong>Fourier Descriptors</strong> to reconstruct a square shape, what is the effect of using only low-order coefficients (P ≪ N)?</div>
+      <div class="options">
+        <div class="option"><div class="option-letter">a.</div><div class="option-text">The reconstructed shape will have sharper corners.</div></div>
+        <div class="option correct"><div class="option-letter">b.</div><div class="option-text">The reconstructed shape will lose detailed information (corners) and appear circular.</div></div>
+        <div class="option"><div class="option-letter">c.</div><div class="option-text">The reconstruction will be identical to the original shape.</div></div>
+        <div class="option"><div class="option-letter">d.</div><div class="option-text">The reconstruction will result in a single point.</div></div>
+      </div>
+      <div class="answer-box"><div class="answer-tick">✔</div><div class="answer-text">Correct Answer: B</div></div>
+      <div class="solution-box"><div class="solution-label">📖 Explanation</div><div class="solution-text">Low-order Fourier coefficients capture the basic shape (like a circle). High-order coefficients capture fine details like sharp corners. Removing high-order terms = smooth, circular-looking result.</div></div>
+    </div>
+  </div>
+</div><!-- end week1 -->
+
+<!-- ═══════════════════════════════════════════════════════════ WEEK 2 -->
+<div class="week-section" id="week2">
+  <div class="week-header">
+    <div class="week-number">02</div>
+    <div class="week-info">
+      <h2>Bayesian Classifier & Discriminant Functions</h2>
+      <p>Gaussian Distribution, KNN, Decision Boundaries, Prior Probabilities</p>
+    </div>
+    <div class="week-badge">10 Questions · 2 Marks Each</div>
+  </div>
+
+  <div class="question-card">
+    <div class="question-header"><div class="q-num">1</div><div class="q-label">Week 2 · Question 1</div></div>
+    <div class="question-body">
+      <div class="question-text">Why is the <strong>natural logarithm</strong> often applied to the discriminant function gᵢ(X) = P(X|ωᵢ)P(ωᵢ)?</div>
+      <div class="options">
+        <div class="option"><div class="option-letter">a.</div><div class="option-text">To normalize the probability values between 0 and 1.</div></div>
+        <div class="option"><div class="option-letter">b.</div><div class="option-text">To ensure the function remains monotonically decreasing.</div></div>
+        <div class="option correct"><div class="option-letter">c.</div><div class="option-text">To convert multiplication of probabilities into a more computationally advantageous addition operation.</div></div>
+        <div class="option"><div class="option-letter">d.</div><div class="option-text">To eliminate the need for calculating the mean vector.</div></div>
+      </div>
+      <div class="answer-box"><div class="answer-tick">✔</div><div class="answer-text">Correct Answer: C</div></div>
+      <div class="solution-box"><div class="solution-label">📖 Explanation</div><div class="solution-text">log(A × B) = log(A) + log(B). Converting multiplication to addition is computationally simpler and avoids underflow. Since log is monotonically increasing, it doesn't change the decision.</div></div>
+    </div>
+  </div>
+
+  <div class="question-card">
+    <div class="question-header"><div class="q-num">2</div><div class="q-label">Week 2 · Question 2</div></div>
+    <div class="question-body">
+      <div class="question-text">What is the physical significance of a covariance matrix in the form <strong>Σᵢ = σ²I</strong>?</div>
+      <div class="options">
+        <div class="option"><div class="option-letter">a.</div><div class="option-text">Feature components are statistically dependent with varying variances.</div></div>
+        <div class="option correct"><div class="option-letter">b.</div><div class="option-text">Feature components are statistically independent and have the same variance.</div></div>
+        <div class="option"><div class="option-letter">c.</div><div class="option-text">The distribution of points in the feature space is always hyper-ellipsoidal.</div></div>
+        <div class="option"><div class="option-letter">d.</div><div class="option-text">The decision boundary must be quadratic.</div></div>
+      </div>
+      <div class="answer-box"><div class="answer-tick">✔</div><div class="answer-text">Correct Answer: B</div></div>
+      <div class="solution-box"><div class="solution-label">📖 Explanation</div><div class="solution-text">Σ = σ²I means all off-diagonal elements are zero (no correlation) and all diagonal elements are equal (same variance). This means features are independent and have equal spread in all directions.</div></div>
+    </div>
+  </div>
+
+  <div class="question-card">
+    <div class="question-header"><div class="q-num">3</div><div class="q-label">Week 2 · Question 3</div></div>
+    <div class="question-body">
+      <div class="question-text">Which is true regarding functions of discriminant functions f(gᵢ(x))?</div>
+      <div class="options">
+        <div class="option"><div class="option-letter">a.</div><div class="option-text">We cannot use functions of discriminant functions as discriminant functions.</div></div>
+        <div class="option"><div class="option-letter">b.</div><div class="option-text">We can use them only if they are constant functions.</div></div>
+        <div class="option correct"><div class="option-letter">c.</div><div class="option-text">We can use them as discriminant functions provided they are monotonically increasing functions.</div></div>
+        <div class="option"><div class="option-letter">d.</div><div class="option-text">None of the above is true.</div></div>
+      </div>
+      <div class="answer-box"><div class="answer-tick">✔</div><div class="answer-text">Correct Answer: C</div></div>
+      <div class="solution-box"><div class="solution-label">📖 Explanation</div><div class="solution-text">If f is monotonically increasing, then f(gᵢ(x)) > f(gⱼ(x)) whenever gᵢ(x) > gⱼ(x). So the class decision doesn't change — the function f(gᵢ) can be used as a discriminant function.</div></div>
+    </div>
+  </div>
+
+  <div class="question-card">
+    <div class="question-header"><div class="q-num">4</div><div class="q-label">Week 2 · Question 4</div></div>
+    <div class="question-body">
+      <div class="question-text">If you are solving a <strong>three-class problem</strong>, how many discriminant functions do you need?</div>
+      <div class="options">
+        <div class="option"><div class="option-letter">a.</div><div class="option-text">1</div></div>
+        <div class="option"><div class="option-letter">b.</div><div class="option-text">2</div></div>
+        <div class="option correct"><div class="option-letter">c.</div><div class="option-text">3</div></div>
+        <div class="option"><div class="option-letter">d.</div><div class="option-text">4</div></div>
+      </div>
+      <div class="answer-box"><div class="answer-tick">✔</div><div class="answer-text">Correct Answer: C</div></div>
+      <div class="solution-box"><div class="solution-label">📖 Explanation</div><div class="solution-text">For an n-class problem, you need n discriminant functions — one for each class. For 3 classes, you need 3 discriminant functions g₁, g₂, g₃.</div></div>
+    </div>
+  </div>
+
+  <div class="question-card">
+    <div class="question-header"><div class="q-num">5</div><div class="q-label">Week 2 · Question 5</div></div>
+    <div class="question-body">
+      <div class="question-text">For a two-class problem with linear discriminant function g(x) = aᵀy, what is the <strong>weight update rule</strong>?</div>
+      <div class="options">
+        <div class="option correct"><div class="option-letter">a.</div><div class="option-text">a(k+1) = a(k) + η Σ y</div></div>
+        <div class="option"><div class="option-letter">b.</div><div class="option-text">a(k+1) = a(k) − η Σ y</div></div>
+        <div class="option"><div class="option-letter">c.</div><div class="option-text">a(k+1) = a(k−1) − η a(k)</div></div>
+        <div class="option"><div class="option-letter">d.</div><div class="option-text">a(k+1) = a(k−1) + η a(k)</div></div>
+      </div>
+      <div class="answer-box"><div class="answer-tick">✔</div><div class="answer-text">Correct Answer: A</div></div>
+      <div class="solution-box"><div class="solution-label">📖 Explanation</div><div class="solution-text">The weight vector is updated by adding the misclassified training examples (η Σ y) to the current weight vector. This is the Perceptron update rule.</div></div>
+    </div>
+  </div>
+
+  <div class="question-card">
+    <div class="question-header"><div class="q-num">6</div><div class="q-label">Week 2 · Question 6</div></div>
+    <div class="question-body">
+      <div class="question-text">In a 2-class Bayesian classifier, how does the decision boundary change if <strong>P(ω₁) > P(ω₂)</strong> while keeping Σ₁ = Σ₂ = σ²I?</div>
+      <div class="options">
+        <div class="option"><div class="option-letter">a.</div><div class="option-text">It remains an orthogonal bisector.</div></div>
+        <div class="option"><div class="option-letter">b.</div><div class="option-text">It shifts towards the mean μ₁.</div></div>
+        <div class="option correct"><div class="option-letter">c.</div><div class="option-text">It shifts towards the mean μ₂.</div></div>
+        <div class="option"><div class="option-letter">d.</div><div class="option-text">It becomes a quadratic boundary.</div></div>
+      </div>
+      <div class="answer-box"><div class="answer-tick">✔</div><div class="answer-text">Correct Answer: C</div></div>
+      <div class="solution-box"><div class="solution-label">📖 Explanation</div><div class="solution-text">If class ω₁ has higher prior probability, the boundary moves toward μ₂ — so more of the space is classified as ω₁ (the more likely class). The boundary "favours" class ω₁ by moving away from it.</div></div>
+    </div>
+  </div>
+
+  <div class="question-card">
+    <div class="question-header"><div class="q-num">7</div><div class="q-label">Week 2 · Question 7</div></div>
+    <div class="question-body">
+      <div class="question-text">What is the primary drawback of the <strong>Nearest Neighbour (NN) rule</strong> in large-scale machine learning?</div>
+      <div class="options">
+        <div class="option"><div class="option-letter">a.</div><div class="option-text">It cannot handle non-linear decision boundaries.</div></div>
+        <div class="option"><div class="option-letter">b.</div><div class="option-text">It always produces a linear classifier.</div></div>
+        <div class="option"><div class="option-letter">c.</div><div class="option-text">It is highly sensitive to the choice of the covariance matrix.</div></div>
+        <div class="option correct"><div class="option-letter">d.</div><div class="option-text">It requires storing all training vectors and involves extensive distance computations during testing.</div></div>
+      </div>
+      <div class="answer-box"><div class="answer-tick">✔</div><div class="answer-text">Correct Answer: D</div></div>
+      <div class="solution-box"><div class="solution-label">📖 Explanation</div><div class="solution-text">NN rule has no training phase, but at test time you must compare the new point to ALL training examples. This is slow and memory-intensive for large datasets.</div></div>
+    </div>
+  </div>
+
+  <div class="question-card">
+    <div class="question-header"><div class="q-num">8</div><div class="q-label">Week 2 · Question 8</div></div>
+    <div class="question-body">
+      <div class="question-text">Classify points A=(6,11) and B=(14,3) using <strong>K=3 Nearest Neighbour (Manhattan Distance)</strong>.<br>Class 1: {(11,11),(13,11),(8,10),(9,9),(7,7),(7,5),(15,3)}<br>Class 2: {(7,11),(15,9),(15,7),(13,5),(14,4),(9,3),(11,3)}</div>
+      <div class="options">
+        <div class="option"><div class="option-letter">a.</div><div class="option-text">A → Class 1, B → Class 1</div></div>
+        <div class="option"><div class="option-letter">b.</div><div class="option-text">A → Class 2, B → Class 2</div></div>
+        <div class="option correct"><div class="option-letter">c.</div><div class="option-text">A → Class 1, B → Class 2</div></div>
+        <div class="option"><div class="option-letter">d.</div><div class="option-text">A → Class 2, B → Class 1</div></div>
+      </div>
+      <div class="answer-box"><div class="answer-tick">✔</div><div class="answer-text">Correct Answer: C</div></div>
+      <div class="solution-box"><div class="solution-label">📖 Explanation</div><div class="solution-text">For A=(6,11): The 3 nearest neighbours include 2 from Class 1 → A belongs to Class 1. For B=(14,3): The 3 nearest neighbours include majority from Class 2 → B belongs to Class 2.</div></div>
+    </div>
+  </div>
+
+  <div class="question-card">
+    <div class="question-header"><div class="q-num">9</div><div class="q-label">Week 2 · Question 9</div></div>
+    <div class="question-body">
+      <div class="question-text">Given μ₁=[10,5], μ₂=[2,1], σ²=2, P(ω₁)=0.8, P(ω₂)=0.2. Find the point X₀ where the <strong>decision boundary intersects</strong> the line joining the two means.</div>
+      <div class="options">
+        <div class="option"><div class="option-letter">a.</div><div class="option-text">[6, 3]</div></div>
+        <div class="option"><div class="option-letter">b.</div><div class="option-text">[6.3, 3.7]</div></div>
+        <div class="option"><div class="option-letter">c.</div><div class="option-text">[1.5, 5.6]</div></div>
+        <div class="option correct"><div class="option-letter">d.</div><div class="option-text">[5.7, 2.9]</div></div>
+      </div>
+      <div class="answer-box"><div class="answer-tick">✔</div><div class="answer-text">Correct Answer: D</div></div>
+      <div class="solution-box"><div class="solution-label">📖 Explanation</div><div class="solution-text">X₀ = 0.5(μ₁+μ₂) − [σ²/||μ₁−μ₂||²] × ln[P(ω₁)/P(ω₂)] × (μ₁−μ₂). Substituting values gives X₀ = [5.7, 2.9].</div></div>
+    </div>
+  </div>
+
+  <div class="question-card">
+    <div class="question-header"><div class="q-num">10</div><div class="q-label">Week 2 · Question 10</div></div>
+    <div class="question-body">
+      <div class="question-text">The class conditional probability density function for a <strong>multivariate normal distribution</strong> is given by which formula?</div>
+      <div class="options">
+        <div class="option correct"><div class="option-letter">a.</div><div class="option-text">p(x|ωᵢ) = 1/[(2π)^(d/2) |Σᵢ|^(1/2)] × exp(−½ (x−μᵢ)ᵀ Σᵢ⁻¹ (x−μᵢ))</div></div>
+        <div class="option"><div class="option-letter">b.</div><div class="option-text">p(x|ωᵢ) = 1/(2π)^(d/2) × exp(−½ (x−μᵢ)ᵀ Σᵢ⁻¹ (x−μᵢ))</div></div>
+        <div class="option"><div class="option-letter">c.</div><div class="option-text">p(x|ωᵢ) = 1/(2π)^(d/2) × exp(−½ (x−μᵢ)ᵀ (x−μᵢ))</div></div>
+        <div class="option"><div class="option-letter">d.</div><div class="option-text">None of the above</div></div>
+      </div>
+      <div class="answer-box"><div class="answer-tick">✔</div><div class="answer-text">Correct Answer: A</div></div>
+      <div class="solution-box"><div class="solution-label">📖 Explanation</div><div class="solution-text">The full Gaussian formula includes the determinant |Σᵢ|^(1/2) in the denominator (normalizing constant) and the inverse covariance matrix Σᵢ⁻¹ in the exponent.</div></div>
+    </div>
+  </div>
+</div><!-- end week2 -->
+
+<!-- ═══════════════════════════════════════════════════════════ WEEK 3 -->
+<div class="week-section" id="week3">
+  <div class="week-header">
+    <div class="week-number">03</div>
+    <div class="week-info">
+      <h2>Support Vector Machines (SVM)</h2>
+      <p>Hyperplanes, Support Vectors, Margins, Hinge Loss, Regularization</p>
+    </div>
+    <div class="week-badge">10 Questions · 1 Mark Each</div>
+  </div>
+
+  <div class="question-card">
+    <div class="question-header"><div class="q-num">1</div><div class="q-label">Week 3 · Question 1</div></div>
+    <div class="question-body">
+      <div class="question-text">Find the distance of the 3D point P = (−2, 4, 1) from the plane 2x + 3y + 6z + 7 = 0.</div>
+      <div class="options">
+        <div class="option correct"><div class="option-letter">a.</div><div class="option-text">3</div></div>
+        <div class="option"><div class="option-letter">b.</div><div class="option-text">4</div></div>
+        <div class="option"><div class="option-letter">c.</div><div class="option-text">0</div></div>
+        <div class="option"><div class="option-letter">d.</div><div class="option-text">∞ (infinity)</div></div>
+      </div>
+      <div class="answer-box"><div class="answer-tick">✔</div><div class="answer-text">Correct Answer: A</div></div>
+      <div class="solution-box"><div class="solution-label">📖 Explanation</div><div class="solution-text">Distance = |ax + by + cz + d| / √(a²+b²+c²) = |(2×−2) + (3×4) + (6×1) + 7| / √(4+9+36) = |−4+12+6+7| / √49 = 21/7 = <strong>3</strong>.</div></div>
+    </div>
+  </div>
+
+  <div class="question-card">
+    <div class="question-header"><div class="q-num">2</div><div class="q-label">Week 3 · Question 2</div></div>
+    <div class="question-body">
+      <div class="question-text">In SVM, what are <strong>'Support Vectors'</strong>?</div>
+      <div class="options">
+        <div class="option"><div class="option-letter">a.</div><div class="option-text">All the vectors in the training set.</div></div>
+        <div class="option"><div class="option-letter">b.</div><div class="option-text">Only the vectors that are misclassified by the initial hyperplane.</div></div>
+        <div class="option correct"><div class="option-letter">c.</div><div class="option-text">The training vectors that lie on the margin boundaries and define the position of the separating hyperplane.</div></div>
+        <div class="option"><div class="option-letter">d.</div><div class="option-text">The vectors that have the highest score in the multiclass score vector.</div></div>
+      </div>
+      <div class="answer-box"><div class="answer-tick">✔</div><div class="answer-text">Correct Answer: C</div></div>
+      <div class="solution-box"><div class="solution-label">📖 Explanation</div><div class="solution-text">Support vectors are the critical data points closest to the decision boundary (on the margin). Removing them would change where the boundary is placed.</div></div>
+    </div>
+  </div>
+
+  <div class="question-card">
+    <div class="question-header"><div class="q-num">3</div><div class="q-label">Week 3 · Question 3</div></div>
+    <div class="question-body">
+      <div class="question-text">For a 2-class problem, what is the <strong>minimum possible number of support vectors</strong>? (Assume more than 4 examples from each class.)</div>
+      <div class="options">
+        <div class="option"><div class="option-letter">a.</div><div class="option-text">4</div></div>
+        <div class="option"><div class="option-letter">b.</div><div class="option-text">1</div></div>
+        <div class="option correct"><div class="option-letter">c.</div><div class="option-text">2</div></div>
+        <div class="option"><div class="option-letter">d.</div><div class="option-text">8</div></div>
+      </div>
+      <div class="answer-box"><div class="answer-tick">✔</div><div class="answer-text">Correct Answer: C</div></div>
+      <div class="solution-box"><div class="solution-label">📖 Explanation</div><div class="solution-text">You need at least 1 support vector from each class to define the separating hyperplane. So minimum = 2 (one per class).</div></div>
+    </div>
+  </div>
+
+  <div class="question-card">
+    <div class="question-header"><div class="q-num">4</div><div class="q-label">Week 3 · Question 4</div></div>
+    <div class="question-body">
+      <div class="question-text">Dataset: p1=(−1,−1), p2=(1,1), p3=(3,1). Which statement is true regarding SVM?</div>
+      <div class="options">
+        <div class="option correct"><div class="option-letter">a.</div><div class="option-text">Maximum margin will increase if we remove point p2 from the training set.</div></div>
+        <div class="option"><div class="option-letter">b.</div><div class="option-text">Maximum margin will increase if we remove point p3 from the training set.</div></div>
+        <div class="option"><div class="option-letter">c.</div><div class="option-text">Maximum margin will remain same if we remove point p2 from the training set.</div></div>
+        <div class="option"><div class="option-letter">d.</div><div class="option-text">None of the above.</div></div>
+      </div>
+      <div class="answer-box"><div class="answer-tick">✔</div><div class="answer-text">Correct Answer: A</div></div>
+      <div class="solution-box"><div class="solution-label">📖 Explanation</div><div class="solution-text">Point p2=(1,1) is a support vector. Removing a support vector allows the margin to expand (become larger), so the maximum margin increases.</div></div>
+    </div>
+  </div>
+
+  <div class="question-card">
+    <div class="question-header"><div class="q-num">5</div><div class="q-label">Week 3 · Question 5</div></div>
+    <div class="question-body">
+      <div class="question-text">When visualizing a trained Linear Machine on CIFAR-10, each row of the weight matrix W can be interpreted as:</div>
+      <div class="options">
+        <div class="option"><div class="option-letter">a.</div><div class="option-text">A collection of random weights to normalize the input.</div></div>
+        <div class="option"><div class="option-letter">b.</div><div class="option-text">The inverse of the input feature vector.</div></div>
+        <div class="option"><div class="option-letter">c.</div><div class="option-text">A set of support vectors used only for binary classification.</div></div>
+        <div class="option correct"><div class="option-letter">d.</div><div class="option-text">A template of the corresponding class that highlights its representative features.</div></div>
+      </div>
+      <div class="answer-box"><div class="answer-tick">✔</div><div class="answer-text">Correct Answer: D</div></div>
+      <div class="solution-box"><div class="solution-label">📖 Explanation</div><div class="solution-text">Score = W × X is essentially template matching. Each row of W is a "template" for that class. High score = input looks like the template.</div></div>
+    </div>
+  </div>
+
+  <div class="question-card">
+    <div class="question-header"><div class="q-num">6</div><div class="q-label">Week 3 · Question 6</div></div>
+    <div class="question-body">
+      <div class="question-text">In Multiclass SVM, what does the safety margin <strong>Δ (delta)</strong> represent in the hinge loss function?</div>
+      <div class="options">
+        <div class="option"><div class="option-letter">a.</div><div class="option-text">The maximum allowed error for each training sample.</div></div>
+        <div class="option"><div class="option-letter">b.</div><div class="option-text">The desired score for the correct class.</div></div>
+        <div class="option correct"><div class="option-letter">c.</div><div class="option-text">A fixed threshold by which the score of the correct class must exceed the scores of all other classes to avoid a loss penalty.</div></div>
+        <div class="option"><div class="option-letter">d.</div><div class="option-text">The learning rate used during gradient descent.</div></div>
+      </div>
+      <div class="answer-box"><div class="answer-tick">✔</div><div class="answer-text">Correct Answer: C</div></div>
+      <div class="solution-box"><div class="solution-label">📖 Explanation</div><div class="solution-text">Δ is the safety margin. The correct class score must beat the wrong class score by at least Δ. If it doesn't, there is a penalty (loss). This ensures a confident, robust prediction.</div></div>
+    </div>
+  </div>
+
+  <div class="question-card">
+    <div class="question-header"><div class="q-num">7</div><div class="q-label">Week 3 · Question 7</div></div>
+    <div class="question-body">
+      <div class="question-text">A 2-class linear machine has W = [[0.6, 0.8], [−0.3, 0.4]] and regularization strength λ = 5.0. What is the <strong>L2 regularization loss λR(W)</strong>?</div>
+      <div class="options">
+        <div class="option correct"><div class="option-letter">a.</div><div class="option-text">6.25</div></div>
+        <div class="option"><div class="option-letter">b.</div><div class="option-text">7.5</div></div>
+        <div class="option"><div class="option-letter">c.</div><div class="option-text">∞ (infinite)</div></div>
+        <div class="option"><div class="option-letter">d.</div><div class="option-text">0</div></div>
+      </div>
+      <div class="answer-box"><div class="answer-tick">✔</div><div class="answer-text">Correct Answer: A</div></div>
+      <div class="solution-box"><div class="solution-label">📖 Explanation</div><div class="solution-text">R(W) = 0.6² + 0.8² + (−0.3)² + 0.4² = 0.36 + 0.64 + 0.09 + 0.16 = 1.25. Then λR(W) = 5.0 × 1.25 = <strong>6.25</strong>.</div></div>
+    </div>
+  </div>
+
+  <div class="question-card">
+    <div class="question-header"><div class="q-num">8</div><div class="q-label">Week 3 · Question 8</div></div>
+    <div class="question-body">
+      <div class="question-text">Given a binary SVM with hyperplane 3x₁ + 4x₂ − 10 = 0. Calculate the <strong>margin M = 1/‖W‖</strong>.</div>
+      <div class="options">
+        <div class="option"><div class="option-letter">a.</div><div class="option-text">0.5</div></div>
+        <div class="option"><div class="option-letter">b.</div><div class="option-text">1.5</div></div>
+        <div class="option correct"><div class="option-letter">c.</div><div class="option-text">0.2</div></div>
+        <div class="option"><div class="option-letter">d.</div><div class="option-text">1.0</div></div>
+      </div>
+      <div class="answer-box"><div class="answer-tick">✔</div><div class="answer-text">Correct Answer: C</div></div>
+      <div class="solution-box"><div class="solution-label">📖 Explanation</div><div class="solution-text">W = (3, 4). ‖W‖ = √(3² + 4²) = √(9 + 16) = √25 = 5. Margin M = 1/‖W‖ = 1/5 = <strong>0.2</strong>.</div></div>
+    </div>
+  </div>
+
+  <div class="question-card">
+    <div class="question-header"><div class="q-num">9</div><div class="q-label">Week 3 · Question 9</div></div>
+    <div class="question-body">
+      <div class="question-text">Choose the correct option regarding SVM classification statements:<br>i: yᵢ(aᵀxᵢ+b) ≥ 0 used to choose separating plane<br>ii: During inference, if yⱼ(aᵀxⱼ+b) ≥ 0, assign class 1<br>iii: During inference, if (aᵀxⱼ+b) > 0, assign class 1<br>iv: yᵢ(aᵀxᵢ+b) ≥ 1 used to choose separating plane</div>
+      <div class="options">
+        <div class="option"><div class="option-letter">a.</div><div class="option-text">Only Statement i is true</div></div>
+        <div class="option"><div class="option-letter">b.</div><div class="option-text">Both Statements ii and iii are true</div></div>
+        <div class="option"><div class="option-letter">c.</div><div class="option-text">Both Statements i and ii are true</div></div>
+        <div class="option correct"><div class="option-letter">d.</div><div class="option-text">Both Statements iii and iv are true</div></div>
+      </div>
+      <div class="answer-box"><div class="answer-tick">✔</div><div class="answer-text">Correct Answer: D</div></div>
+      <div class="solution-box"><div class="solution-label">📖 Explanation</div><div class="solution-text">During training: yᵢ(aᵀxᵢ+b) ≥ 1 (Statement iv ✓). During inference: if aᵀxⱼ+b > 0 → class 1, no need for label yⱼ (Statement iii ✓).</div></div>
+    </div>
+  </div>
+
+  <div class="question-card">
+    <div class="question-header"><div class="q-num">10</div><div class="q-label">Week 3 · Question 10</div></div>
+    <div class="question-body">
+      <div class="question-text">What happens to the decision boundary if the <strong>regularization strength λ is set to an extremely high value</strong>?</div>
+      <div class="options">
+        <div class="option"><div class="option-letter">a.</div><div class="option-text">The model becomes very complex and fits every noise point.</div></div>
+        <div class="option"><div class="option-letter">b.</div><div class="option-text">The margin will decrease to zero.</div></div>
+        <div class="option"><div class="option-letter">c.</div><div class="option-text">The hinge loss will automatically become zero for all samples.</div></div>
+        <div class="option correct"><div class="option-letter">d.</div><div class="option-text">The weights W will tend toward zero, leading to a very simple model that may underfit.</div></div>
+      </div>
+      <div class="answer-box"><div class="answer-tick">✔</div><div class="answer-text">Correct Answer: D</div></div>
+      <div class="solution-box"><div class="solution-label">📖 Explanation</div><div class="solution-text">High λ means regularization dominates the loss. The optimizer shrinks weights toward zero to minimize the penalty term — resulting in an overly simple model (underfitting).</div></div>
+    </div>
+  </div>
+</div><!-- end week3 -->
+
+<!-- ═══════════════════════════════════════════════════════════ WEEK 4 -->
+<div class="week-section" id="week4">
+  <div class="week-header">
+    <div class="week-number">04</div>
+    <div class="week-info">
+      <h2>Neural Networks: Perceptron & Activation Functions</h2>
+      <p>ReLU, Sigmoid, Softmax, XOR, Overfitting, Bias</p>
+    </div>
+    <div class="week-badge">10 Questions · 1 Mark Each</div>
+  </div>
+
+  <div class="question-card">
+    <div class="question-header"><div class="q-num">1</div><div class="q-label">Week 4 · Question 1</div></div>
+    <div class="question-body">
+      <div class="question-text">Which of the following best describes <strong>"Overfitting"</strong> in machine learning?</div>
+      <div class="options">
+        <div class="option"><div class="option-letter">a.</div><div class="option-text">The model is unable to obtain a sufficiently low training error.</div></div>
+        <div class="option"><div class="option-letter">b.</div><div class="option-text">The model has a small gap between training and test error.</div></div>
+        <div class="option"><div class="option-letter">c.</div><div class="option-text">The model's capacity is too low to represent the underlying data distribution.</div></div>
+        <div class="option correct"><div class="option-letter">d.</div><div class="option-text">The gap between training error and test error is too large — the model is too tuned to specific training samples.</div></div>
+      </div>
+      <div class="answer-box"><div class="answer-tick">✔</div><div class="answer-text">Correct Answer: D</div></div>
+      <div class="solution-box"><div class="solution-label">📖 Explanation</div><div class="solution-text">Overfitting = excellent performance on training data but poor performance on test/new data. The model has memorized noise instead of learning general patterns.</div></div>
+    </div>
+  </div>
+
+  <div class="question-card">
+    <div class="question-header"><div class="q-num">2</div><div class="q-label">Week 4 · Question 2</div></div>
+    <div class="question-body">
+      <div class="question-text">Why is <strong>ReLU</strong> often preferred over sigmoidal functions in deep neural networks?</div>
+      <div class="options">
+        <div class="option"><div class="option-letter">a.</div><div class="option-text">ReLU is differentiable at all points including zero.</div></div>
+        <div class="option correct"><div class="option-letter">b.</div><div class="option-text">Sigmoidal functions suffer from vanishing gradients when the argument is very high or low, whereas ReLU maintains a unity gradient for all x > 0.</div></div>
+        <div class="option"><div class="option-letter">c.</div><div class="option-text">ReLU outputs values between 0 and 1, providing better probabilistic interpretations.</div></div>
+        <div class="option"><div class="option-letter">d.</div><div class="option-text">Sigmoidal functions are computationally simpler than ReLU.</div></div>
+      </div>
+      <div class="answer-box"><div class="answer-tick">✔</div><div class="answer-text">Correct Answer: B</div></div>
+      <div class="solution-box"><div class="solution-label">📖 Explanation</div><div class="solution-text">Sigmoid squashes values to 0–1. When |input| is large, gradient ≈ 0 → vanishing gradient. ReLU(x) = max(0,x) has gradient = 1 for x > 0 → no vanishing gradient issue.</div></div>
+    </div>
+  </div>
+
+  <div class="question-card">
+    <div class="question-header"><div class="q-num">3</div><div class="q-label">Week 4 · Question 3</div></div>
+    <div class="question-body">
+      <div class="question-text">What is the range of the <strong>logistic (sigmoid) function</strong>?</div>
+      <div class="options">
+        <div class="option"><div class="option-letter">a.</div><div class="option-text">−1 to 1</div></div>
+        <div class="option"><div class="option-letter">b.</div><div class="option-text">−1 to 0</div></div>
+        <div class="option correct"><div class="option-letter">c.</div><div class="option-text">0 to 1</div></div>
+        <div class="option"><div class="option-letter">d.</div><div class="option-text">0 to infinity</div></div>
+      </div>
+      <div class="answer-box"><div class="answer-tick">✔</div><div class="answer-text">Correct Answer: C</div></div>
+      <div class="solution-box"><div class="solution-label">📖 Explanation</div><div class="solution-text">σ(x) = 1/(1+e⁻ˣ). As x→∞, σ→1. As x→−∞, σ→0. So the logistic function always outputs values strictly between 0 and 1.</div></div>
+    </div>
+  </div>
+
+  <div class="question-card">
+    <div class="question-header"><div class="q-num">4</div><div class="q-label">Week 4 · Question 4</div></div>
+    <div class="question-body">
+      <div class="question-text">Why can't a single neuron (Perceptron) implement an <strong>XOR function</strong>?</div>
+      <div class="options">
+        <div class="option"><div class="option-letter">a.</div><div class="option-text">XOR requires sigmoidal non-linearity to work.</div></div>
+        <div class="option correct"><div class="option-letter">b.</div><div class="option-text">The XOR problem is linearly non-separable in the 2D feature space.</div></div>
+        <div class="option"><div class="option-letter">c.</div><div class="option-text">A single neuron can only handle one input at a time.</div></div>
+        <div class="option"><div class="option-letter">d.</div><div class="option-text">XOR can only be implemented using ReLU units.</div></div>
+      </div>
+      <div class="answer-box"><div class="answer-tick">✔</div><div class="answer-text">Correct Answer: B</div></div>
+      <div class="solution-box"><div class="solution-label">📖 Explanation</div><div class="solution-text">XOR output: (0,0)→0, (0,1)→1, (1,0)→1, (1,1)→0. You cannot draw one straight line to separate the 1s from the 0s. A single neuron can only draw one linear boundary → fails for XOR.</div></div>
+    </div>
+  </div>
+
+  <div class="question-card">
+    <div class="question-header"><div class="q-num">5</div><div class="q-label">Week 4 · Question 5</div></div>
+    <div class="question-body">
+      <div class="question-text">How is the <strong>"depth"</strong> of a neural network defined?</div>
+      <div class="options">
+        <div class="option"><div class="option-letter">a.</div><div class="option-text">By the total number of neurons in the entire network.</div></div>
+        <div class="option"><div class="option-letter">b.</div><div class="option-text">By the number of features in the input vector.</div></div>
+        <div class="option correct"><div class="option-letter">c.</div><div class="option-text">By the number of cascading stages or layers in the network.</div></div>
+        <div class="option"><div class="option-letter">d.</div><div class="option-text">By the dimensionality of the final output score vector.</div></div>
+      </div>
+      <div class="answer-box"><div class="answer-tick">✔</div><div class="answer-text">Correct Answer: C</div></div>
+      <div class="solution-box"><div class="solution-label">📖 Explanation</div><div class="solution-text">Depth = number of hidden layers (cascading non-linear transformation stages). More layers = deeper network = can learn more complex representations.</div></div>
+    </div>
+  </div>
+
+  <div class="question-card">
+    <div class="question-header"><div class="q-num">6</div><div class="q-label">Week 4 · Question 6</div></div>
+    <div class="question-body">
+      <div class="question-text">A ReLU unit receives input x=3, weight w=−5, bias b=10. What is the output?</div>
+      <div class="options">
+        <div class="option"><div class="option-letter">a.</div><div class="option-text">5</div></div>
+        <div class="option"><div class="option-letter">b.</div><div class="option-text">−5</div></div>
+        <div class="option"><div class="option-letter">c.</div><div class="option-text">15</div></div>
+        <div class="option correct"><div class="option-letter">d.</div><div class="option-text">0</div></div>
+      </div>
+      <div class="answer-box"><div class="answer-tick">✔</div><div class="answer-text">Correct Answer: D</div></div>
+      <div class="solution-box"><div class="solution-label">📖 Explanation</div><div class="solution-text">y = w×x + b = (−5)×3 + 10 = −15 + 10 = −5. ReLU(−5) = max(0, −5) = <strong>0</strong>.</div></div>
+    </div>
+  </div>
+
+  <div class="question-card">
+    <div class="question-header"><div class="q-num">7</div><div class="q-label">Week 4 · Question 7</div></div>
+    <div class="question-body">
+      <div class="question-text">In a 3-class problem, the score vector is S = [1, 3, 2]. What are the <strong>Softmax probabilities</strong>?</div>
+      <div class="options">
+        <div class="option"><div class="option-letter">a.</div><div class="option-text">[0.05, 0.61, 0.34]</div></div>
+        <div class="option"><div class="option-letter">b.</div><div class="option-text">[0.03, 0.67, 0.3]</div></div>
+        <div class="option"><div class="option-letter">c.</div><div class="option-text">[0.03, 0.77, 0.2]</div></div>
+        <div class="option correct"><div class="option-letter">d.</div><div class="option-text">[0.09, 0.67, 0.24]</div></div>
+      </div>
+      <div class="answer-box"><div class="answer-tick">✔</div><div class="answer-text">Correct Answer: D</div></div>
+      <div class="solution-box"><div class="solution-label">📖 Explanation</div><div class="solution-text">Softmax σ(xⱼ) = eˣʲ / Σeˣᵏ. e¹≈2.72, e³≈20.09, e²≈7.39. Sum=30.2. Probabilities: 2.72/30.2≈0.09, 20.09/30.2≈0.67, 7.39/30.2≈0.24.</div></div>
+    </div>
+  </div>
+
+  <div class="question-card">
+    <div class="question-header"><div class="q-num">8</div><div class="q-label">Week 4 · Question 8</div></div>
+    <div class="question-body">
+      <div class="question-text">Implementing a <strong>NAND function</strong> using a single neuron with f(y)=0 if y&lt;30, f(y)=1 if y≥30. What is a valid combination of bias, w₁, w₂?</div>
+      <div class="options">
+        <div class="option"><div class="option-letter">a.</div><div class="option-text">Bias=40, w₁=−5, w₂=25</div></div>
+        <div class="option correct"><div class="option-letter">b.</div><div class="option-text">Bias=40, w₁=−10, w₂=−10</div></div>
+        <div class="option"><div class="option-letter">c.</div><div class="option-text">Bias=40, w₁=15, w₂=15</div></div>
+        <div class="option"><div class="option-letter">d.</div><div class="option-text">Bias=20, w₁=10, w₂=10</div></div>
+      </div>
+      <div class="answer-box"><div class="answer-tick">✔</div><div class="answer-text">Correct Answer: B</div></div>
+      <div class="solution-box"><div class="solution-label">📖 Explanation</div><div class="solution-text">NAND outputs 0 only when both x₁=1 AND x₂=1. Option B: y=40+(−10×1)+(−10×1)=20 &lt; 30 → output 0 (NAND of 1,1). For all other inputs y≥30 → output 1. ✓</div></div>
+    </div>
+  </div>
+
+  <div class="question-card">
+    <div class="question-header"><div class="q-num">9</div><div class="q-label">Week 4 · Question 9</div></div>
+    <div class="question-body">
+      <div class="question-text">A ReLU network with w₁=1, w₂=−2.0, bias=0.5. Outputs for {x₁=1, x₂=1} and {x₁=1, x₂=0}?</div>
+      <div class="options">
+        <div class="option"><div class="option-letter">a.</div><div class="option-text">1, 1.5</div></div>
+        <div class="option"><div class="option-letter">b.</div><div class="option-text">1, 0</div></div>
+        <div class="option correct"><div class="option-letter">c.</div><div class="option-text">0, 1.5</div></div>
+        <div class="option"><div class="option-letter">d.</div><div class="option-text">0, 0</div></div>
+      </div>
+      <div class="answer-box"><div class="answer-tick">✔</div><div class="answer-text">Correct Answer: C</div></div>
+      <div class="solution-box"><div class="solution-label">📖 Explanation</div><div class="solution-text">For (1,1): y = 1×1 + (−2)×1 + 0.5 = −0.5 → ReLU(−0.5) = <strong>0</strong>.<br>For (1,0): y = 1×1 + (−2)×0 + 0.5 = 1.5 → ReLU(1.5) = <strong>1.5</strong>.</div></div>
+    </div>
+  </div>
+
+  <div class="question-card">
+    <div class="question-header"><div class="q-num">10</div><div class="q-label">Week 4 · Question 10</div></div>
+    <div class="question-body">
+      <div class="question-text">Step function network: w₁=1, w₂=−2.0, w₃=0.5. Classify {x₁=1,x₂=1,x₃=0} and {x₁=0,x₂=1,x₃=1}. (Class A if p̂=0, Class B if p̂=1)</div>
+      <div class="options">
+        <div class="option"><div class="option-letter">a.</div><div class="option-text">Class B, Class B</div></div>
+        <div class="option correct"><div class="option-letter">b.</div><div class="option-text">Class A, Class A</div></div>
+        <div class="option"><div class="option-letter">c.</div><div class="option-text">Class B, Class A</div></div>
+        <div class="option"><div class="option-letter">d.</div><div class="option-text">Class A, Class B</div></div>
+      </div>
+      <div class="answer-box"><div class="answer-tick">✔</div><div class="answer-text">Correct Answer: B</div></div>
+      <div class="solution-box"><div class="solution-label">📖 Explanation</div><div class="solution-text">Point 1: y = 1×1+(−2)×1+0.5×0 = −1 &lt; 0 → f(y)=0 → Class A.<br>Point 2: y = 1×0+(−2)×1+0.5×1 = −1.5 &lt; 0 → f(y)=0 → Class A.</div></div>
+    </div>
+  </div>
+</div><!-- end week4 -->
+
+<!-- ═══════════════════════════════════════════════════════════ WEEK 5 -->
+<div class="week-section" id="week5">
+  <div class="week-header">
+    <div class="week-number">05</div>
+    <div class="week-info">
+      <h2>Multi-Layer Perceptron & Backpropagation</h2>
+      <p>Hidden Layers, Chain Rule, Gradients, Cross-Entropy Loss</p>
+    </div>
+    <div class="week-badge">10 Questions · 1 Mark Each</div>
+  </div>
+
+  <div class="question-card"><div class="question-header"><div class="q-num">1</div><div class="q-label">Week 5 · Question 1</div></div><div class="question-body">
+    <div class="question-text">In a multi-layered perceptron, why is the <strong>activation function applied at each hidden layer node</strong>?</div>
+    <div class="options">
+      <div class="option"><div class="option-letter">a.</div><div class="option-text">It reduces the dimensionality of the feature space.</div></div>
+      <div class="option correct"><div class="option-letter">b.</div><div class="option-text">It allows the network to map non-linearly separable inputs into a space where they become linearly separable.</div></div>
+      <div class="option"><div class="option-letter">c.</div><div class="option-text">It ensures information only flows backward during inference.</div></div>
+      <div class="option"><div class="option-letter">d.</div><div class="option-text">It acts as an identity function to pass raw input values to the output layer.</div></div>
+    </div>
+    <div class="answer-box"><div class="answer-tick">✔</div><div class="answer-text">Correct Answer: B</div></div>
+    <div class="solution-box"><div class="solution-label">📖 Explanation</div><div class="solution-text">Without non-linear activation functions, stacking layers is equivalent to one linear layer. Non-linearities (ReLU, sigmoid) allow the network to learn complex, non-linear decision boundaries.</div></div>
+  </div></div>
+
+  <div class="question-card"><div class="question-header"><div class="q-num">2</div><div class="q-label">Week 5 · Question 2</div></div><div class="question-body">
+    <div class="question-text">For a <strong>2-class classification problem</strong>, what is the minimum number of nodes required for the output layer?</div>
+    <div class="options">
+      <div class="option"><div class="option-letter">a.</div><div class="option-text">2</div></div>
+      <div class="option correct"><div class="option-letter">b.</div><div class="option-text">1</div></div>
+      <div class="option"><div class="option-letter">c.</div><div class="option-text">3</div></div>
+      <div class="option"><div class="option-letter">d.</div><div class="option-text">None of the above</div></div>
+    </div>
+    <div class="answer-box"><div class="answer-tick">✔</div><div class="answer-text">Correct Answer: B</div></div>
+    <div class="solution-box"><div class="solution-label">📖 Explanation</div><div class="solution-text">One output node is enough for binary classification. Output close to 1 = class +1, output close to 0 = class −1. We use binary cross-entropy loss.</div></div>
+  </div></div>
+
+  <div class="question-card"><div class="question-header"><div class="q-num">3</div><div class="q-label">Week 5 · Question 3</div></div><div class="question-body">
+    <div class="question-text">Neural network: Q = x + y, F = Q × z. For (x,y,z) = (−2, 5, −4), what is the gradient of F with respect to x, y, z?</div>
+    <div class="options">
+      <div class="option"><div class="option-letter">a.</div><div class="option-text">(−4, 3, −3)</div></div>
+      <div class="option correct"><div class="option-letter">b.</div><div class="option-text">(−4, −4, 3)</div></div>
+      <div class="option"><div class="option-letter">c.</div><div class="option-text">(4, 4, −3)</div></div>
+      <div class="option"><div class="option-letter">d.</div><div class="option-text">(3, 3, 4)</div></div>
+    </div>
+    <div class="answer-box"><div class="answer-tick">✔</div><div class="answer-text">Correct Answer: B</div></div>
+    <div class="solution-box"><div class="solution-label">📖 Explanation</div><div class="solution-text">∂F/∂z = Q = x+y = −2+5 = 3. ∂F/∂x = z = −4. ∂F/∂y = z = −4. Answer: (−4, −4, 3).</div></div>
+  </div></div>
+
+  <div class="question-card"><div class="question-header"><div class="q-num">4</div><div class="q-label">Week 5 · Question 4</div></div><div class="question-body">
+    <div class="question-text">Step activation network with x₁=0.5, x₂=1.0. Calculate outputs for a₁, a₂, a₃ given the weights in the diagram.</div>
+    <div class="options">
+      <div class="option correct"><div class="option-letter">a.</div><div class="option-text">(1, 1, 0)</div></div>
+      <div class="option"><div class="option-letter">b.</div><div class="option-text">(0, 0, 0)</div></div>
+      <div class="option"><div class="option-letter">c.</div><div class="option-text">(1, 1, 1)</div></div>
+      <div class="option"><div class="option-letter">d.</div><div class="option-text">(1, 0, 0)</div></div>
+    </div>
+    <div class="answer-box"><div class="answer-tick">✔</div><div class="answer-text">Correct Answer: A</div></div>
+    <div class="solution-box"><div class="solution-label">📖 Explanation</div><div class="solution-text">a₁: f(0.8×1 + 0.5×2.0 + (−0.5)×1) = f(1.3) = 1. a₂: f(0.3×1 + (−1)×0.5 + 0.7×1.0) = f(0.5) = 1. a₃: f(1.2×1 + (−2.0)×1 + 1×0.5) = f(−0.3) = 0.</div></div>
+  </div></div>
+
+  <div class="question-card"><div class="question-header"><div class="q-num">5</div><div class="q-label">Week 5 · Question 5</div></div><div class="question-body">
+    <div class="question-text">Which activation function is <strong>NOT analytically differentiable</strong> for all real values of input?</div>
+    <div class="options">
+      <div class="option"><div class="option-letter">a.</div><div class="option-text">Sigmoid</div></div>
+      <div class="option"><div class="option-letter">b.</div><div class="option-text">Tanh</div></div>
+      <div class="option correct"><div class="option-letter">c.</div><div class="option-text">ReLU</div></div>
+      <div class="option"><div class="option-letter">d.</div><div class="option-text">None of the above</div></div>
+    </div>
+    <div class="answer-box"><div class="answer-tick">✔</div><div class="answer-text">Correct Answer: C</div></div>
+    <div class="solution-box"><div class="solution-label">📖 Explanation</div><div class="solution-text">ReLU(x) = max(0,x) is not differentiable at x=0. The derivative doesn't exist at that point (left derivative=0, right derivative=1). Sigmoid and Tanh are smooth everywhere.</div></div>
+  </div></div>
+
+  <div class="question-card"><div class="question-header"><div class="q-num">6</div><div class="q-label">Week 5 · Question 6</div></div><div class="question-body">
+    <div class="question-text">Find the gradient ∂J/∂w₁ where J = 0.5(p̂ − p)², p̂ = σ(y), y = x₁w₁ + x₂w₂ + x₃w₃ + 1.</div>
+    <div class="options">
+      <div class="option"><div class="option-letter">a.</div><div class="option-text">p̂ × (1 − σ(y)) × x₁</div></div>
+      <div class="option"><div class="option-letter">b.</div><div class="option-text">(p̂ − p) × (1 − σ(y)) × x₁</div></div>
+      <div class="option"><div class="option-letter">c.</div><div class="option-text">(1 − p) × (1 − σ(y)) × x₁</div></div>
+      <div class="option correct"><div class="option-letter">d.</div><div class="option-text">(p̂ − p) × σ(y) × (1 − σ(y)) × x₁</div></div>
+    </div>
+    <div class="answer-box"><div class="answer-tick">✔</div><div class="answer-text">Correct Answer: D</div></div>
+    <div class="solution-box"><div class="solution-label">📖 Explanation</div><div class="solution-text">By chain rule: ∂J/∂w₁ = (∂J/∂p̂)(∂p̂/∂y)(∂y/∂w₁) = (p̂−p) × σ(y)(1−σ(y)) × x₁.</div></div>
+  </div></div>
+
+  <div class="question-card"><div class="question-header"><div class="q-num">7</div><div class="q-label">Week 5 · Question 7</div></div><div class="question-body">
+    <div class="question-text">How does the <strong>Cross-Entropy loss function</strong> resolve the "slow learning" problem?</div>
+    <div class="options">
+      <div class="option"><div class="option-letter">a.</div><div class="option-text">It eliminates the sigmoidal activation function entirely.</div></div>
+      <div class="option"><div class="option-letter">b.</div><div class="option-text">It uses a higher learning rate automatically.</div></div>
+      <div class="option"><div class="option-letter">c.</div><div class="option-text">It only updates weights when the output is exactly 0.5.</div></div>
+      <div class="option correct"><div class="option-letter">d.</div><div class="option-text">Its derivative produces an update term proportional only to the difference (o − y), bypassing the vanishing sigmoidal derivative.</div></div>
+    </div>
+    <div class="answer-box"><div class="answer-tick">✔</div><div class="answer-text">Correct Answer: D</div></div>
+    <div class="solution-box"><div class="solution-label">📖 Explanation</div><div class="solution-text">With MSE loss and sigmoid, the gradient includes σ'(x) which can be very small. Cross-entropy gradient simplifies to (o−y), which is large when error is large — ensuring fast learning even with sigmoid activation.</div></div>
+  </div></div>
+
+  <div class="question-card"><div class="question-header"><div class="q-num">8</div><div class="q-label">Week 5 · Question 8</div></div><div class="question-body">
+    <div class="question-text">What occurs during the weight update of a <strong>hidden layer node</strong> compared to an output layer node?</div>
+    <div class="options">
+      <div class="option"><div class="option-letter">a.</div><div class="option-text">Hidden layer nodes have a known target tⱼ to compare against.</div></div>
+      <div class="option correct"><div class="option-letter">b.</div><div class="option-text">Hidden layer nodes use a summation of δ terms weighted by connection strengths from the subsequent layer.</div></div>
+      <div class="option"><div class="option-letter">c.</div><div class="option-text">Hidden layer nodes do not use gradient descent.</div></div>
+      <div class="option"><div class="option-letter">d.</div><div class="option-text">Hidden layer nodes are updated before the output layer nodes.</div></div>
+    </div>
+    <div class="answer-box"><div class="answer-tick">✔</div><div class="answer-text">Correct Answer: B</div></div>
+    <div class="solution-box"><div class="solution-label">📖 Explanation</div><div class="solution-text">Hidden layers have no direct target labels. Their error (δ) is computed by backpropagating the weighted sum of errors from the next layer forward.</div></div>
+  </div></div>
+
+  <div class="question-card"><div class="question-header"><div class="q-num">9</div><div class="q-label">Week 5 · Question 9</div></div><div class="question-body">
+    <div class="question-text">Fully-connected network: 8 inputs, 20 hidden nodes, 4 outputs, <strong>no bias nodes</strong>. Total number of parameters?</div>
+    <div class="options">
+      <div class="option"><div class="option-letter">a.</div><div class="option-text">225</div></div>
+      <div class="option"><div class="option-letter">b.</div><div class="option-text">175</div></div>
+      <div class="option correct"><div class="option-letter">c.</div><div class="option-text">240</div></div>
+      <div class="option"><div class="option-letter">d.</div><div class="option-text">120</div></div>
+    </div>
+    <div class="answer-box"><div class="answer-tick">✔</div><div class="answer-text">Correct Answer: C</div></div>
+    <div class="solution-box"><div class="solution-label">📖 Explanation</div><div class="solution-text">Layer 1 (input→hidden): 8 × 20 = 160 weights. Layer 2 (hidden→output): 20 × 4 = 80 weights. Total = 160 + 80 = <strong>240</strong>.</div></div>
+  </div></div>
+
+  <div class="question-card"><div class="question-header"><div class="q-num">10</div><div class="q-label">Week 5 · Question 10</div></div><div class="question-body">
+    <div class="question-text">When training a deep network with 5 layers, how is ∂O/∂X calculated?</div>
+    <div class="options">
+      <div class="option"><div class="option-letter">a.</div><div class="option-text">By taking the direct derivative ∂O/∂X.</div></div>
+      <div class="option"><div class="option-letter">b.</div><div class="option-text">By summing the weights of all layers.</div></div>
+      <div class="option correct"><div class="option-letter">c.</div><div class="option-text">By using a chain of partial derivatives through all intermediate outputs θ₁, θ₂, θ₃, θ₄.</div></div>
+      <div class="option"><div class="option-letter">d.</div><div class="option-text">By only calculating the derivative at the first hidden layer.</div></div>
+    </div>
+    <div class="answer-box"><div class="answer-tick">✔</div><div class="answer-text">Correct Answer: C</div></div>
+    <div class="solution-box"><div class="solution-label">📖 Explanation</div><div class="solution-text">The chain rule: ∂O/∂X = (∂O/∂θ₄)(∂θ₄/∂θ₃)(∂θ₃/∂θ₂)(∂θ₂/∂θ₁)(∂θ₁/∂X). This is backpropagation.</div></div>
+  </div></div>
+</div><!-- end week5 -->
+
+<!-- ═══════════════════════════════════════════════════════════ WEEK 6 -->
+<div class="week-section" id="week6">
+  <div class="week-header">
+    <div class="week-number">06</div>
+    <div class="week-info">
+      <h2>Autoencoders & PCA</h2>
+      <p>Bottleneck Layer, Stacked Autoencoders, Eigenvalues, Backpropagation</p>
+    </div>
+    <div class="week-badge">10 Questions · 1 Mark Each</div>
+  </div>
+
+  <div class="question-card"><div class="question-header"><div class="q-num">1</div><div class="q-label">Week 6 · Question 1</div></div><div class="question-body">
+    <div class="question-text">Why is autoencoder learning considered an <strong>unsupervised learning</strong> algorithm?</div>
+    <div class="options">
+      <div class="option"><div class="option-letter">a.</div><div class="option-text">Because it does not require a loss function during training.</div></div>
+      <div class="option"><div class="option-letter">b.</div><div class="option-text">Because it is only used for classification tasks.</div></div>
+      <div class="option"><div class="option-letter">c.</div><div class="option-text">Because it automatically determines the number of layers required.</div></div>
+      <div class="option correct"><div class="option-letter">d.</div><div class="option-text">Because it uses unlabeled data and the target output is the input itself.</div></div>
+    </div>
+    <div class="answer-box"><div class="answer-tick">✔</div><div class="answer-text">Correct Answer: D</div></div>
+    <div class="solution-box"><div class="solution-label">📖 Explanation</div><div class="solution-text">Autoencoders are trained to reconstruct their own input. No labels needed — the input IS the target. This makes it unsupervised.</div></div>
+  </div></div>
+
+  <div class="question-card"><div class="question-header"><div class="q-num">2</div><div class="q-label">Week 6 · Question 2</div></div><div class="question-body">
+    <div class="question-text">What is the primary purpose of imposing a <strong>"bottleneck" layer</strong> in an autoencoder?</div>
+    <div class="options">
+      <div class="option"><div class="option-letter">a.</div><div class="option-text">To increase the speed of the forward pass.</div></div>
+      <div class="option"><div class="option-letter">b.</div><div class="option-text">To ensure the network learns an identity mapping for perfect reconstruction.</div></div>
+      <div class="option correct"><div class="option-letter">c.</div><div class="option-text">To force the network to learn a compressed, salient representation of the input.</div></div>
+      <div class="option"><div class="option-letter">d.</div><div class="option-text">To allow for dimension explosion of the input data.</div></div>
+    </div>
+    <div class="answer-box"><div class="answer-tick">✔</div><div class="answer-text">Correct Answer: C</div></div>
+    <div class="solution-box"><div class="solution-label">📖 Explanation</div><div class="solution-text">The bottleneck (narrow hidden layer) forces the network to compress information. It cannot just memorize — it must learn the most important features to reconstruct the output.</div></div>
+  </div></div>
+
+  <div class="question-card"><div class="question-header"><div class="q-num">3</div><div class="q-label">Week 6 · Question 3</div></div><div class="question-body">
+    <div class="question-text">In the context of PCA, what do the <strong>eigenvalues (λ)</strong> represent?</div>
+    <div class="options">
+      <div class="option"><div class="option-letter">a.</div><div class="option-text">The number of principal components to be retained.</div></div>
+      <div class="option"><div class="option-letter">b.</div><div class="option-text">The bias terms for each neuron in the transformation matrix.</div></div>
+      <div class="option correct"><div class="option-letter">c.</div><div class="option-text">The variation or scatter of the data in the direction of the corresponding eigenvector.</div></div>
+      <div class="option"><div class="option-letter">d.</div><div class="option-text">The learning rate used during the KL transformation.</div></div>
+    </div>
+    <div class="answer-box"><div class="answer-tick">✔</div><div class="answer-text">Correct Answer: C</div></div>
+    <div class="solution-box"><div class="solution-label">📖 Explanation</div><div class="solution-text">Each eigenvector shows a direction in data space. The corresponding eigenvalue tells you how much variance (spread) exists in that direction. Larger eigenvalue = more important component.</div></div>
+  </div></div>
+
+  <div class="question-card"><div class="question-header"><div class="q-num">4</div><div class="q-label">Week 6 · Question 4</div></div><div class="question-body">
+    <div class="question-text">Single hidden layer, no-bias autoencoder: 200 input neurons, 10 hidden neurons. Total number of parameters?</div>
+    <div class="options">
+      <div class="option correct"><div class="option-letter">a.</div><div class="option-text">4000</div></div>
+      <div class="option"><div class="option-letter">b.</div><div class="option-text">4010</div></div>
+      <div class="option"><div class="option-letter">c.</div><div class="option-text">2110</div></div>
+      <div class="option"><div class="option-letter">d.</div><div class="option-text">2000</div></div>
+    </div>
+    <div class="answer-box"><div class="answer-tick">✔</div><div class="answer-text">Correct Answer: A</div></div>
+    <div class="solution-box"><div class="solution-label">📖 Explanation</div><div class="solution-text">Encoder: 200×10 = 2000 parameters. Decoder: 10×200 = 2000 parameters. Total = 2000 + 2000 = <strong>4000</strong>.</div></div>
+  </div></div>
+
+  <div class="question-card"><div class="question-header"><div class="q-num">5</div><div class="q-label">Week 6 · Question 5</div></div><div class="question-body">
+    <div class="question-text">In a <strong>Stacked Autoencoder</strong>, what happens to the network after proper training?</div>
+    <div class="options">
+      <div class="option"><div class="option-letter">a.</div><div class="option-text">The entire network is discarded.</div></div>
+      <div class="option"><div class="option-letter">b.</div><div class="option-text">Only the decoder part is kept for future classification tasks.</div></div>
+      <div class="option"><div class="option-letter">c.</div><div class="option-text">The bottleneck layer is expanded to match the input dimension.</div></div>
+      <div class="option correct"><div class="option-letter">d.</div><div class="option-text">The decoder part is "cut off," and the encoder's output (latent representation) is used for further applications.</div></div>
+    </div>
+    <div class="answer-box"><div class="answer-tick">✔</div><div class="answer-text">Correct Answer: D</div></div>
+    <div class="solution-box"><div class="solution-label">📖 Explanation</div><div class="solution-text">After training, we only need the encoder to get compressed representations. The decoder is discarded. The encoding is then used for tasks like classification or clustering.</div></div>
+  </div></div>
+
+  <div class="question-card"><div class="question-header"><div class="q-num">6</div><div class="q-label">Week 6 · Question 6</div></div><div class="question-body">
+    <div class="question-text">Which of the following two vectors can form the <strong>first two principal components</strong>?</div>
+    <div class="options">
+      <div class="option correct"><div class="option-letter">a.</div><div class="option-text">{2; 3; 1} and {3; 1; −9}</div></div>
+      <div class="option"><div class="option-letter">b.</div><div class="option-text">{2; 4; 1} and {−2; 1; −8}</div></div>
+      <div class="option"><div class="option-letter">c.</div><div class="option-text">{2; 3; 1} and {−3; 1; −9}</div></div>
+      <div class="option"><div class="option-letter">d.</div><div class="option-text">{2; 3; −1} and {3; 1; −9}</div></div>
+    </div>
+    <div class="answer-box"><div class="answer-tick">✔</div><div class="answer-text">Correct Answer: A</div></div>
+    <div class="solution-box"><div class="solution-label">📖 Explanation</div><div class="solution-text">Principal components must be orthogonal (dot product = 0). Check option A: 2×3 + 3×1 + 1×(−9) = 6 + 3 − 9 = 0. ✓ Orthogonal!</div></div>
+  </div></div>
+
+  <div class="question-card"><div class="question-header"><div class="q-num">7</div><div class="q-label">Week 6 · Question 7</div></div><div class="question-body">
+    <div class="question-text">Hidden node x¹₁ = 0.92 (sigmoid), δ¹₂ = −0.138, δ²₂ = 0.045, W²₁₁ = −1.7, W²₁₂ = 2.1. Calculate the backpropagated error term δ¹₁.</div>
+    <div class="options">
+      <div class="option"><div class="option-letter">a.</div><div class="option-text">−0.230</div></div>
+      <div class="option"><div class="option-letter">b.</div><div class="option-text">−0.012</div></div>
+      <div class="option"><div class="option-letter">c.</div><div class="option-text">0.182</div></div>
+      <div class="option correct"><div class="option-letter">d.</div><div class="option-text">0.024</div></div>
+    </div>
+    <div class="answer-box"><div class="answer-tick">✔</div><div class="answer-text">Correct Answer: D</div></div>
+    <div class="solution-box"><div class="solution-label">📖 Explanation</div><div class="solution-text">Weighted sum = (−0.138×−1.7) + (0.045×2.1) = 0.2346 + 0.0945 = 0.3291. Local derivative = 0.92×(1−0.92) = 0.0736. δ¹₁ = 0.0736 × 0.3291 ≈ <strong>0.024</strong>.</div></div>
+  </div></div>
+
+  <div class="question-card"><div class="question-header"><div class="q-num">8</div><div class="q-label">Week 6 · Question 8</div></div><div class="question-body">
+    <div class="question-text">For a 2-layer neural network with W¹ and W², for input {x₁=1, x₂=0, x₃=1}, find the final output at node y. (Sigmoid activation on all nodes)</div>
+    <div class="options">
+      <div class="option"><div class="option-letter">a.</div><div class="option-text">0.13</div></div>
+      <div class="option"><div class="option-letter">b.</div><div class="option-text">0.33</div></div>
+      <div class="option correct"><div class="option-letter">c.</div><div class="option-text">0.48</div></div>
+      <div class="option"><div class="option-letter">d.</div><div class="option-text">0.51</div></div>
+    </div>
+    <div class="answer-box"><div class="answer-tick">✔</div><div class="answer-text">Correct Answer: C</div></div>
+    <div class="solution-box"><div class="solution-label">📖 Explanation</div><div class="solution-text">W¹X = [−0.7, 0.1]ᵀ → sigmoid → [0.33, 0.52]. With bias: W²A = [0.1, −0.3, −0.2]×[1, 0.33, 0.52] = −0.1. σ(−0.1) ≈ <strong>0.48</strong>.</div></div>
+  </div></div>
+
+  <div class="question-card"><div class="question-header"><div class="q-num">9</div><div class="q-label">Week 6 · Question 9</div></div><div class="question-body">
+    <div class="question-text">Find the gradient ∂J/∂w²₁₁ for the same 2-layer network with t=1 and input {x₁=1, x₂=0, x₃=1}.</div>
+    <div class="options">
+      <div class="option"><div class="option-letter">a.</div><div class="option-text">−0.09</div></div>
+      <div class="option"><div class="option-letter">b.</div><div class="option-text">−0.11</div></div>
+      <div class="option"><div class="option-letter">c.</div><div class="option-text">−0.13</div></div>
+      <div class="option correct"><div class="option-letter">d.</div><div class="option-text">−0.04</div></div>
+    </div>
+    <div class="answer-box"><div class="answer-tick">✔</div><div class="answer-text">Correct Answer: D</div></div>
+    <div class="solution-box"><div class="solution-label">📖 Explanation</div><div class="solution-text">y=0.48, t=1. Gradient = (y−t) × σ(a) × (1−σ(a)) × a₁ = (0.48−1) × 0.48 × 0.52 × 0.33 ≈ <strong>−0.04</strong>.</div></div>
+  </div></div>
+
+  <div class="question-card"><div class="question-header"><div class="q-num">10</div><div class="q-label">Week 6 · Question 10</div></div><div class="question-body">
+    <div class="question-text">Let y = max(a, b, c), where a > b > c. What are the values of dy/da, dy/db, and dy/dc?</div>
+    <div class="options">
+      <div class="option correct"><div class="option-letter">a.</div><div class="option-text">1, 0, 0</div></div>
+      <div class="option"><div class="option-letter">b.</div><div class="option-text">0, 1, 1</div></div>
+      <div class="option"><div class="option-letter">c.</div><div class="option-text">0, 0, 0</div></div>
+      <div class="option"><div class="option-letter">d.</div><div class="option-text">1, 1, 1</div></div>
+    </div>
+    <div class="answer-box"><div class="answer-tick">✔</div><div class="answer-text">Correct Answer: A</div></div>
+    <div class="solution-box"><div class="solution-label">📖 Explanation</div><div class="solution-text">Since a > b > c, y = a. So dy/da = 1. Changing b or c doesn't affect y (since a is already the max), so dy/db = 0 and dy/dc = 0.</div></div>
+  </div></div>
+</div><!-- end week6 -->
+
+<!-- ═══════════════════════════════════════════════════════════ WEEK 7 -->
+<div class="week-section" id="week7">
+  <div class="week-header">
+    <div class="week-number">07</div>
+    <div class="week-info">
+      <h2>Advanced Autoencoders</h2>
+      <p>Sparse AE, Denoising AE, Contractive AE, KL Divergence, MSE Loss</p>
+    </div>
+    <div class="week-badge">10 Questions · 1 Mark Each</div>
+  </div>
+
+  <div class="question-card"><div class="question-header"><div class="q-num">1</div><div class="q-label">Week 7 · Question 1</div></div><div class="question-body">
+    <div class="question-text">Why is <strong>"Normalized" Cross-Correlation</strong> preferred over standard Cross-Correlation for template matching?</div>
+    <div class="options">
+      <div class="option"><div class="option-letter">a.</div><div class="option-text">It is computationally faster than FFT.</div></div>
+      <div class="option correct"><div class="option-letter">b.</div><div class="option-text">It provides a similarity measure invariant to linear changes in brightness and contrast of the image.</div></div>
+      <div class="option"><div class="option-letter">c.</div><div class="option-text">It allows the system to be time-variant.</div></div>
+      <div class="option"><div class="option-letter">d.</div><div class="option-text">It automatically learns the weights using backpropagation.</div></div>
+    </div>
+    <div class="answer-box"><div class="answer-tick">✔</div><div class="answer-text">Correct Answer: B</div></div>
+    <div class="solution-box"><div class="solution-label">📖 Explanation</div><div class="solution-text">Normalization removes the effect of overall brightness changes. If the image gets brighter or dimmer, the NCC score doesn't change — making it robust for template matching.</div></div>
+  </div></div>
+
+  <div class="question-card"><div class="question-header"><div class="q-num">2</div><div class="q-label">Week 7 · Question 2</div></div><div class="question-body">
+    <div class="question-text">Find the value of δ(t − 10) ∗ x(t − 5), where δ(t) is the Dirac delta function and ∗ denotes convolution.</div>
+    <div class="options">
+      <div class="option"><div class="option-letter">a.</div><div class="option-text">x(t − 5)</div></div>
+      <div class="option"><div class="option-letter">b.</div><div class="option-text">x(t − 10)</div></div>
+      <div class="option correct"><div class="option-letter">c.</div><div class="option-text">x(t − 15)</div></div>
+      <div class="option"><div class="option-letter">d.</div><div class="option-text">x(t + 5)</div></div>
+    </div>
+    <div class="answer-box"><div class="answer-tick">✔</div><div class="answer-text">Correct Answer: C</div></div>
+    <div class="solution-box"><div class="solution-label">📖 Explanation</div><div class="solution-text">Sifting property: δ(t−10) ∗ f(t) = f(t−10). So δ(t−10) ∗ x(t−5) = x((t−5)−10) = x(t−15).</div></div>
+  </div></div>
+
+  <div class="question-card"><div class="question-header"><div class="q-num">3</div><div class="q-label">Week 7 · Question 3</div></div><div class="question-body">
+    <div class="question-text">The ability of an autoencoder to "fill in" missing or corrupted regions of an image is known as:</div>
+    <div class="options">
+      <div class="option"><div class="option-letter">a.</div><div class="option-text">Image Segmentation</div></div>
+      <div class="option"><div class="option-letter">b.</div><div class="option-text">Dimensionality Expansion</div></div>
+      <div class="option"><div class="option-letter">c.</div><div class="option-text">Anomaly Detection</div></div>
+      <div class="option correct"><div class="option-letter">d.</div><div class="option-text">In-painting</div></div>
+    </div>
+    <div class="answer-box"><div class="answer-tick">✔</div><div class="answer-text">Correct Answer: D</div></div>
+    <div class="solution-box"><div class="solution-label">📖 Explanation</div><div class="solution-text">Image in-painting is the process of reconstructing missing or damaged parts of an image. Autoencoders can learn to fill in gaps using surrounding context.</div></div>
+  </div></div>
+
+  <div class="question-card"><div class="question-header"><div class="q-num">4</div><div class="q-label">Week 7 · Question 4</div></div><div class="question-body">
+    <div class="question-text">When a <strong>Denoising Autoencoder (DAE)</strong> maps corrupted input back to clean data, it effectively learns:</div>
+    <div class="options">
+      <div class="option"><div class="option-letter">a.</div><div class="option-text">To memorize the noise pattern to subtract it later.</div></div>
+      <div class="option"><div class="option-letter">b.</div><div class="option-text">To increase the sparsity of the hidden layer activations.</div></div>
+      <div class="option"><div class="option-letter">c.</div><div class="option-text">To reduce the number of parameters by half in the decoder.</div></div>
+      <div class="option correct"><div class="option-letter">d.</div><div class="option-text">A vector field that points from low-probability regions (noisy data) toward the high-probability manifold (clean data).</div></div>
+    </div>
+    <div class="answer-box"><div class="answer-tick">✔</div><div class="answer-text">Correct Answer: D</div></div>
+    <div class="solution-box"><div class="solution-label">📖 Explanation</div><div class="solution-text">DAE learns to "de-noise" — which is mathematically equivalent to learning a vector field pointing from noisy (low probability) points back toward the clean data manifold.</div></div>
+  </div></div>
+
+  <div class="question-card"><div class="question-header"><div class="q-num">5</div><div class="q-label">Week 7 · Question 5</div></div><div class="question-body">
+    <div class="question-text">What allows an Autoencoder to represent complex, <strong>non-linear manifolds</strong> that PCA cannot?</div>
+    <div class="options">
+      <div class="option correct"><div class="option-letter">a.</div><div class="option-text">The presence of non-linear activation functions (like Sigmoid or ReLU) in the neurons.</div></div>
+      <div class="option"><div class="option-letter">b.</div><div class="option-text">The use of a bottleneck layer with smaller dimension than the input.</div></div>
+      <div class="option"><div class="option-letter">c.</div><div class="option-text">The ability to minimize reconstruction error using MSE.</div></div>
+      <div class="option"><div class="option-letter">d.</div><div class="option-text">The fact that encoder and decoder weights are usually transposed.</div></div>
+    </div>
+    <div class="answer-box"><div class="answer-tick">✔</div><div class="answer-text">Correct Answer: A</div></div>
+    <div class="solution-box"><div class="solution-label">📖 Explanation</div><div class="solution-text">PCA is a linear method — it can only find straight-line directions in data. Non-linear activation functions in autoencoders allow them to find curved, complex data manifolds.</div></div>
+  </div></div>
+
+  <div class="question-card"><div class="question-header"><div class="q-num">6</div><div class="q-label">Week 7 · Question 6</div></div><div class="question-body">
+    <div class="question-text">Autoencoder: 512 input neurons, 128 hidden neurons (fully connected, with bias). Total trainable parameters (Encoder + Decoder)?</div>
+    <div class="options">
+      <div class="option"><div class="option-letter">a.</div><div class="option-text">131,072</div></div>
+      <div class="option"><div class="option-letter">b.</div><div class="option-text">131,200</div></div>
+      <div class="option correct"><div class="option-letter">c.</div><div class="option-text">131,712</div></div>
+      <div class="option"><div class="option-letter">d.</div><div class="option-text">132,224</div></div>
+    </div>
+    <div class="answer-box"><div class="answer-tick">✔</div><div class="answer-text">Correct Answer: C</div></div>
+    <div class="solution-box"><div class="solution-label">📖 Explanation</div><div class="solution-text">Encoder weights: 512×128=65,536. Encoder biases: 128. Decoder weights: 128×512=65,536. Decoder biases: 512. Total = 65,536 + 128 + 65,536 + 512 = <strong>131,712</strong>.</div></div>
+  </div></div>
+
+  <div class="question-card"><div class="question-header"><div class="q-num">7</div><div class="q-label">Week 7 · Question 7</div></div><div class="question-body">
+    <div class="question-text">In a <strong>Sparse Autoencoder</strong>, the "sparsity" constraint is implemented by:</div>
+    <div class="options">
+      <div class="option"><div class="option-letter">a.</div><div class="option-text">Setting the weights of the hidden layer to zero.</div></div>
+      <div class="option"><div class="option-letter">b.</div><div class="option-text">Reducing the number of neurons in the hidden layer to be very small.</div></div>
+      <div class="option correct"><div class="option-letter">c.</div><div class="option-text">Penalizing the average activation of neurons in the hidden layer so they stay close to a target small value (e.g., 0.05).</div></div>
+      <div class="option"><div class="option-letter">d.</div><div class="option-text">Training the network only on a small subset of the training data.</div></div>
+    </div>
+    <div class="answer-box"><div class="answer-tick">✔</div><div class="answer-text">Correct Answer: C</div></div>
+    <div class="solution-box"><div class="solution-label">📖 Explanation</div><div class="solution-text">KL divergence is added to the loss to penalize neurons whose average activation is higher than the desired sparsity level ρ (e.g., 0.05). Most neurons should be "off" most of the time.</div></div>
+  </div></div>
+
+  <div class="question-card"><div class="question-header"><div class="q-num">8</div><div class="q-label">Week 7 · Question 8</div></div><div class="question-body">
+    <div class="question-text">Sparse Autoencoder: ρ=0.05, ρ̂ⱼ=0.1. Calculate the <strong>KL Divergence penalty</strong> KL(ρ‖ρ̂ⱼ).<br><small>(Use ln(0.5)≈−0.693 and ln(1.055)≈0.054)</small></div>
+    <div class="options">
+      <div class="option correct"><div class="option-letter">a.</div><div class="option-text">0.0166</div></div>
+      <div class="option"><div class="option-letter">b.</div><div class="option-text">0.0346</div></div>
+      <div class="option"><div class="option-letter">c.</div><div class="option-text">0.0512</div></div>
+      <div class="option"><div class="option-letter">d.</div><div class="option-text">0.1250</div></div>
+    </div>
+    <div class="answer-box"><div class="answer-tick">✔</div><div class="answer-text">Correct Answer: A</div></div>
+    <div class="solution-box"><div class="solution-label">📖 Explanation</div><div class="solution-text">KL = 0.05×ln(0.05/0.1) + 0.95×ln(0.95/0.9) = 0.05×(−0.693) + 0.95×(0.054) = −0.03465 + 0.0513 ≈ <strong>0.0166</strong>.</div></div>
+  </div></div>
+
+  <div class="question-card"><div class="question-header"><div class="q-num">9</div><div class="q-label">Week 7 · Question 9</div></div><div class="question-body">
+    <div class="question-text">Input x=[1.0, 0.5, −0.5], Reconstructed x̂=[0.8, 0.6, −0.4]. Calculate the <strong>MSE Reconstruction Loss</strong>.</div>
+    <div class="options">
+      <div class="option"><div class="option-letter">a.</div><div class="option-text">0.18</div></div>
+      <div class="option"><div class="option-letter">b.</div><div class="option-text">0.06</div></div>
+      <div class="option correct"><div class="option-letter">c.</div><div class="option-text">0.02</div></div>
+      <div class="option"><div class="option-letter">d.</div><div class="option-text">0.24</div></div>
+    </div>
+    <div class="answer-box"><div class="answer-tick">✔</div><div class="answer-text">Correct Answer: C</div></div>
+    <div class="solution-box"><div class="solution-label">📖 Explanation</div><div class="solution-text">MSE = (1/n)Σ(xᵢ−x̂ᵢ)². Errors²: (1.0−0.8)²=0.04, (0.5−0.6)²=0.01, (−0.5−(−0.4))²=0.01. MSE = (0.04+0.01+0.01)/3 = 0.06/3 = <strong>0.02</strong>.</div></div>
+  </div></div>
+
+  <div class="question-card"><div class="question-header"><div class="q-num">10</div><div class="q-label">Week 7 · Question 10</div></div><div class="question-body">
+    <div class="question-text">In a <strong>Contractive Autoencoder</strong>, the Jacobian matrix J for input layer n=1000 features and hidden layer m=50 neurons has dimensions:</div>
+    <div class="options">
+      <div class="option"><div class="option-letter">a.</div><div class="option-text">1000 × 1000</div></div>
+      <div class="option"><div class="option-letter">b.</div><div class="option-text">50 × 50</div></div>
+      <div class="option correct"><div class="option-letter">c.</div><div class="option-text">50 × 1000</div></div>
+      <div class="option"><div class="option-letter">d.</div><div class="option-text">100 × 50</div></div>
+    </div>
+    <div class="answer-box"><div class="answer-tick">✔</div><div class="answer-text">Correct Answer: C</div></div>
+    <div class="solution-box"><div class="solution-label">📖 Explanation</div><div class="solution-text">Jacobian J = ∂h/∂x. It has m rows (one per hidden neuron) and n columns (one per input feature). Dimensions = m × n = 50 × 1000.</div></div>
+  </div></div>
+</div><!-- end week7 -->
+
+<!-- ═══════════════════════════════════════════════════════════ WEEK 8 -->
+<div class="week-section" id="week8">
+  <div class="week-header">
+    <div class="week-number">08</div>
+    <div class="week-info">
+      <h2>Convolutional Neural Networks (CNN)</h2>
+      <p>LeNet-5, AlexNet, VGG, Receptive Fields, Dropout, Transfer Learning</p>
+    </div>
+    <div class="week-badge">10 Questions · 1 Mark Each</div>
+  </div>
+
+  <div class="question-card"><div class="question-header"><div class="q-num">1</div><div class="q-label">Week 8 · Question 1</div></div><div class="question-body">
+    <div class="question-text">In the <strong>LeNet-5 architecture</strong>, the C3 layer does not connect every input feature map to every output feature map. What were the primary motivations?</div>
+    <div class="options">
+      <div class="option correct"><div class="option-letter">a.</div><div class="option-text">To force different kernels to extract complementary features and to keep connection counts within reasonable bounds.</div></div>
+      <div class="option"><div class="option-letter">b.</div><div class="option-text">To implement a form of dropout.</div></div>
+      <div class="option"><div class="option-letter">c.</div><div class="option-text">To ensure the feature map size was reduced to exactly 10×10.</div></div>
+      <div class="option"><div class="option-letter">d.</div><div class="option-text">To allow the network to be trained on multiple GPUs simultaneously.</div></div>
+    </div>
+    <div class="answer-box"><div class="answer-tick">✔</div><div class="answer-text">Correct Answer: A</div></div>
+    <div class="solution-box"><div class="solution-label">📖 Explanation</div><div class="solution-text">Asymmetric connections break symmetry (so all neurons don't learn the same thing) and reduce the total number of parameters to keep training manageable.</div></div>
+  </div></div>
+
+  <div class="question-card"><div class="question-header"><div class="q-num">2</div><div class="q-label">Week 8 · Question 2</div></div><div class="question-body">
+    <div class="question-text">Stacking three 3×3 convolutional layers (stride 1): what is the <strong>effective receptive field</strong> and <strong>parameter reduction</strong> vs a single 7×7 layer?</div>
+    <div class="options">
+      <div class="option correct"><div class="option-letter">a.</div><div class="option-text">7×7 receptive field; ≈45% reduction in parameters.</div></div>
+      <div class="option"><div class="option-letter">b.</div><div class="option-text">9×9 receptive field; ≈55% reduction in parameters.</div></div>
+      <div class="option"><div class="option-letter">c.</div><div class="option-text">7×7 receptive field; ≈81% reduction in parameters.</div></div>
+      <div class="option"><div class="option-letter">d.</div><div class="option-text">5×5 receptive field; ≈18% reduction in parameters.</div></div>
+    </div>
+    <div class="answer-box"><div class="answer-tick">✔</div><div class="answer-text">Correct Answer: A</div></div>
+    <div class="solution-box"><div class="solution-label">📖 Explanation</div><div class="solution-text">3 layers of 3×3 → sees 7×7 area of input. Parameters: single 7×7 = 49 weights. Three 3×3 = 3×9 = 27 weights. Reduction = (49−27)/49 ≈ 44.9% ≈ 45%.</div></div>
+  </div></div>
+
+  <div class="question-card"><div class="question-header"><div class="q-num">3</div><div class="q-label">Week 8 · Question 3</div></div><div class="question-body">
+    <div class="question-text">Sigmoid activation gradient maximum is 0.25. Why does this lead to a <strong>vanishing gradient</strong> in a 56-layer network?</div>
+    <div class="options">
+      <div class="option"><div class="option-letter">a.</div><div class="option-text">The gradient is added at each layer, exceeding the floating-point limit.</div></div>
+      <div class="option correct"><div class="option-letter">b.</div><div class="option-text">The gradient is a product of terms; repeated multiplication of values less than 1 causes the product to reduce exponentially.</div></div>
+      <div class="option"><div class="option-letter">c.</div><div class="option-text">Sigmoidal functions cause the weights to explode.</div></div>
+      <div class="option"><div class="option-letter">d.</div><div class="option-text">The ReLU activation used in modern layers is naturally unstable.</div></div>
+    </div>
+    <div class="answer-box"><div class="answer-tick">✔</div><div class="answer-text">Correct Answer: B</div></div>
+    <div class="solution-box"><div class="solution-label">📖 Explanation</div><div class="solution-text">Gradient = product of all layer derivatives. Each sigmoid derivative ≤ 0.25. After 56 layers: 0.25⁵⁶ ≈ 10⁻³⁴ — essentially zero. Earlier layers get no useful gradient signal.</div></div>
+  </div></div>
+
+  <div class="question-card"><div class="question-header"><div class="q-num">4</div><div class="q-label">Week 8 · Question 4</div></div><div class="question-body">
+    <div class="question-text">5 channel feature map, activations at (x,y): a⁰=4, a¹=1, a²=3, a³=2, a⁴=5. Calculate <strong>normalized b²ₓ,ᵧ</strong> for channel i=2. (k=2, α=1, n=3, β=1)</div>
+    <div class="options">
+      <div class="option"><div class="option-letter">a.</div><div class="option-text">0.1250</div></div>
+      <div class="option"><div class="option-letter">b.</div><div class="option-text">0.1500</div></div>
+      <div class="option correct"><div class="option-letter">c.</div><div class="option-text">0.1875</div></div>
+      <div class="option"><div class="option-letter">d.</div><div class="option-text">0.2142</div></div>
+    </div>
+    <div class="answer-box"><div class="answer-tick">✔</div><div class="answer-text">Correct Answer: C</div></div>
+    <div class="solution-box"><div class="solution-label">📖 Explanation</div><div class="solution-text">Neighborhood of i=2 with n=3: j ∈ {1,2,3}. Sum² = 1²+3²+2² = 1+9+4 = 14. Denominator = (2 + 1×14)¹ = 16. b² = a²/16 = 3/16 = <strong>0.1875</strong>.</div></div>
+  </div></div>
+
+  <div class="question-card"><div class="question-header"><div class="q-num">5</div><div class="q-label">Week 8 · Question 5</div></div><div class="question-body">
+    <div class="question-text">32×32 input, 5×5 kernel, stride=2. Asymmetric padding: P_left=1, P_right=2, P_top=2, P_bottom=3. Output resolution Hout × Wout?</div>
+    <div class="options">
+      <div class="option"><div class="option-letter">a.</div><div class="option-text">15 × 15</div></div>
+      <div class="option"><div class="option-letter">b.</div><div class="option-text">16 × 16</div></div>
+      <div class="option correct"><div class="option-letter">c.</div><div class="option-text">17 × 16</div></div>
+      <div class="option"><div class="option-letter">d.</div><div class="option-text">14 × 15</div></div>
+    </div>
+    <div class="answer-box"><div class="answer-tick">✔</div><div class="answer-text">Correct Answer: C</div></div>
+    <div class="solution-box"><div class="solution-label">📖 Explanation</div><div class="solution-text">Wout = ⌊(32+3−5)/2⌋+1 = ⌊30/2⌋+1 = 15+1 = 16. Hout = ⌊(32+5−5)/2⌋+1 = ⌊32/2⌋+1 = 16+1 = 17. Answer: <strong>17×16</strong>.</div></div>
+  </div></div>
+
+  <div class="question-card"><div class="question-header"><div class="q-num">6</div><div class="q-label">Week 8 · Question 6</div></div><div class="question-body">
+    <div class="question-text">200 neurons, activation a=10.0, dropout probability p=0.4. Expected sum during training? Scaling factor for test phase?</div>
+    <div class="options">
+      <div class="option"><div class="option-letter">a.</div><div class="option-text">Expected Sum=1200; Scaling Factor=0.4</div></div>
+      <div class="option"><div class="option-letter">b.</div><div class="option-text">Expected Sum=800; Scaling Factor=0.6</div></div>
+      <div class="option correct"><div class="option-letter">c.</div><div class="option-text">Expected Sum=1200; Scaling Factor=0.6</div></div>
+      <div class="option"><div class="option-letter">d.</div><div class="option-text">Expected Sum=2000; Scaling Factor=1.0</div></div>
+    </div>
+    <div class="answer-box"><div class="answer-tick">✔</div><div class="answer-text">Correct Answer: C</div></div>
+    <div class="solution-box"><div class="solution-label">📖 Explanation</div><div class="solution-text">Keep rate q = 1−0.4 = 0.6. Active neurons = 200×0.6 = 120. Expected sum = 120×10 = 1200. Test sum = 200×10 = 2000. Scaling factor = 1200/2000 = <strong>0.6</strong>.</div></div>
+  </div></div>
+
+  <div class="question-card"><div class="question-header"><div class="q-num">7</div><div class="q-label">Week 8 · Question 7</div></div><div class="question-body">
+    <div class="question-text">To convert raw logit scores into a normalized probability distribution (sum = 1) for a 4-way classification, which activation function is used?</div>
+    <div class="options">
+      <div class="option"><div class="option-letter">a.</div><div class="option-text">ReLU</div></div>
+      <div class="option correct"><div class="option-letter">b.</div><div class="option-text">Softmax</div></div>
+      <div class="option"><div class="option-letter">c.</div><div class="option-text">Sigmoid</div></div>
+      <div class="option"><div class="option-letter">d.</div><div class="option-text">Leaky ReLU</div></div>
+    </div>
+    <div class="answer-box"><div class="answer-tick">✔</div><div class="answer-text">Correct Answer: B</div></div>
+    <div class="solution-box"><div class="solution-label">📖 Explanation</div><div class="solution-text">Softmax converts any vector of real numbers into a probability distribution where all values are positive and sum to 1. It's the standard choice for multi-class output layers.</div></div>
+  </div></div>
+
+  <div class="question-card"><div class="question-header"><div class="q-num">8</div><div class="q-label">Week 8 · Question 8</div></div><div class="question-body">
+    <div class="question-text">CNN: Input 39×39×3. L1: Conv 3×3, 10 filters, stride 1. L2: Conv 5×5, 20 filters, stride 2. L3: Conv 5×5, 40 filters, stride 2. No padding. Flattened output size?</div>
+    <div class="options">
+      <div class="option"><div class="option-letter">a.</div><div class="option-text">4563</div></div>
+      <div class="option"><div class="option-letter">b.</div><div class="option-text">2200</div></div>
+      <div class="option correct"><div class="option-letter">c.</div><div class="option-text">1960</div></div>
+      <div class="option"><div class="option-letter">d.</div><div class="option-text">13690</div></div>
+    </div>
+    <div class="answer-box"><div class="answer-tick">✔</div><div class="answer-text">Correct Answer: C</div></div>
+    <div class="solution-box"><div class="solution-label">📖 Explanation</div><div class="solution-text">After L1: (39−3+1)=37 → 37×37×10. After L2: ⌊(37−5)/2⌋+1=17 → 17×17×20. After L3: ⌊(17−5)/2⌋+1=7 → 7×7×40. Flattened = 7×7×40 = <strong>1960</strong>.</div></div>
+  </div></div>
+
+  <div class="question-card"><div class="question-header"><div class="q-num">9</div><div class="q-label">Week 8 · Question 9</div></div><div class="question-body">
+    <div class="question-text">In <strong>Transfer Learning</strong>, why are the initial layers of a pre-trained CNN often kept 'frozen' when adapting to a new task?</div>
+    <div class="options">
+      <div class="option correct"><div class="option-letter">a.</div><div class="option-text">Because they extract generic features like edges and blobs that are applicable to many domains.</div></div>
+      <div class="option"><div class="option-letter">b.</div><div class="option-text">Because they contain the task-specific features like faces or car wheels.</div></div>
+      <div class="option"><div class="option-letter">c.</div><div class="option-text">Because the vanishing gradient problem makes it impossible to train them.</div></div>
+      <div class="option"><div class="option-letter">d.</div><div class="option-text">Because training the initial layers requires the most computational power.</div></div>
+    </div>
+    <div class="answer-box"><div class="answer-tick">✔</div><div class="answer-text">Correct Answer: A</div></div>
+    <div class="solution-box"><div class="solution-label">📖 Explanation</div><div class="solution-text">Early CNN layers learn low-level features (edges, corners, textures) that are useful for ANY visual task. Freezing them reuses this general knowledge. Only later (task-specific) layers need retraining.</div></div>
+  </div></div>
+
+  <div class="question-card"><div class="question-header"><div class="q-num">10</div><div class="q-label">Week 8 · Question 10</div></div><div class="question-body">
+    <div class="question-text">Model A: 1 conv layer with 1024 kernels. Model B: 4 conv layers (128, 128, 256, 512 kernels). Which statement is <strong>INCORRECT</strong>?</div>
+    <div class="options">
+      <div class="option"><div class="option-letter">a.</div><div class="option-text">Model A will likely have lower latency because its single layer allows massive parallelization.</div></div>
+      <div class="option"><div class="option-letter">b.</div><div class="option-text">Model B is generally superior because multiple layers allow hierarchical feature extraction.</div></div>
+      <div class="option correct"><div class="option-letter">c.</div><div class="option-text">Model A has higher representational power because it extracts 1024 distinct features directly from the raw image at the first layer.</div></div>
+      <div class="option"><div class="option-letter">d.</div><div class="option-text">Model B is more effective because deeper layers synthesize abstract features from simpler ones.</div></div>
+    </div>
+    <div class="answer-box"><div class="answer-tick">✔</div><div class="answer-text">Correct Answer: C (Incorrect Statement)</div></div>
+    <div class="solution-box"><div class="solution-label">📖 Explanation</div><div class="solution-text">More kernels in one layer doesn't mean better features. A single layer can only extract low-level features regardless of how many kernels it has. Depth (hierarchical learning) is what gives CNNs their power.</div></div>
+  </div></div>
+</div><!-- end week8 -->
+
+<!-- ═══════════════════════════════════════════════════════════ WEEK 9 -->
+<div class="week-section" id="week9">
+  <div class="week-header">
+    <div class="week-number">09</div>
+    <div class="week-info">
+      <h2>Optimizers & GoogLeNet Architecture</h2>
+      <p>Momentum, NAG, Adagrad, RMSProp, Adam, Vanishing Gradients, Inception Module</p>
+    </div>
+    <div class="week-badge">10 Questions · 1 Mark Each</div>
+  </div>
+
+  <div class="question-card"><div class="question-header"><div class="q-num">1</div><div class="q-label">Week 9 · Question 1</div></div><div class="question-body">
+    <div class="question-text">Which activation function can lead to <strong>vanishing gradients</strong>?</div>
+    <div class="options">
+      <div class="option"><div class="option-letter">a.</div><div class="option-text">ReLU</div></div>
+      <div class="option correct"><div class="option-letter">b.</div><div class="option-text">Sigmoid</div></div>
+      <div class="option"><div class="option-letter">c.</div><div class="option-text">Leaky ReLU</div></div>
+      <div class="option"><div class="option-letter">d.</div><div class="option-text">None of the above</div></div>
+    </div>
+    <div class="answer-box"><div class="answer-tick">✔</div><div class="answer-text">Correct Answer: B</div></div>
+    <div class="solution-box"><div class="solution-label">📖 Explanation</div><div class="solution-text">Sigmoid squashes all inputs to (0,1). For large or small inputs, the derivative is near zero → gradient vanishes through many layers. ReLU has gradient=1 for positive inputs → no vanishing.</div></div>
+  </div></div>
+
+  <div class="question-card"><div class="question-header"><div class="q-num">2</div><div class="q-label">Week 9 · Question 2</div></div><div class="question-body">
+    <div class="question-text">In the <strong>GoogLeNet Inception module</strong>, why are 1×1 convolutions used before 3×3 or 5×5 convolutions?</div>
+    <div class="options">
+      <div class="option"><div class="option-letter">a.</div><div class="option-text">To ensure the network can learn an identity mapping if the deeper layers are redundant.</div></div>
+      <div class="option"><div class="option-letter">b.</div><div class="option-text">To increase the spatial resolution before feature extraction.</div></div>
+      <div class="option"><div class="option-letter">c.</div><div class="option-text">To eliminate the need for Max-pooling layers.</div></div>
+      <div class="option correct"><div class="option-letter">d.</div><div class="option-text">To reduce the number of input channels (depth), thereby significantly decreasing the total number of operations in subsequent larger kernels.</div></div>
+    </div>
+    <div class="answer-box"><div class="answer-tick">✔</div><div class="answer-text">Correct Answer: D</div></div>
+    <div class="solution-box"><div class="solution-label">📖 Explanation</div><div class="solution-text">1×1 conv acts as a "bottleneck." It reduces depth (channels) without changing spatial dimensions. This makes the subsequent 3×3 or 5×5 convolution much cheaper computationally.</div></div>
+  </div></div>
+
+  <div class="question-card"><div class="question-header"><div class="q-num">3</div><div class="q-label">Week 9 · Question 3</div></div><div class="question-body">
+    <div class="question-text">GoogLeNet employs <strong>auxiliary classifiers</strong> during training. What is their configuration and purpose?</div>
+    <div class="options">
+      <div class="option correct"><div class="option-letter">a.</div><div class="option-text">Smaller CNNs added to middle Inception modules; their losses are scaled by 0.3 and added to the total loss to combat vanishing gradients.</div></div>
+      <div class="option"><div class="option-letter">b.</div><div class="option-text">Placed at the very beginning of the network to normalize input data distributions.</div></div>
+      <div class="option"><div class="option-letter">c.</div><div class="option-text">They serve as a form of L2 regularization.</div></div>
+      <div class="option"><div class="option-letter">d.</div><div class="option-text">Used during both training and inference with 0.3 weighting.</div></div>
+    </div>
+    <div class="answer-box"><div class="answer-tick">✔</div><div class="answer-text">Correct Answer: A</div></div>
+    <div class="solution-box"><div class="solution-label">📖 Explanation</div><div class="solution-text">Auxiliary classifiers inject gradient signal into the middle of the network, helping earlier layers get a useful gradient. Used only during training (not inference).</div></div>
+  </div></div>
+
+  <div class="question-card"><div class="question-header"><div class="q-num">4</div><div class="q-label">Week 9 · Question 4</div></div><div class="question-body">
+    <div class="question-text">What is a significant drawback of the <strong>Adagrad optimizer</strong> when training deep networks?</div>
+    <div class="options">
+      <div class="option correct"><div class="option-letter">a.</div><div class="option-text">The accumulated sum of squared gradients in the denominator increases monotonically, causing the learning rate to eventually vanish.</div></div>
+      <div class="option"><div class="option-letter">b.</div><div class="option-text">It only works for convex loss functions.</div></div>
+      <div class="option"><div class="option-letter">c.</div><div class="option-text">It requires manually tuning a different learning rate for every parameter.</div></div>
+      <div class="option"><div class="option-letter">d.</div><div class="option-text">It uses too much memory by storing the entire history of every individual gradient vector.</div></div>
+    </div>
+    <div class="answer-box"><div class="answer-tick">✔</div><div class="answer-text">Correct Answer: A</div></div>
+    <div class="solution-box"><div class="solution-label">📖 Explanation</div><div class="solution-text">Adagrad divides the learning rate by the square root of the sum of all past squared gradients. This sum grows forever → effective learning rate → 0 → training stalls.</div></div>
+  </div></div>
+
+  <div class="question-card"><div class="question-header"><div class="q-num">5</div><div class="q-label">Week 9 · Question 5</div></div><div class="question-body">
+    <div class="question-text">How does <strong>RMSProp</strong> improve upon Adagrad?</div>
+    <div class="options">
+      <div class="option"><div class="option-letter">a.</div><div class="option-text">By using a moving window average of only the last 5 iterations.</div></div>
+      <div class="option correct"><div class="option-letter">b.</div><div class="option-text">By replacing the cumulative sum of squared gradients with an exponentially decaying average of squared gradients.</div></div>
+      <div class="option"><div class="option-letter">c.</div><div class="option-text">By adding a momentum term that overshoots plateaus in the error surface.</div></div>
+      <div class="option"><div class="option-letter">d.</div><div class="option-text">By calculating the 'look ahead' gradient at a future position.</div></div>
+    </div>
+    <div class="answer-box"><div class="answer-tick">✔</div><div class="answer-text">Correct Answer: B</div></div>
+    <div class="solution-box"><div class="solution-label">📖 Explanation</div><div class="solution-text">RMSProp uses an exponentially weighted moving average — old gradients are gradually "forgotten." This prevents the denominator from growing too large, keeping learning rates stable.</div></div>
+  </div></div>
+
+  <div class="question-card"><div class="question-header"><div class="q-num">6</div><div class="q-label">Week 9 · Question 6</div></div><div class="question-body">
+    <div class="question-text">What is the primary difference between standard <strong>Momentum</strong> and <strong>Nesterov Accelerated Gradient (NAG)</strong>?</div>
+    <div class="options">
+      <div class="option"><div class="option-letter">a.</div><div class="option-text">NAG is designed for convex functions; Momentum is only for non-convex functions.</div></div>
+      <div class="option correct"><div class="option-letter">b.</div><div class="option-text">Momentum calculates the gradient first and then adds momentum, while NAG applies momentum first and then calculates the gradient at that new location.</div></div>
+      <div class="option"><div class="option-letter">c.</div><div class="option-text">NAG computes the gradient at the current position; Momentum at a look-ahead position.</div></div>
+      <div class="option"><div class="option-letter">d.</div><div class="option-text">Momentum uses squared gradients; NAG uses absolute gradients.</div></div>
+    </div>
+    <div class="answer-box"><div class="answer-tick">✔</div><div class="answer-text">Correct Answer: B</div></div>
+    <div class="solution-box"><div class="solution-label">📖 Explanation</div><div class="solution-text">NAG "looks ahead" — it first takes the momentum step, then calculates the gradient at that future position. This allows smarter corrections and faster convergence.</div></div>
+  </div></div>
+
+  <div class="question-card"><div class="question-header"><div class="q-num">7</div><div class="q-label">Week 9 · Question 7</div></div><div class="question-body">
+    <div class="question-text">Input 14×14×480. Direct 5×5 conv (48 filters) vs bottleneck (1×1 with 16 filters + 5×5 with 48 filters). What is the approximate <strong>reduction in operations</strong>?</div>
+    <div class="options">
+      <div class="option correct"><div class="option-letter">a.</div><div class="option-text">From ~112.9M operations to ~5.3M operations</div></div>
+      <div class="option"><div class="option-letter">b.</div><div class="option-text">From ~50M operations to ~10M operations</div></div>
+      <div class="option"><div class="option-letter">c.</div><div class="option-text">The cost remains the same, but parameters are reduced.</div></div>
+      <div class="option"><div class="option-letter">d.</div><div class="option-text">From ~112.9M operations to ~50M operations</div></div>
+    </div>
+    <div class="answer-box"><div class="answer-tick">✔</div><div class="answer-text">Correct Answer: A</div></div>
+    <div class="solution-box"><div class="solution-label">📖 Explanation</div><div class="solution-text">Direct: 14×14×48×5×5×480 ≈ 112.9M. Bottleneck: (14×14×16×1×1×480)+(14×14×48×5×5×16) ≈ 1.5M+3.8M = 5.3M. Massive saving!</div></div>
+  </div></div>
+
+  <div class="question-card"><div class="question-header"><div class="q-num">8</div><div class="q-label">Week 9 · Question 8</div></div><div class="question-body">
+    <div class="question-text">Inception branch: input 32×32×100. 1×1 conv (20 filters) then 3×3 conv (50 filters). Total <strong>trainable parameters</strong> (no biases)?</div>
+    <div class="options">
+      <div class="option"><div class="option-letter">a.</div><div class="option-text">2000</div></div>
+      <div class="option"><div class="option-letter">b.</div><div class="option-text">9000</div></div>
+      <div class="option correct"><div class="option-letter">c.</div><div class="option-text">11,000</div></div>
+      <div class="option"><div class="option-letter">d.</div><div class="option-text">45,000</div></div>
+    </div>
+    <div class="answer-box"><div class="answer-tick">✔</div><div class="answer-text">Correct Answer: C</div></div>
+    <div class="solution-box"><div class="solution-label">📖 Explanation</div><div class="solution-text">1×1 conv: 1×1×100×20 = 2,000. 3×3 conv: 3×3×20×50 = 9,000. Total = 2,000 + 9,000 = <strong>11,000</strong>.</div></div>
+  </div></div>
+
+  <div class="question-card"><div class="question-header"><div class="q-num">9</div><div class="q-label">Week 9 · Question 9</div></div><div class="question-body">
+    <div class="question-text">Why are <strong>saddle points</strong> particularly difficult for standard SGD to escape?</div>
+    <div class="options">
+      <div class="option"><div class="option-letter">a.</div><div class="option-text">Because they are global minima that the network should not escape.</div></div>
+      <div class="option"><div class="option-letter">b.</div><div class="option-text">Because the gradient at a saddle point is always infinite.</div></div>
+      <div class="option"><div class="option-letter">c.</div><div class="option-text">Because the L2 loss function becomes non-convex specifically at those locations.</div></div>
+      <div class="option correct"><div class="option-letter">d.</div><div class="option-text">Because the plateau surrounding the saddle point has a near-zero gradient in all dimensions, stalling weight updates.</div></div>
+    </div>
+    <div class="answer-box"><div class="answer-tick">✔</div><div class="answer-text">Correct Answer: D</div></div>
+    <div class="solution-box"><div class="solution-label">📖 Explanation</div><div class="solution-text">At a saddle point, gradient ≈ 0 in all directions. SGD update = W − η∇L ≈ W − 0 = W. No change in weights → network gets stuck.</div></div>
+  </div></div>
+
+  <div class="question-card"><div class="question-header"><div class="q-num">10</div><div class="q-label">Week 9 · Question 10</div></div><div class="question-body">
+    <div class="question-text">In the gradient product ∂O/∂W₁ = X·f₁'·W₂·f₂'·W₃, what happens if weights Wᵢ are consistently less than 1 (e.g., 0.5)?</div>
+    <div class="options">
+      <div class="option"><div class="option-letter">a.</div><div class="option-text">The gradient will oscillate between positive and negative values.</div></div>
+      <div class="option"><div class="option-letter">b.</div><div class="option-text">ReLU will automatically shift the weights to be greater than 1.</div></div>
+      <div class="option correct"><div class="option-letter">c.</div><div class="option-text">The gradient will decrease exponentially as it propagates back to earlier layers, causing the weights to stop updating.</div></div>
+      <div class="option"><div class="option-letter">d.</div><div class="option-text">The gradient will increase exponentially, leading to the exploding gradient problem.</div></div>
+    </div>
+    <div class="answer-box"><div class="answer-tick">✔</div><div class="answer-text">Correct Answer: C</div></div>
+    <div class="solution-box"><div class="solution-label">📖 Explanation</div><div class="solution-text">Multiplying many values &lt; 1 together: 0.5 × 0.5 × 0.5 ... → approaches 0 exponentially. This is the vanishing gradient problem.</div></div>
+  </div></div>
+</div><!-- end week9 -->
+
+<!-- ═══════════════════════════════════════════════════════════ WEEK 10 -->
+<div class="week-section" id="week10">
+  <div class="week-header">
+    <div class="week-number">10</div>
+    <div class="week-info">
+      <h2>Normalization Techniques & Regularization</h2>
+      <p>Batch Normalization, Layer Norm, Group Norm, Dropout, Data Augmentation</p>
+    </div>
+    <div class="week-badge">10 Questions · 1 Mark Each</div>
+  </div>
+
+  <div class="question-card"><div class="question-header"><div class="q-num">1</div><div class="q-label">Week 10 · Question 1</div></div><div class="question-body">
+    <div class="question-text">A conv layer uses <strong>Layer Normalization</strong> with batch size=16 and 64 channels. How many distinct mean values are computed?</div>
+    <div class="options">
+      <div class="option correct"><div class="option-letter">a.</div><div class="option-text">16</div></div>
+      <div class="option"><div class="option-letter">b.</div><div class="option-text">1</div></div>
+      <div class="option"><div class="option-letter">c.</div><div class="option-text">1024</div></div>
+      <div class="option"><div class="option-letter">d.</div><div class="option-text">64</div></div>
+    </div>
+    <div class="answer-box"><div class="answer-tick">✔</div><div class="answer-text">Correct Answer: A</div></div>
+    <div class="solution-box"><div class="solution-label">📖 Explanation</div><div class="solution-text">Layer Normalization computes one mean per training example (per sample in the batch). With batch size=16, there are 16 distinct mean values — one per sample, independent of other samples.</div></div>
+  </div></div>
+
+  <div class="question-card"><div class="question-header"><div class="q-num">2</div><div class="q-label">Week 10 · Question 2</div></div><div class="question-body">
+    <div class="question-text"><strong>Group Normalization</strong>: 128 channels, G=32 groups. How many channels per group?</div>
+    <div class="options">
+      <div class="option"><div class="option-letter">a.</div><div class="option-text">128</div></div>
+      <div class="option"><div class="option-letter">b.</div><div class="option-text">96</div></div>
+      <div class="option"><div class="option-letter">c.</div><div class="option-text">32</div></div>
+      <div class="option correct"><div class="option-letter">d.</div><div class="option-text">4</div></div>
+    </div>
+    <div class="answer-box"><div class="answer-tick">✔</div><div class="answer-text">Correct Answer: D</div></div>
+    <div class="solution-box"><div class="solution-label">📖 Explanation</div><div class="solution-text">Channels per group = Total channels / Number of groups = 128 / 32 = <strong>4</strong>.</div></div>
+  </div></div>
+
+  <div class="question-card"><div class="question-header"><div class="q-num">3</div><div class="q-label">Week 10 · Question 3</div></div><div class="question-body">
+    <div class="question-text">How does <strong>Intra-channel Local Response Normalization</strong> differ from Inter-channel LRN?</div>
+    <div class="options">
+      <div class="option correct"><div class="option-letter">a.</div><div class="option-text">It normalizes using neighboring values within the same channel.</div></div>
+      <div class="option"><div class="option-letter">b.</div><div class="option-text">It normalizes across the batch dimension instead of channels.</div></div>
+      <div class="option"><div class="option-letter">c.</div><div class="option-text">It only works with sigmoidal activation functions.</div></div>
+      <div class="option"><div class="option-letter">d.</div><div class="option-text">It applies a linear transformation instead of a non-linear one.</div></div>
+    </div>
+    <div class="answer-box"><div class="answer-tick">✔</div><div class="answer-text">Correct Answer: A</div></div>
+    <div class="solution-box"><div class="solution-label">📖 Explanation</div><div class="solution-text">Intra-channel: looks at spatial neighbors in the SAME channel. Inter-channel: looks at the same spatial location across DIFFERENT channels.</div></div>
+  </div></div>
+
+  <div class="question-card"><div class="question-header"><div class="q-num">4</div><div class="q-label">Week 10 · Question 4</div></div><div class="question-body">
+    <div class="question-text">What are the roles of tunable parameters <strong>γ (gamma)</strong> and <strong>β (beta)</strong> in Batch Normalization?</div>
+    <div class="options">
+      <div class="option"><div class="option-letter">a.</div><div class="option-text">They represent the learning rate and momentum respectively.</div></div>
+      <div class="option"><div class="option-letter">b.</div><div class="option-text">They determine the number of nodes to drop out during training.</div></div>
+      <div class="option correct"><div class="option-letter">c.</div><div class="option-text">They allow the network to restore the original representation and retain class identity.</div></div>
+      <div class="option"><div class="option-letter">d.</div><div class="option-text">They are used to calculate the moving average during testing.</div></div>
+    </div>
+    <div class="answer-box"><div class="answer-tick">✔</div><div class="answer-text">Correct Answer: C</div></div>
+    <div class="solution-box"><div class="solution-label">📖 Explanation</div><div class="solution-text">BN normalizes to mean=0, variance=1 — which might not be optimal. γ (scale) and β (shift) are learned parameters that allow the network to undo the normalization if needed.</div></div>
+  </div></div>
+
+  <div class="question-card"><div class="question-header"><div class="q-num">5</div><div class="q-label">Week 10 · Question 5</div></div><div class="question-body">
+    <div class="question-text">During the <strong>testing phase</strong>, how are mean and variance determined for Batch Normalization?</div>
+    <div class="options">
+      <div class="option"><div class="option-letter">a.</div><div class="option-text">Re-calculated using the entire validation dataset.</div></div>
+      <div class="option correct"><div class="option-letter">b.</div><div class="option-text">They use the exponentially decaying average of statistics computed during training.</div></div>
+      <div class="option"><div class="option-letter">c.</div><div class="option-text">Set to 0 and 1 respectively for every layer.</div></div>
+      <div class="option"><div class="option-letter">d.</div><div class="option-text">Calculated from the single test sample provided.</div></div>
+    </div>
+    <div class="answer-box"><div class="answer-tick">✔</div><div class="answer-text">Correct Answer: B</div></div>
+    <div class="solution-box"><div class="solution-label">📖 Explanation</div><div class="solution-text">At test time, there's no batch. So we use running averages (moving averages) of the mean and variance collected across all mini-batches during training.</div></div>
+  </div></div>
+
+  <div class="question-card"><div class="question-header"><div class="q-num">6</div><div class="q-label">Week 10 · Question 6</div></div><div class="question-body">
+    <div class="question-text">Mini-batch: x₁=[1,10]ᵀ, x₂=[5,30]ᵀ. With γ=1, β=0, ε=0. Calculate <strong>Batch Normalized</strong> outputs y₁ and y₂.</div>
+    <div class="options">
+      <div class="option"><div class="option-letter">a.</div><div class="option-text">y₁=[−1,−1]ᵀ and y₂=[−1,−1]ᵀ</div></div>
+      <div class="option correct"><div class="option-letter">b.</div><div class="option-text">y₁=[−1,−1]ᵀ and y₂=[1,1]ᵀ</div></div>
+      <div class="option"><div class="option-letter">c.</div><div class="option-text">y₁=[−1,−1]ᵀ and y₂=[−1,−1]ᵀ</div></div>
+      <div class="option"><div class="option-letter">d.</div><div class="option-text">y₁=[−1,−1]ᵀ and y₂=[−1,−1]ᵀ</div></div>
+    </div>
+    <div class="answer-box"><div class="answer-tick">✔</div><div class="answer-text">Correct Answer: B</div></div>
+    <div class="solution-box"><div class="solution-label">📖 Explanation</div><div class="solution-text">Feature 1 (1,5): μ=3, σ=2. y₁₁=(1−3)/2=−1, y₂₁=(5−3)/2=1. Feature 2 (10,30): μ=20, σ=10. y₁₂=(10−20)/10=−1, y₂₂=(30−20)/10=1. So y₁=[−1,−1], y₂=[1,1].</div></div>
+  </div></div>
+
+  <div class="question-card"><div class="question-header"><div class="q-num">7</div><div class="q-label">Week 10 · Question 7</div></div><div class="question-body">
+    <div class="question-text">x=[2,4,10,30] with <strong>Group Normalization G=2</strong>. What is the normalized value for x₃=10?</div>
+    <div class="options">
+      <div class="option"><div class="option-letter">a.</div><div class="option-text">−0.15</div></div>
+      <div class="option"><div class="option-letter">b.</div><div class="option-text">0</div></div>
+      <div class="option correct"><div class="option-letter">c.</div><div class="option-text">−1</div></div>
+      <div class="option"><div class="option-letter">d.</div><div class="option-text">−1.34</div></div>
+    </div>
+    <div class="answer-box"><div class="answer-tick">✔</div><div class="answer-text">Correct Answer: C</div></div>
+    <div class="solution-box"><div class="solution-label">📖 Explanation</div><div class="solution-text">G=2 with 4 features: Group 1=[2,4], Group 2=[10,30]. For x₃=10 in Group 2: μ=20, σ=10. Normalized = (10−20)/10 = <strong>−1</strong>.</div></div>
+  </div></div>
+
+  <div class="question-card"><div class="question-header"><div class="q-num">8</div><div class="q-label">Week 10 · Question 8</div></div><div class="question-body">
+    <div class="question-text">Which statement combining Regularization and Data Augmentation is <strong>INCORRECT</strong>?</div>
+    <div class="options">
+      <div class="option"><div class="option-letter">a.</div><div class="option-text">Data augmentation forces a network to learn inner structure rather than memorize it, similar to how Dropout forces robust representations.</div></div>
+      <div class="option"><div class="option-letter">b.</div><div class="option-text">L1/L2 regularization prevents overfitting by penalizing large weights; data augmentation prevents overfitting by expanding the training set.</div></div>
+      <div class="option"><div class="option-letter">c.</div><div class="option-text">L2 pushes weights near zero; data augmentation uses flipping/scaling to create variation.</div></div>
+      <div class="option correct"><div class="option-letter">d.</div><div class="option-text">The primary goal of data augmentation is to resolve underfitting by adding noise to test data labels during inference.</div></div>
+    </div>
+    <div class="answer-box"><div class="answer-tick">✔</div><div class="answer-text">Correct Answer: D (Incorrect Statement)</div></div>
+    <div class="solution-box"><div class="solution-label">📖 Explanation</div><div class="solution-text">Data augmentation addresses OVERFITTING (not underfitting), is applied to TRAINING data (not test labels), and is used during TRAINING (not inference). Option D is completely wrong.</div></div>
+  </div></div>
+
+  <div class="question-card"><div class="question-header"><div class="q-num">9</div><div class="q-label">Week 10 · Question 9</div></div><div class="question-body">
+    <div class="question-text">Which statement regarding the <strong>Dropout technique</strong> is INCORRECT?</div>
+    <div class="options">
+      <div class="option"><div class="option-letter">a.</div><div class="option-text">Dropout prevents memorization by forcing learning of multiple representations.</div></div>
+      <div class="option"><div class="option-letter">b.</div><div class="option-text">During testing, all nodes are present and dropout is not used.</div></div>
+      <div class="option correct"><div class="option-letter">c.</div><div class="option-text">A dropped-out node continues to participate in the backward pass by feeding gradient terms to the layer before it.</div></div>
+      <div class="option"><div class="option-letter">d.</div><div class="option-text">The performance gain from dropout generally improves as dataset size increases.</div></div>
+    </div>
+    <div class="answer-box"><div class="answer-tick">✔</div><div class="answer-text">Correct Answer: C (Incorrect Statement)</div></div>
+    <div class="solution-box"><div class="solution-label">📖 Explanation</div><div class="solution-text">A dropped-out node is completely removed — it participates in NEITHER the forward pass NOR the backward pass. No computation happens through a dropped node.</div></div>
+  </div></div>
+
+  <div class="question-card"><div class="question-header"><div class="q-num">10</div><div class="q-label">Week 10 · Question 10</div></div><div class="question-body">
+    <div class="question-text">What is the specific computational disadvantage of Batch Normalization with <strong>extremely small mini-batches</strong> (e.g., batch size=2)?</div>
+    <div class="options">
+      <div class="option correct"><div class="option-letter">a.</div><div class="option-text">The calculated mean and variance become noisy estimates of the true population statistics.</div></div>
+      <div class="option"><div class="option-letter">b.</div><div class="option-text">It forces the model to ignore the spatial dimensions W and H.</div></div>
+      <div class="option"><div class="option-letter">c.</div><div class="option-text">The learnable parameters γ and β fail to update.</div></div>
+      <div class="option"><div class="option-letter">d.</div><div class="option-text">It increases required training epochs due to vanishing gradients.</div></div>
+    </div>
+    <div class="answer-box"><div class="answer-tick">✔</div><div class="answer-text">Correct Answer: A</div></div>
+    <div class="solution-box"><div class="solution-label">📖 Explanation</div><div class="solution-text">With only 2 samples, the mean and variance computed from the batch are very noisy estimates. This destabilizes training. Larger batches give more reliable statistics.</div></div>
+  </div></div>
+</div><!-- end week10 -->
+
+<!-- ═══════════════════════════════════════════════════════════ WEEK 11 -->
+<div class="week-section" id="week11">
+  <div class="week-header">
+    <div class="week-number">11</div>
+    <div class="week-info">
+      <h2>Semantic Segmentation & Face Recognition</h2>
+      <p>FCN, Deconvolution Networks, FaceNet, Triplet Loss, Unpooling</p>
+    </div>
+    <div class="week-badge">10 Questions · 1 Mark Each</div>
+  </div>
+
+  <div class="question-card"><div class="question-header"><div class="q-num">1</div><div class="q-label">Week 11 · Question 1</div></div><div class="question-body">
+    <div class="question-text">2D Transposed Convolution: 3×3 input X, 3×3 kernel K, Stride=2, Padding=0. Which 7×7 matrix is the correct output?</div>
+    <div class="options">
+      <div class="option"><div class="option-letter">a.</div><div class="option-text">Alternating 1s and 0s pattern</div></div>
+      <div class="option correct"><div class="option-letter">b.</div><div class="option-text">Matrix with corner values 1, edge values 0 and 3, interior up to 6</div></div>
+      <div class="option"><div class="option-letter">c.</div><div class="option-text">Irregular matrix with values 4, 5, 6, 7</div></div>
+      <div class="option"><div class="option-letter">d.</div><div class="option-text">Matrix with alternating 3s and 4s</div></div>
+    </div>
+    <div class="answer-box"><div class="answer-tick">✔</div><div class="answer-text">Correct Answer: B</div></div>
+    <div class="solution-box"><div class="solution-label">📖 Explanation</div><div class="solution-text">In transposed convolution with stride 2: each input element is multiplied by the kernel and placed at stride-spaced positions. The results are added where they overlap. This produces option B's pattern.</div></div>
+  </div></div>
+
+  <div class="question-card"><div class="question-header"><div class="q-num">2</div><div class="q-label">Week 11 · Question 2</div></div><div class="question-body">
+    <div class="question-text">In <strong>FaceNet</strong>, why is it problematic to use triplet loss that only satisfies ‖f(xᵃ)−f(xᵖ)‖² &lt; ‖f(xᵃ)−f(xⁿ)‖² without a margin?</div>
+    <div class="options">
+      <div class="option"><div class="option-letter">a.</div><div class="option-text">It leads to the vanishing gradient problem in deep CNN architectures.</div></div>
+      <div class="option correct"><div class="option-letter">b.</div><div class="option-text">The model could minimize the loss by converging to a trivial solution where f(x) = constant for all x.</div></div>
+      <div class="option"><div class="option-letter">c.</div><div class="option-text">It fails to account for L2 normalization in the embedding space.</div></div>
+      <div class="option"><div class="option-letter">d.</div><div class="option-text">It prevents the use of semi-hard negatives for SGD.</div></div>
+    </div>
+    <div class="answer-box"><div class="answer-tick">✔</div><div class="answer-text">Correct Answer: B</div></div>
+    <div class="solution-box"><div class="solution-label">📖 Explanation</div><div class="solution-text">Without a margin α, the network can learn f(x)=0 for all inputs. Then both distances = 0, satisfying the constraint trivially. The model learns nothing. The margin forces a meaningful gap.</div></div>
+  </div></div>
+
+  <div class="question-card"><div class="question-header"><div class="q-num">3</div><div class="q-label">Week 11 · Question 3</div></div><div class="question-body">
+    <div class="question-text">Why does the <strong>FCN (Fully Convolutional Network)</strong> often fail to segment very small or very large objects?</div>
+    <div class="options">
+      <div class="option"><div class="option-letter">a.</div><div class="option-text">FCNs lack switch variables to resolve pixel-level class ambiguities.</div></div>
+      <div class="option correct"><div class="option-letter">b.</div><div class="option-text">The fixed receptive field size causes labels to be inconsistent for large objects and missing for small ones.</div></div>
+      <div class="option"><div class="option-letter">c.</div><div class="option-text">Single-step 32x upsampling in FCN-32s introduces aliasing artifacts.</div></div>
+      <div class="option"><div class="option-letter">d.</div><div class="option-text">FCNs rely on skip connections that inject low-level noise into deep semantic maps.</div></div>
+    </div>
+    <div class="answer-box"><div class="answer-tick">✔</div><div class="answer-text">Correct Answer: B</div></div>
+    <div class="solution-box"><div class="solution-label">📖 Explanation</div><div class="solution-text">FCNs have a fixed receptive field from the pooling layers. Very small objects may not fill enough of a receptive field to be detected. Very large objects may be larger than the receptive field, causing inconsistent labeling.</div></div>
+  </div></div>
+
+  <div class="question-card"><div class="question-header"><div class="q-num">4</div><div class="q-label">Week 11 · Question 4</div></div><div class="question-body">
+    <div class="question-text">In the Deconvolutional Network, how does <strong>unpooling</strong> utilize the 4×4 switch variable array from a 2×2 max-pool?</div>
+    <div class="options">
+      <div class="option"><div class="option-letter">a.</div><div class="option-text">It populates the unpooled array by broadcasting the 2×2 values into all 2×2 windows.</div></div>
+      <div class="option correct"><div class="option-letter">b.</div><div class="option-text">It uses switch variables to place the pooled value only in the original location of the maximum activation, leaving other elements as zero.</div></div>
+      <div class="option"><div class="option-letter">c.</div><div class="option-text">It performs element-wise product between the upsampled label map and a learnable deconvolution kernel.</div></div>
+      <div class="option"><div class="option-letter">d.</div><div class="option-text">It interpolates values between switch indices.</div></div>
+    </div>
+    <div class="answer-box"><div class="answer-tick">✔</div><div class="answer-text">Correct Answer: B</div></div>
+    <div class="solution-box"><div class="solution-label">📖 Explanation</div><div class="solution-text">During max pooling, we remember WHERE the maximum was (switch variable). During unpooling, we put the value back at that exact location. All other positions in the window are set to 0 → sparse map.</div></div>
+  </div></div>
+
+  <div class="question-card"><div class="question-header"><div class="q-num">5</div><div class="q-label">Week 11 · Question 5</div></div><div class="question-body">
+    <div class="question-text">Why do <strong>Semi-hard negatives</strong> work better than hard negatives for FaceNet triplet training?</div>
+    <div class="options">
+      <div class="option"><div class="option-letter">a.</div><div class="option-text">The gradient becomes zero because the margin α is too small.</div></div>
+      <div class="option correct"><div class="option-letter">b.</div><div class="option-text">It creates a "collapsed" gradient where the network minimizes loss by reducing all embedding magnitudes to zero.</div></div>
+      <div class="option"><div class="option-letter">c.</div><div class="option-text">L2 normalization forces all points to a single coordinate.</div></div>
+      <div class="option"><div class="option-letter">d.</div><div class="option-text">It causes the positive distance to expand indefinitely.</div></div>
+    </div>
+    <div class="answer-box"><div class="answer-tick">✔</div><div class="answer-text">Correct Answer: B</div></div>
+    <div class="solution-box"><div class="solution-label">📖 Explanation</div><div class="solution-text">Hardest negatives create noisy, extreme gradients that push the model to a degenerate solution (mapping everything to zero). Semi-hard negatives (d(A,P) &lt; d(A,N) &lt; d(A,P)+α) provide smoother, useful gradients.</div></div>
+  </div></div>
+
+  <div class="question-card"><div class="question-header"><div class="q-num">6</div><div class="q-label">Week 11 · Question 6</div></div><div class="question-body">
+    <div class="question-text">In <strong>FCN-8s</strong> with 224×224 input (Pool 5=7×7, Pool 4=14×14): by what factor must Pool 5 prediction be upsampled before adding to Pool 4?</div>
+    <div class="options">
+      <div class="option correct"><div class="option-letter">a.</div><div class="option-text">2x</div></div>
+      <div class="option"><div class="option-letter">b.</div><div class="option-text">4x</div></div>
+      <div class="option"><div class="option-letter">c.</div><div class="option-text">8x</div></div>
+      <div class="option"><div class="option-letter">d.</div><div class="option-text">32x</div></div>
+    </div>
+    <div class="answer-box"><div class="answer-tick">✔</div><div class="answer-text">Correct Answer: A</div></div>
+    <div class="solution-box"><div class="solution-label">📖 Explanation</div><div class="solution-text">Pool 5 = 7×7 (1/32 of input). Pool 4 = 14×14 (1/16 of input). To match Pool 4's size: 7×2=14. So upsample Pool 5 by <strong>2x</strong> first.</div></div>
+  </div></div>
+
+  <div class="question-card"><div class="question-header"><div class="q-num">7</div><div class="q-label">Week 11 · Question 7</div></div><div class="question-body">
+    <div class="question-text">FaceNet embeddings on unit hypersphere: f(A)=[0.6,0.8], f(P)=[0.8,0.6], f(N)=[1.0,0.0], margin α=0.2. Calculate the <strong>Triplet Loss</strong>.</div>
+    <div class="options">
+      <div class="option correct"><div class="option-letter">a.</div><div class="option-text">0.00</div></div>
+      <div class="option"><div class="option-letter">b.</div><div class="option-text">0.08</div></div>
+      <div class="option"><div class="option-letter">c.</div><div class="option-text">0.12</div></div>
+      <div class="option"><div class="option-letter">d.</div><div class="option-text">0.20</div></div>
+    </div>
+    <div class="answer-box"><div class="answer-tick">✔</div><div class="answer-text">Correct Answer: A</div></div>
+    <div class="solution-box"><div class="solution-label">📖 Explanation</div><div class="solution-text">d(A,P)² = (0.6−0.8)²+(0.8−0.6)² = 0.04+0.04 = 0.08. d(A,N)² = (0.6−1.0)²+(0.8−0.0)² = 0.16+0.64 = 0.80. Loss = max(0, 0.08−0.80+0.2) = max(0,−0.52) = <strong>0.00</strong>.</div></div>
+  </div></div>
+
+  <div class="question-card"><div class="question-header"><div class="q-num">8</div><div class="q-label">Week 11 · Question 8</div></div><div class="question-body">
+    <div class="question-text">Which statement accurately describes the <strong>FCN-8s, FCN-16s, FCN-32s</strong> hierarchy?</div>
+    <div class="options">
+      <div class="option"><div class="option-letter">a.</div><div class="option-text">FCN-32s is most refined because it performs upsampling in a single step.</div></div>
+      <div class="option correct"><div class="option-letter">b.</div><div class="option-text">FCN-8s produces the finest results because it hierarchically combines upsampled deep features with finer-scale features from shallower layers.</div></div>
+      <div class="option"><div class="option-letter">c.</div><div class="option-text">FCN-16s is preferred over FCN-8s because it maintains higher receptive field.</div></div>
+      <div class="option"><div class="option-letter">d.</div><div class="option-text">The numbers 8, 16, 32 refer to the number of deconvolutional layers.</div></div>
+    </div>
+    <div class="answer-box"><div class="answer-tick">✔</div><div class="answer-text">Correct Answer: B</div></div>
+    <div class="solution-box"><div class="solution-label">📖 Explanation</div><div class="solution-text">FCN-32s: one-shot coarse upsample → blurry result. FCN-8s: combines Pool 3, Pool 4, Pool 5 information via skip connections → finest, most accurate segmentation map.</div></div>
+  </div></div>
+
+  <div class="question-card"><div class="question-header"><div class="q-num">9</div><div class="q-label">Week 11 · Question 9</div></div><div class="question-body">
+    <div class="question-text">In FaceNet, the gradient ∂L/∂f(xᵃ) for an active triplet is given by which formula, and what does it imply?</div>
+    <div class="options">
+      <div class="option correct"><div class="option-letter">a.</div><div class="option-text">2(f(xⁿ) − f(xᵖ)); it pushes the anchor toward the positive and away from the negative.</div></div>
+      <div class="option"><div class="option-letter">b.</div><div class="option-text">2(f(xᵖ) − f(xⁿ)); it pulls the anchor toward the negative.</div></div>
+      <div class="option"><div class="option-letter">c.</div><div class="option-text">2(f(xᵃ) − f(xᵖ) + f(xⁿ)); it minimizes variance of the anchor distribution.</div></div>
+      <div class="option"><div class="option-letter">d.</div><div class="option-text">0; the gradient vanishes on the hypersphere.</div></div>
+    </div>
+    <div class="answer-box"><div class="answer-tick">✔</div><div class="answer-text">Correct Answer: A</div></div>
+    <div class="solution-box"><div class="solution-label">📖 Explanation</div><div class="solution-text">∂L/∂fₐ = 2(fₐ−fₚ) − 2(fₐ−fₙ) = 2(fₙ−fₚ). The negative gradient = 2(fₚ−fₙ) → anchor moves toward the positive and away from the negative.</div></div>
+  </div></div>
+
+  <div class="question-card"><div class="question-header"><div class="q-num">10</div><div class="q-label">Week 11 · Question 10</div></div><div class="question-body">
+    <div class="question-text">For K-class segmentation (K=21, PASCAL VOC), the 2D ground truth matrix Y ∈ {0,...,K−1}^(H×W) must be transformed into what structure for computing the loss?</div>
+    <div class="options">
+      <div class="option"><div class="option-letter">a.</div><div class="option-text">3D tensor T ∈ R^(H×W×K) with one-hot vectors; loss = Frobenius norm with softmax output.</div></div>
+      <div class="option correct"><div class="option-letter">b.</div><div class="option-text">3D tensor T ∈ R^(H×W×K) with one-hot vectors; loss = categorical cross-entropy with softmax output.</div></div>
+      <div class="option"><div class="option-letter">c.</div><div class="option-text">3D distance transform map where pixel value = Euclidean distance to nearest class boundary.</div></div>
+      <div class="option"><div class="option-letter">d.</div><div class="option-text">3D tensor of Bernoulli distributions treating each class as independent binary classification.</div></div>
+    </div>
+    <div class="answer-box"><div class="answer-tick">✔</div><div class="answer-text">Correct Answer: B</div></div>
+    <div class="solution-box"><div class="solution-label">📖 Explanation</div><div class="solution-text">Each pixel location (i,j) becomes a one-hot vector of size K. This 3D tensor is used with the softmax network output to compute categorical cross-entropy loss at each pixel.</div></div>
+  </div></div>
+</div><!-- end week11 -->
+
+<!-- ═══════════════════════════════════════════════════════════ WEEK 12 -->
+<div class="week-section" id="week12">
+  <div class="week-header">
+    <div class="week-number">12</div>
+    <div class="week-info">
+      <h2>Image Restoration, VAE & GANs</h2>
+      <p>Degradation Model, Dice Loss, ELBO, Reparameterization, GAN, In-painting</p>
+    </div>
+    <div class="week-badge">10 Questions · 1 Mark Each</div>
+  </div>
+
+  <div class="question-card"><div class="question-header"><div class="q-num">1</div><div class="q-label">Week 12 · Question 1</div></div><div class="question-body">
+    <div class="question-text">Image degradation model: g(x,y) = H[f(x,y)] + η(x,y). Under what condition does image restoration simplify to <strong>noise filtering</strong>?</div>
+    <div class="options">
+      <div class="option"><div class="option-letter">a.</div><div class="option-text">When the restoration network uses only convolution layers.</div></div>
+      <div class="option"><div class="option-letter">b.</div><div class="option-text">When the input image f(x,y) is already clean.</div></div>
+      <div class="option correct"><div class="option-letter">c.</div><div class="option-text">When the degradation operator H is an identity matrix.</div></div>
+      <div class="option"><div class="option-letter">d.</div><div class="option-text">When the noise η(x,y) is zero.</div></div>
+    </div>
+    <div class="answer-box"><div class="answer-tick">✔</div><div class="answer-text">Correct Answer: C</div></div>
+    <div class="solution-box"><div class="solution-label">📖 Explanation</div><div class="solution-text">If H = Identity: g = I[f] + η = f + η. The problem becomes: given g = f + noise, recover f. This is pure noise filtering (denoising).</div></div>
+  </div></div>
+
+  <div class="question-card"><div class="question-header"><div class="q-num">2</div><div class="q-label">Week 12 · Question 2</div></div><div class="question-body">
+    <div class="question-text">512×512 image, object = 100 pixels. Why does <strong>Soft Dice Loss</strong> provide a more effective gradient for this small object than Binary Cross-Entropy (BCE)?</div>
+    <div class="options">
+      <div class="option"><div class="option-letter">a.</div><div class="option-text">The BCE gradient at pixel i is ≈0, washed out by the background's zero-error signal across all 262,144 pixels.</div></div>
+      <div class="option"><div class="option-letter">b.</div><div class="option-text">Dice Loss uses squares in the denominator acting as L2 regularizer.</div></div>
+      <div class="option"><div class="option-letter">c.</div><div class="option-text">Dice Loss is linear in the intersection, ensuring gradient never vanishes.</div></div>
+      <div class="option correct"><div class="option-letter">d.</div><div class="option-text">The Dice Loss gradient magnitude is inversely proportional to the square of object area, effectively auto-weighting the gradient for small objects.</div></div>
+    </div>
+    <div class="answer-box"><div class="answer-tick">✔</div><div class="answer-text">Correct Answer: D</div></div>
+    <div class="solution-box"><div class="solution-label">📖 Explanation</div><div class="solution-text">In Dice Loss, the gradient for small objects is AMPLIFIED because (Σqk²) in the denominator is small. Smaller object → larger gradient per pixel → Dice Loss automatically pays more attention to rare/small objects.</div></div>
+  </div></div>
+
+  <div class="question-card"><div class="question-header"><div class="q-num">3</div><div class="q-label">Week 12 · Question 3</div></div><div class="question-body">
+    <div class="question-text">Comparing the <strong>Hessian matrix</strong> of Dice Loss vs BCE: which statement correctly describes their "Globality"?</div>
+    <div class="options">
+      <div class="option"><div class="option-letter">a.</div><div class="option-text">For BCE, the Hessian is dense, meaning update for pixel i is coupled with error at pixel j.</div></div>
+      <div class="option"><div class="option-letter">b.</div><div class="option-text">For Dice Loss, the Hessian is diagonal.</div></div>
+      <div class="option correct"><div class="option-letter">c.</div><div class="option-text">For BCE, the Hessian is a diagonal matrix — each pixel's optimization is mathematically independent of all other pixels.</div></div>
+      <div class="option"><div class="option-letter">d.</div><div class="option-text">For Dice Loss, the gradient is a function only of the local prediction pᵢ and local ground truth qᵢ.</div></div>
+    </div>
+    <div class="answer-box"><div class="answer-tick">✔</div><div class="answer-text">Correct Answer: C</div></div>
+    <div class="solution-box"><div class="solution-label">📖 Explanation</div><div class="solution-text">BCE loss = sum of independent terms per pixel. ∂²L/∂pᵢ∂pⱼ = 0 for i≠j → diagonal Hessian. Dice Loss has all pixels in its denominator → changing pⱼ affects gradient at pᵢ → dense Hessian (global coupling).</div></div>
+  </div></div>
+
+  <div class="question-card"><div class="question-header"><div class="q-num">4</div><div class="q-label">Week 12 · Question 4</div></div><div class="question-body">
+    <div class="question-text">Matrix A has values [0.01,0.03,0.02,0.02; 0.05,0.12,0.09,0.07; 0.89,0.85,0.88,0.91; 0.99,0.97,0.95,0.97]. Matrix B has values [1,1,0,0] in each row (4×4). Calculate the <strong>Dice Coefficient</strong> between A and B (|A|=sum of all elements).</div>
+    <div class="options">
+      <div class="option"><div class="option-letter">a.</div><div class="option-text">0.93</div></div>
+      <div class="option"><div class="option-letter">b.</div><div class="option-text">0.67</div></div>
+      <div class="option"><div class="option-letter">c.</div><div class="option-text">0.11</div></div>
+      <div class="option correct"><div class="option-letter">d.</div><div class="option-text">0.49</div></div>
+    </div>
+    <div class="answer-box"><div class="answer-tick">✔</div><div class="answer-text">Correct Answer: D</div></div>
+    <div class="solution-box"><div class="solution-label">📖 Explanation</div><div class="solution-text">|A|=7.82, |B|=8. A∩B = A where B=1 (left two columns): 0.01+0.03+0.05+0.12+0.89+0.85+0.99+0.97 = 3.91. Dice = 2×3.91/(7.82+8) = 7.82/15.82 ≈ <strong>0.49</strong>.</div></div>
+  </div></div>
+
+  <div class="question-card"><div class="question-header"><div class="q-num">5</div><div class="q-label">Week 12 · Question 5</div></div><div class="question-body">
+    <div class="question-text">What happens if a VAE is optimized using <strong>only KL divergence loss</strong> without reconstruction loss?</div>
+    <div class="options">
+      <div class="option"><div class="option-letter">a.</div><div class="option-text">The latent clusters become extremely far apart and distinct.</div></div>
+      <div class="option correct"><div class="option-letter">b.</div><div class="option-text">The latent space encodings cluster randomly near the center, losing all structural class information.</div></div>
+      <div class="option"><div class="option-letter">c.</div><div class="option-text">The network will automatically solve the vanishing gradient problem.</div></div>
+      <div class="option"><div class="option-letter">d.</div><div class="option-text">The decoder will achieve perfect reconstruction for all images.</div></div>
+    </div>
+    <div class="answer-box"><div class="answer-tick">✔</div><div class="answer-text">Correct Answer: B</div></div>
+    <div class="solution-box"><div class="solution-label">📖 Explanation</div><div class="solution-text">KL divergence pushes ALL distributions toward N(0,1). Without reconstruction loss to maintain structure, all classes get mixed together near the origin — the latent space becomes meaningless.</div></div>
+  </div></div>
+
+  <div class="question-card"><div class="question-header"><div class="q-num">6</div><div class="q-label">Week 12 · Question 6</div></div><div class="question-body">
+    <div class="question-text">How do <strong>GANs</strong> differ from VAEs in their approach to defining the data distribution?</div>
+    <div class="options">
+      <div class="option correct"><div class="option-letter">a.</div><div class="option-text">GANs implicitly define a distribution by learning a mapping from noise to data.</div></div>
+      <div class="option"><div class="option-letter">b.</div><div class="option-text">GANs focus only on reconstruction loss, whereas VAEs ignore it.</div></div>
+      <div class="option"><div class="option-letter">c.</div><div class="option-text">VAEs do not require a latent space, whereas GANs do.</div></div>
+      <div class="option"><div class="option-letter">d.</div><div class="option-text">GANs use an explicit probability density function, while VAEs do not.</div></div>
+    </div>
+    <div class="answer-box"><div class="answer-tick">✔</div><div class="answer-text">Correct Answer: A</div></div>
+    <div class="solution-box"><div class="solution-label">📖 Explanation</div><div class="solution-text">VAEs model P(x) explicitly using Gaussian assumptions. GANs never define P(x) mathematically — they just learn a function that maps random noise z to realistic samples x. The distribution is implicit.</div></div>
+  </div></div>
+
+  <div class="question-card"><div class="question-header"><div class="q-num">7</div><div class="q-label">Week 12 · Question 7</div></div><div class="question-body">
+    <div class="question-text">In an image restoration network, what is the critical role of <strong>skip connections</strong> between symmetric convolution and deconvolution layers?</div>
+    <div class="options">
+      <div class="option correct"><div class="option-letter">a.</div><div class="option-text">To help the deconvolution layers recover detailed image information lost in deeper layers.</div></div>
+      <div class="option"><div class="option-letter">b.</div><div class="option-text">To ensure that the latent space becomes discontinuous for better classification.</div></div>
+      <div class="option"><div class="option-letter">c.</div><div class="option-text">To act as an identity matrix for the degradation function H.</div></div>
+      <div class="option"><div class="option-letter">d.</div><div class="option-text">To increase the number of parameters the network can learn.</div></div>
+    </div>
+    <div class="answer-box"><div class="answer-tick">✔</div><div class="answer-text">Correct Answer: A</div></div>
+    <div class="solution-box"><div class="solution-label">📖 Explanation</div><div class="solution-text">As we go deeper, fine spatial details are lost to pooling. Skip connections "shortcut" these details directly from encoder to decoder, allowing the decoder to recover fine-grained information.</div></div>
+  </div></div>
+
+  <div class="question-card"><div class="question-header"><div class="q-num">8</div><div class="q-label">Week 12 · Question 8</div></div><div class="question-body">
+    <div class="question-text">How do the <strong>ELBO</strong> and <strong>reparameterization trick</strong> work together to enable VAE training?</div>
+    <div class="options">
+      <div class="option correct"><div class="option-letter">a.</div><div class="option-text">The ELBO provides a differentiable objective that approximates the intractable likelihood, and reparameterization allows gradients to flow through the stochastic sampling process.</div></div>
+      <div class="option"><div class="option-letter">b.</div><div class="option-text">They convert the generative model into a purely discriminative model to avoid sampling.</div></div>
+      <div class="option"><div class="option-letter">c.</div><div class="option-text">Reparameterization makes P(x) easy to integrate; ELBO calculates the exact gradient.</div></div>
+      <div class="option"><div class="option-letter">d.</div><div class="option-text">ELBO eliminates the need for an encoder; reparameterization eliminates the decoder.</div></div>
+    </div>
+    <div class="answer-box"><div class="answer-tick">✔</div><div class="answer-text">Correct Answer: A</div></div>
+    <div class="solution-box"><div class="solution-label">📖 Explanation</div><div class="solution-text">P(x) is intractable to compute. ELBO (Evidence Lower Bound) is a computable lower bound — maximizing ELBO ≈ maximizing likelihood. Reparameterization: z = μ + σ×ε (ε~N(0,1)) makes the random variable separable, allowing backpropagation through it.</div></div>
+  </div></div>
+
+  <div class="question-card"><div class="question-header"><div class="q-num">9</div><div class="q-label">Week 12 · Question 9</div></div><div class="question-body">
+    <div class="question-text">In VAE implementation, why is a <strong>diagonal covariance matrix</strong> assumed and why does the encoder predict <strong>log Σ</strong> instead of Σ directly?</div>
+    <div class="options">
+      <div class="option"><div class="option-letter">a.</div><div class="option-text">Predicting log is necessary to make the latent space discontinuous.</div></div>
+      <div class="option"><div class="option-letter">b.</div><div class="option-text">This configuration is only used when input data is natural language.</div></div>
+      <div class="option"><div class="option-letter">c.</div><div class="option-text">The diagonal matrix allows the network to learn correlations between latent features more effectively.</div></div>
+      <div class="option correct"><div class="option-letter">d.</div><div class="option-text">The diagonal assumption simplifies latent dimensions to be independent; predicting log ensures variance remains positive and training is numerically stable.</div></div>
+    </div>
+    <div class="answer-box"><div class="answer-tick">✔</div><div class="answer-text">Correct Answer: D</div></div>
+    <div class="solution-box"><div class="solution-label">📖 Explanation</div><div class="solution-text">Diagonal Σ: each latent dimension is independent, reducing complexity. Log-variance: a network can output any real number. eˢ is always positive → valid variance. Avoids unstable training from negative variance predictions.</div></div>
+  </div></div>
+
+  <div class="question-card"><div class="question-header"><div class="q-num">10</div><div class="q-label">Week 12 · Question 10</div></div><div class="question-body">
+    <div class="question-text">In GAN-based image in-painting, three loss functions — contextual, perceptual, and structure — are combined. What are their respective roles?</div>
+    <div class="options">
+      <div class="option"><div class="option-letter">a.</div><div class="option-text">Structure loss replaces the encoder; contextual and perceptual losses replace the discriminator.</div></div>
+      <div class="option correct"><div class="option-letter">b.</div><div class="option-text">Contextual loss ensures pixel consistency with undamaged areas; perceptual loss ensures realistic textures via the discriminator; structure loss ensures coherent edges and transitions in gradient space.</div></div>
+      <div class="option"><div class="option-letter">c.</div><div class="option-text">Contextual focuses on high-level shapes; perceptual on pixel values; structure on training speed.</div></div>
+      <div class="option"><div class="option-letter">d.</div><div class="option-text">All three are mathematically identical and used only to increase gradient magnitude.</div></div>
+    </div>
+    <div class="answer-box"><div class="answer-tick">✔</div><div class="answer-text">Correct Answer: B</div></div>
+    <div class="solution-box"><div class="solution-label">📖 Explanation</div><div class="solution-text">Contextual = local pixel-level consistency with surroundings. Perceptual = overall realism judged by discriminator. Structure = sharp, logical edges in the gradient domain. All three work at different levels of detail.</div></div>
+  </div></div>
+</div><!-- end week12 -->
+
+</div><!-- end container -->
+
+<div class="footer">
+  <p>📚 <strong>NPTEL Deep Learning – Complete Exam Guide</strong> &nbsp;|&nbsp; IIT Kharagpur &nbsp;|&nbsp; Week 1–12 &nbsp;|&nbsp; All 120 Questions with Answers</p>
+  <p style="margin-top:8px; color:#555">Best of luck for your exam on 25 April! 🎯</p>
+</div>
+
+</body>
+</html>
