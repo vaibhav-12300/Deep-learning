@@ -1,4 +1,1266 @@
 <!DOCTYPE html>
+<html lang="mr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NPTEL Deep Learning – Week 12 Marathi Study Guide</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600;700&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0c0c10;
+  --surface: #13131a;
+  --card: #18181f;
+  --border: #252530;
+  --border2: #2f2f3e;
+  --gold: #f0c040;
+  --red: #e05555;
+  --teal: #3dd6a0;
+  --blue: #6a9ffc;
+  --purple: #b07cfc;
+  --orange: #fc9a3d;
+  --pink: #fc6aad;
+  --text: #e6e6f0;
+  --muted: #7a7a95;
+  --dim: #4a4a60;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Noto Sans Devanagari', sans-serif;
+  line-height: 1.65;
+  padding: 0;
+}
+
+/* ── STICKY NAV ── */
+.sticky-nav {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(12,12,16,0.97);
+  border-bottom: 1px solid var(--border2);
+  padding: 0.5rem 1.5rem;
+  display: flex;
+  gap: 0.4rem;
+  flex-wrap: wrap;
+  align-items: center;
+  backdrop-filter: blur(8px);
+}
+.sticky-nav span { color: var(--muted); font-size: 0.7rem; font-family: 'JetBrains Mono', monospace; margin-right: 0.3rem; }
+.nav-btn {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.65rem;
+  padding: 3px 9px;
+  border-radius: 12px;
+  border: 1px solid var(--border2);
+  background: var(--surface);
+  color: var(--muted);
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 0.15s;
+  white-space: nowrap;
+}
+.nav-btn:hover { border-color: var(--gold); color: var(--gold); background: rgba(240,192,64,0.08); }
+
+/* ── HERO ── */
+.hero {
+  background: linear-gradient(160deg, #0f0f1a 0%, #111128 40%, #0c0c14 100%);
+  border-bottom: 1px solid var(--border2);
+  padding: 3rem 2rem 2.5rem;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 60% 40% at 70% 30%, rgba(240,192,64,0.05) 0%, transparent 70%),
+    radial-gradient(ellipse 50% 30% at 20% 70%, rgba(106,159,252,0.05) 0%, transparent 70%);
+  pointer-events: none;
+}
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  background: rgba(224,85,85,0.15);
+  border: 1px solid rgba(224,85,85,0.35);
+  color: var(--red);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  padding: 4px 14px;
+  border-radius: 20px;
+  margin-bottom: 1.2rem;
+  font-family: 'JetBrains Mono', monospace;
+}
+.hero h1 {
+  font-family: 'Syne', sans-serif;
+  font-size: clamp(1.8rem, 5vw, 2.8rem);
+  font-weight: 800;
+  line-height: 1.15;
+  color: var(--gold);
+  margin-bottom: 0.5rem;
+}
+.hero h2 {
+  font-family: 'Noto Sans Devanagari', sans-serif;
+  font-size: clamp(1rem, 2.5vw, 1.3rem);
+  font-weight: 500;
+  color: var(--muted);
+  margin-bottom: 1.5rem;
+}
+.hero-meta {
+  display: flex;
+  justify-content: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+.hero-pill {
+  background: rgba(255,255,255,0.05);
+  border: 1px solid var(--border2);
+  border-radius: 20px;
+  padding: 4px 14px;
+  font-size: 0.78rem;
+  color: var(--teal);
+  font-family: 'JetBrains Mono', monospace;
+}
+
+/* ── LAYOUT ── */
+.page-body {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 2rem 1.25rem 5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.6rem;
+}
+
+/* ── SECTION DIVIDER ── */
+.section-divider {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin: 0.5rem 0 -0.5rem;
+}
+.section-divider .divider-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.65rem;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  color: var(--dim);
+  white-space: nowrap;
+}
+.section-divider::before, .section-divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--border);
+}
+
+/* ── CONCEPT CARD ── */
+.card {
+  background: var(--card);
+  border: 1px solid var(--border2);
+  border-radius: 16px;
+  overflow: hidden;
+  transition: box-shadow 0.2s, transform 0.2s;
+}
+.card:hover {
+  box-shadow: 0 6px 30px rgba(0,0,0,0.5);
+  transform: translateY(-1px);
+}
+
+.card-head {
+  padding: 1rem 1.5rem;
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  border-bottom: 1px solid var(--border);
+  position: relative;
+}
+.card-head::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 1px;
+}
+.num-circle {
+  width: 38px;
+  height: 38px;
+  min-width: 38px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'JetBrains Mono', monospace;
+  font-weight: 700;
+  font-size: 0.85rem;
+}
+.card-titles { flex: 1; }
+.card-titles .title {
+  font-size: 1.05rem;
+  font-weight: 700;
+  line-height: 1.25;
+}
+.card-titles .subtitle {
+  font-size: 0.75rem;
+  color: var(--muted);
+  margin-top: 1px;
+  font-family: 'JetBrains Mono', monospace;
+}
+.lec-tag {
+  font-size: 0.65rem;
+  font-family: 'JetBrains Mono', monospace;
+  padding: 3px 10px;
+  border-radius: 10px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid var(--border2);
+  color: var(--dim);
+  white-space: nowrap;
+  align-self: flex-start;
+  margin-top: 2px;
+}
+
+.card-body {
+  padding: 1.25rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.1rem;
+}
+
+/* ── BLOCKS ── */
+.block { display: flex; flex-direction: column; gap: 0.45rem; }
+.blabel {
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  font-family: 'JetBrains Mono', monospace;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+.blabel::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: currentColor;
+  opacity: 0.15;
+}
+
+.marathi-box {
+  background: rgba(106,159,252,0.06);
+  border-left: 3px solid var(--blue);
+  border-radius: 0 10px 10px 0;
+  padding: 0.85rem 1.1rem;
+  font-size: 0.92rem;
+  line-height: 1.75;
+  color: #d0d0e8;
+}
+.marathi-box .analogy {
+  margin-top: 0.5rem;
+  padding-top: 0.5rem;
+  border-top: 1px solid rgba(106,159,252,0.15);
+  font-size: 0.82rem;
+  color: var(--muted);
+  font-style: italic;
+}
+
+.exam-box {
+  background: rgba(240,192,64,0.05);
+  border-left: 3px solid var(--gold);
+  border-radius: 0 10px 10px 0;
+  padding: 0.85rem 1.1rem;
+  font-size: 0.87rem;
+  line-height: 1.75;
+}
+.exam-box ul { padding-left: 1.3rem; list-style: none; }
+.exam-box ul li { position: relative; padding-left: 0.2rem; margin-bottom: 0.35rem; }
+.exam-box ul li::before { content: '→'; color: var(--gold); position: absolute; left: -1.1rem; }
+.tag {
+  display: inline-block;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.75rem;
+  background: rgba(0,0,0,0.35);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 5px;
+  padding: 1px 7px;
+  color: var(--gold);
+  margin: 1px 2px;
+}
+.formula {
+  display: inline-block;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.78rem;
+  background: rgba(0,0,0,0.5);
+  border: 1px solid var(--border2);
+  border-radius: 5px;
+  padding: 2px 9px;
+  color: #d4a0ff;
+  margin: 2px 1px;
+}
+
+.trick-box {
+  background: rgba(61,214,160,0.06);
+  border-left: 3px solid var(--teal);
+  border-radius: 0 10px 10px 0;
+  padding: 0.85rem 1.1rem;
+  font-size: 0.87rem;
+  line-height: 1.7;
+}
+.trick-box .mnemonic {
+  font-family: 'JetBrains Mono', monospace;
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: var(--teal);
+  display: block;
+  margin-bottom: 0.4rem;
+}
+.trick-box .remember {
+  display: inline-block;
+  background: rgba(61,214,160,0.12);
+  border-radius: 5px;
+  padding: 2px 9px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.75rem;
+  color: var(--teal);
+  margin: 2px 1px;
+}
+
+/* MCQ flag */
+.mcq-flag {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.65rem;
+  font-family: 'JetBrains Mono', monospace;
+  background: rgba(252,154,61,0.12);
+  border: 1px solid rgba(252,154,61,0.3);
+  color: var(--orange);
+  padding: 2px 9px;
+  border-radius: 10px;
+}
+
+/* Color themes */
+.gold .num-circle { background: rgba(240,192,64,0.12); color: var(--gold); }
+.gold .title { color: var(--gold); }
+.red .num-circle { background: rgba(224,85,85,0.12); color: var(--red); }
+.red .title { color: var(--red); }
+.teal .num-circle { background: rgba(61,214,160,0.12); color: var(--teal); }
+.teal .title { color: var(--teal); }
+.blue .num-circle { background: rgba(106,159,252,0.12); color: var(--blue); }
+.blue .title { color: var(--blue); }
+.purple .num-circle { background: rgba(176,124,252,0.12); color: var(--purple); }
+.purple .title { color: var(--purple); }
+.orange .num-circle { background: rgba(252,154,61,0.12); color: var(--orange); }
+.orange .title { color: var(--orange); }
+.pink .num-circle { background: rgba(252,106,173,0.12); color: var(--pink); }
+.pink .title { color: var(--pink); }
+
+/* ── COMPARISON TABLE ── */
+.cmp-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.82rem;
+  margin-top: 0.3rem;
+}
+.cmp-table th {
+  background: rgba(255,255,255,0.04);
+  padding: 7px 12px;
+  text-align: left;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.7rem;
+  color: var(--muted);
+  letter-spacing: 1px;
+  border-bottom: 1px solid var(--border2);
+}
+.cmp-table td {
+  padding: 7px 12px;
+  border-bottom: 1px solid var(--border);
+  vertical-align: top;
+}
+.cmp-table tr:last-child td { border-bottom: none; }
+.cmp-table tr:hover td { background: rgba(255,255,255,0.02); }
+.cmp-table .hl { color: var(--gold); font-weight: 600; }
+
+/* ── FOOTER ── */
+footer {
+  text-align: center;
+  padding: 2.5rem 1rem;
+  color: var(--dim);
+  font-size: 0.75rem;
+  font-family: 'JetBrains Mono', monospace;
+  border-top: 1px solid var(--border);
+}
+footer strong { color: var(--muted); }
+
+/* Print */
+@media print {
+  .sticky-nav { display: none; }
+  body { background: #fff; color: #111; }
+  .card { border: 1px solid #ddd; page-break-inside: avoid; }
+  .marathi-box, .exam-box, .trick-box { background: #f7f7f7; }
+  .hero { background: #f0f0f0; }
+}
+</style>
+</head>
+<body>
+
+<!-- STICKY NAV -->
+<nav class="sticky-nav">
+  <span>JUMP →</span>
+  <a class="nav-btn" href="#c1">Dice Loss</a>
+  <a class="nav-btn" href="#c2">VAE</a>
+  <a class="nav-btn" href="#c3">KL Divergence</a>
+  <a class="nav-btn" href="#c4">Reparam. Trick</a>
+  <a class="nav-btn" href="#c5">GAN</a>
+  <a class="nav-btn" href="#c6">Triplet Loss</a>
+  <a class="nav-btn" href="#c7">Segmentation</a>
+  <a class="nav-btn" href="#c8">Normalization</a>
+  <a class="nav-btn" href="#c9">Dropout</a>
+  <a class="nav-btn" href="#c10">Optimizers</a>
+  <a class="nav-btn" href="#c11">ResNet</a>
+  <a class="nav-btn" href="#c12">GoogLeNet</a>
+  <a class="nav-btn" href="#c13">Image Restoration</a>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-badge">🔴 LIVE — परीक्षा: April 25, 2025</div>
+  <h1>NPTEL Deep Learning<br>Week 12 — Exam Study Guide</h1>
+  <h2>IIT Kharagpur · Prof. P. K. Biswas · Lectures 41–60</h2>
+  <div class="hero-meta">
+    <span class="hero-pill">📖 सरळ मराठी स्पष्टीकरण</span>
+    <span class="hero-pill">13 Critical Concepts</span>
+    <span class="hero-pill">MCQ-Focused</span>
+    <span class="hero-pill">~20 Min Revision</span>
+  </div>
+</div>
+
+<div class="page-body">
+
+  <div class="section-divider"><span class="divider-label">Lec 56 — Image Denoising &amp; Segmentation Loss</span></div>
+
+  <!-- ══════════════ CARD 1 ══════════════ -->
+  <div class="card gold" id="c1">
+    <div class="card-head">
+      <div class="num-circle">01</div>
+      <div class="card-titles">
+        <div class="title">Dice Loss</div>
+        <div class="subtitle">Image Segmentation Loss Function</div>
+      </div>
+      <div>
+        <div class="lec-tag">Lec 55–56</div>
+        <div class="mcq-flag" style="margin-top:4px">⭐ HIGH PROB MCQ</div>
+      </div>
+    </div>
+    <div class="card-body">
+
+      <div class="block">
+        <div class="blabel" style="color:var(--blue)">🇮🇳 मराठी स्पष्टीकरण</div>
+        <div class="marathi-box">
+          Dice Loss हे Image Segmentation साठी वापरले जाणारे एक loss function आहे. हे दोन regions (predicted आणि actual) किती <strong>overlap</strong> होतात त्यावर आधारित आहे. जर दोन्ही पूर्णपणे match झाल्या → Dice = 1 (perfect). अजिबात match नाही → Dice = 0.<br><br>
+          याचा उपयोग तेव्हा होतो जेव्हा class imbalance असतो — उदा. medical images मध्ये tumor खूप लहान असतो आणि background खूप मोठा.
+          <div class="analogy">🧩 समजा दोन puzzle pieces आहेत — Dice मोजतो ते किती overlap करतात.</div>
+        </div>
+      </div>
+
+      <div class="block">
+        <div class="blabel" style="color:var(--gold)">📝 Exam Answer — हे लिहा</div>
+        <div class="exam-box">
+          <ul>
+            <li>Dice Loss is based on the <strong>Dice coefficient</strong> — a measure of overlap between two samples (predicted mask and target mask).</li>
+            <li>Range: <span class="tag">0 to 1</span> where 1 = perfect overlap.</li>
+            <li>Formula: <span class="formula">Dice = 2|A∩B| / (|A| + |B|)</span></li>
+            <li><span class="tag">|A∩B|</span> = element-wise multiplication of prediction and target, then summed.</li>
+            <li><span class="tag">Dice Loss = 1 − Dice Coefficient</span></li>
+            <li>More robust than cross-entropy for <strong>class-imbalanced</strong> segmentation tasks (e.g., small tumors in medical imaging).</li>
+            <li>Multi-class Dice Loss: compute Dice per class, then average.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="block">
+        <div class="blabel" style="color:var(--teal)">⚡ Quick Trick / Memory Aid</div>
+        <div class="trick-box">
+          <span class="mnemonic">D = 2 × OVERLAP / TOTAL</span>
+          "2 times intersection over sum of both sets"
+          <br><br>
+          का "2"? → कारण intersection A आणि B दोन्हींमध्ये count होते, म्हणून दुप्पट करतो.
+          <br><br>
+          <span class="remember">Dice = 1 → Perfect</span>
+          <span class="remember">Dice = 0 → No overlap</span>
+          <span class="remember">Loss = 1 − Dice</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="section-divider"><span class="divider-label">Lec 57–59 — Variational Autoencoder</span></div>
+
+  <!-- ══════════════ CARD 2 ══════════════ -->
+  <div class="card red" id="c2">
+    <div class="card-head">
+      <div class="num-circle">02</div>
+      <div class="card-titles">
+        <div class="title">Variational Autoencoder (VAE)</div>
+        <div class="subtitle">Generative Model — Traditional AE च्या मर्यादा + VAE Solution</div>
+      </div>
+      <div>
+        <div class="lec-tag">Lec 57–59</div>
+        <div class="mcq-flag" style="margin-top:4px">⭐⭐ VERY HIGH PROB</div>
+      </div>
+    </div>
+    <div class="card-body">
+
+      <div class="block">
+        <div class="blabel" style="color:var(--blue)">🇮🇳 मराठी स्पष्टीकरण</div>
+        <div class="marathi-box">
+          <strong>Traditional Autoencoder चे problem:</strong> हे input ला एक fixed point (deterministic code) assign करते. Latent space discontinuous असतो — म्हणजे clusters मध्ये gap असतो. अशा unknown points मधून decode केले तर output garbage येतो.<br><br>
+          <strong>VAE solution:</strong> प्रत्येक input साठी एक point नाही, तर एक <strong>distribution (mean μ आणि variance σ)</strong> शिकते. Code या distribution मधून <em>sample</em> केला जातो. यामुळे latent space smooth आणि continuous होतो — नवीन images generate करता येतात!
+          <div class="analogy">☁️ AE = GPS pin (एक exact point). VAE = GPS "circle" (एक range जिथे तुम्ही असू शकता).</div>
+        </div>
+      </div>
+
+      <div class="block">
+        <div class="blabel" style="color:var(--gold)">📝 Exam Answer</div>
+        <div class="exam-box">
+          <ul>
+            <li><strong>Traditional AE problem:</strong> Creates <em>discontinuous</em> latent space → decoding from unknown regions gives unrealistic output.</li>
+            <li><strong>VAE:</strong> Encoder outputs <strong>μ (mean vector)</strong> and <strong>σ (std deviation)</strong> for each latent dimension.</li>
+            <li>Latent code z is <strong>sampled</strong> from distribution N(μ, σ²) instead of being a fixed point.</li>
+            <li>Prior on latent space: <span class="formula">P(z) = N(0, I)</span> (standard normal).</li>
+            <li><strong>VAE Total Loss = Reconstruction Loss + KL Divergence Loss</strong></li>
+            <li>Reconstruction loss → class-specific structure (clusters).</li>
+            <li>KL Divergence loss → forces encodings toward N(0,I), smooth latent space.</li>
+            <li>Only KL loss → random packing with no structure. Only reconstruction → discontinuous clusters. <strong>Both together → ideal smooth latent space.</strong></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="block">
+        <div class="blabel" style="color:var(--teal)">⚡ Quick Trick</div>
+        <div class="trick-box">
+          <span class="mnemonic">AE = Fixed Point 📍 | VAE = Cloud ☁️</span>
+          <span class="remember">Encoder → μ, σ</span>
+          <span class="remember">Sample z ~ N(μ, σ²)</span>
+          <span class="remember">Loss = Recon + KL</span>
+          <br><br>
+          Vector Arithmetic: "face with glasses" code − "face without glasses" code = "glasses code". फक्त continuous latent space मध्ये शक्य!
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ══════════════ CARD 3 ══════════════ -->
+  <div class="card teal" id="c3">
+    <div class="card-head">
+      <div class="num-circle">03</div>
+      <div class="card-titles">
+        <div class="title">KL Divergence</div>
+        <div class="subtitle">VAE Loss Component — Distribution Matching</div>
+      </div>
+      <div>
+        <div class="lec-tag">Lec 58–59</div>
+        <div class="mcq-flag" style="margin-top:4px">⭐⭐ VERY HIGH PROB</div>
+      </div>
+    </div>
+    <div class="card-body">
+
+      <div class="block">
+        <div class="blabel" style="color:var(--blue)">🇮🇳 मराठी स्पष्टीकरण</div>
+        <div class="marathi-box">
+          KL Divergence म्हणजे दोन probability distributions किती <strong>वेगळ्या</strong> आहेत ते मोजणारे measure आहे.<br><br>
+          KL = 0 → दोन्ही distributions एकच आहेत.<br>
+          KL जास्त → खूप वेगळ्या आहेत.<br><br>
+          VAE मध्ये: encoder च्या distribution Q(z|x) ला prior P(z) = N(0,I) च्या जवळ ठेवण्यासाठी KL loss वापरतो. याला <strong>Variational Inference</strong> म्हणतात.
+          <div class="analogy">📏 KL = "दोन distributions मधील अंतर" — शून्य म्हणजे एकच, जास्त म्हणजे खूप वेगळे.</div>
+        </div>
+      </div>
+
+      <div class="block">
+        <div class="blabel" style="color:var(--gold)">📝 Exam Answer</div>
+        <div class="exam-box">
+          <ul>
+            <li>KL Divergence measures how much distribution Q diverges from distribution P.</li>
+            <li>Formula: <span class="formula">KL(P||Q) = Σ P(x) log[P(x)/Q(x)]</span></li>
+            <li><strong>Asymmetric:</strong> <span class="formula">KL(P||Q) ≠ KL(Q||P)</span></li>
+            <li>KL = 0 only when P = Q.</li>
+            <li>In VAE: minimize <span class="formula">KL(Q(z|x) || P(z))</span> where <span class="formula">P(z) = N(0, I)</span></li>
+            <li>Closed-form KL between two Gaussians: <span class="formula">KL = 0.5 × [tr(Σ) + μᵀμ − k − log det(Σ)]</span></li>
+            <li><strong>Variational Lower Bound (ELBO)</strong> = E[log P(x|z)] − KL(Q(z|x)||P(z)) — this is what we maximize.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="block">
+        <div class="blabel" style="color:var(--teal)">⚡ Quick Trick</div>
+        <div class="trick-box">
+          <span class="mnemonic">"दोन distributions मधील अंतर"</span>
+          <span class="remember">KL = 0 → Same distributions</span>
+          <span class="remember">KL ≥ 0 always</span>
+          <span class="remember">NOT symmetric!</span>
+          <br><br>
+          VAE objective: <strong>Maximize ELBO</strong> = Maximize reconstruction + Minimize KL
+          <br>Remember: <em>"Maximize likelihood, minimize divergence"</em>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ══════════════ CARD 4 ══════════════ -->
+  <div class="card blue" id="c4">
+    <div class="card-head">
+      <div class="num-circle">04</div>
+      <div class="card-titles">
+        <div class="title">Reparameterization Trick</div>
+        <div class="subtitle">VAE Training को Backprop-Friendly बनवणे</div>
+      </div>
+      <div>
+        <div class="lec-tag">Lec 59</div>
+        <div class="mcq-flag" style="margin-top:4px">⭐⭐ VERY HIGH PROB</div>
+      </div>
+    </div>
+    <div class="card-body">
+
+      <div class="block">
+        <div class="blabel" style="color:var(--blue)">🇮🇳 मराठी स्पष्टीकरण</div>
+        <div class="marathi-box">
+          <strong>Problem:</strong> VAE मध्ये z = distribution मधून sample करावे लागते. पण sampling हे random operation आहे — त्यातून gradient pass होत नाही. Backpropagation तुटते!<br><br>
+          <strong>Solution (Reparameterization Trick):</strong> Randomness वेगळी काढा. ε (epsilon) ला N(0,I) मधून sample करा, आणि: <strong>z = μ + σ × ε</strong><br><br>
+          आता μ आणि σ learnable parameters आहेत, आणि gradient त्यांच्यातून जाऊ शकतो!
+          <div class="analogy">🎲 "Randomness बाहेर काढा" — ε external noise आहे (network बाहेर), पण μ आणि σ network शिकते.</div>
+        </div>
+      </div>
+
+      <div class="block">
+        <div class="blabel" style="color:var(--gold)">📝 Exam Answer</div>
+        <div class="exam-box">
+          <ul>
+            <li><strong>Problem:</strong> Direct sampling from Q(z|x) is a non-differentiable operation → breaks backpropagation (no gradient flow).</li>
+            <li><strong>Solution:</strong> Separate randomness from learnable parameters.</li>
+            <li>Sample <span class="formula">ε ~ N(0, I)</span> externally, then compute: <span class="formula">z = μ + σ ⊙ ε</span></li>
+            <li>⊙ = element-wise multiplication.</li>
+            <li>Now gradients can flow through <strong>μ</strong> and <strong>σ</strong> (both trainable).</li>
+            <li>ε is an external random variable — not part of the graph.</li>
+            <li>Enables <strong>optimization of distribution parameters</strong> while preserving the ability to sample randomly.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="block">
+        <div class="blabel" style="color:var(--teal)">⚡ Quick Trick</div>
+        <div class="trick-box">
+          <span class="mnemonic">z = μ + σ × ε &nbsp;|&nbsp; ε ~ N(0,I) बाहेरून</span>
+          <span class="remember">Problem: Sampling breaks gradient</span>
+          <span class="remember">Fix: ε = external noise</span>
+          <span class="remember">z = μ + σε (deterministic graph)</span>
+          <br><br>
+          Think: "Shift a standard Gaussian ε by μ and scale by σ" — same result but now differentiable!
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="section-divider"><span class="divider-label">Lec 60 — Generative Adversarial Network</span></div>
+
+  <!-- ══════════════ CARD 5 ══════════════ -->
+  <div class="card purple" id="c5">
+    <div class="card-head">
+      <div class="num-circle">05</div>
+      <div class="card-titles">
+        <div class="title">GAN — Generative Adversarial Network</div>
+        <div class="subtitle">Generator vs Discriminator — Game Theory Approach</div>
+      </div>
+      <div>
+        <div class="lec-tag">Lec 60</div>
+        <div class="mcq-flag" style="margin-top:4px">⭐⭐ VERY HIGH PROB</div>
+      </div>
+    </div>
+    <div class="card-body">
+
+      <div class="block">
+        <div class="blabel" style="color:var(--blue)">🇮🇳 मराठी स्पष्टीकरण</div>
+        <div class="marathi-box">
+          GAN मध्ये दोन networks एकमेकांशी <strong>स्पर्धा</strong> करतात:<br><br>
+          🎭 <strong>Generator (G):</strong> random noise z घेतो आणि realistic fake images बनवतो. Discriminator ला फसवायचे असते.<br>
+          🕵️ <strong>Discriminator (D):</strong> real vs fake image ओळखतो. D(x) = probability of being real.<br><br>
+          Training: D आणि G alternately update होतात. G जेव्हा D ला पूर्णपणे फसवू शकतो तेव्हा training converge होते.
+          <div class="analogy">🖨️ G = Counterfeiter (बनावट नोटा बनवणारा), D = Detective (बनावट पकडणारा) — दोन्ही एकमेकांना improve करतात.</div>
+        </div>
+      </div>
+
+      <div class="block">
+        <div class="blabel" style="color:var(--gold)">📝 Exam Answer</div>
+        <div class="exam-box">
+          <ul>
+            <li>GAN = <strong>Game Theoretic (Minimax) Approach</strong> — two networks competing.</li>
+            <li><strong>Generator G:</strong> Samples z from Gaussian/Uniform → maps to data point x̃. Tries to fool D.</li>
+            <li><strong>Discriminator D:</strong> D(x) = probability x is real. Tries to distinguish real from fake.</li>
+            <li><strong>D Objective (maximize):</strong> <span class="formula">E[log D(x)] + E[log(1 − D(G(z)))]</span></li>
+            <li><strong>G Objective (minimize D's / maximize):</strong> <span class="formula">E[log D(G(z))]</span></li>
+            <li>Training alternates: k steps D update, then 1 step G update.</li>
+            <li><strong>GAN Applications:</strong> High-res image synthesis, image-to-image translation (pix2pix), video-to-video synthesis, image inpainting.</li>
+            <li>VAE vs GAN: VAE explicit likelihood + continuous latent; GAN implicit distribution, sharper images.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="block">
+        <div class="blabel" style="color:var(--teal)">⚡ Quick Trick</div>
+        <div class="trick-box">
+          <span class="mnemonic">🎭 G = Cheat | D = Cop | They Train Each Other</span>
+          <span class="remember">G: maximize D(G(z))</span>
+          <span class="remember">D: maximize D(real) + minimize D(fake)</span>
+          <span class="remember">z ~ Gaussian → G → x̃</span>
+          <br><br>
+          Implicit generative model — no need to explicitly define P(x). Generator just maps z to data space.
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="section-divider"><span class="divider-label">Lec 51 — Face Recognition</span></div>
+
+  <!-- ══════════════ CARD 6 ══════════════ -->
+  <div class="card orange" id="c6">
+    <div class="card-head">
+      <div class="num-circle">06</div>
+      <div class="card-titles">
+        <div class="title">Triplet Loss &amp; FaceNet</div>
+        <div class="subtitle">One-Shot Learning — Face Recognition Embedding</div>
+      </div>
+      <div>
+        <div class="lec-tag">Lec 51</div>
+        <div class="mcq-flag" style="margin-top:4px">⭐⭐ VERY HIGH PROB</div>
+      </div>
+    </div>
+    <div class="card-body">
+
+      <div class="block">
+        <div class="blabel" style="color:var(--blue)">🇮🇳 मराठी स्पष्टीकरण</div>
+        <div class="marathi-box">
+          <strong>One-Shot Learning:</strong> खूप कमी (1 किंवा काही) training samples वरून object ओळखणे. Face recognition साठी हे critical आहे — कंपनीत प्रत्येक व्यक्तीचा फक्त 1 फोटो असतो.<br><br>
+          <strong>Triplet Loss:</strong> तीन images वापरतो:<br>
+          🔵 <strong>Anchor (A)</strong> — reference face<br>
+          ✅ <strong>Positive (P)</strong> — same person (A सारखाच)<br>
+          ❌ <strong>Negative (N)</strong> — different person<br><br>
+          Network शिकते: A-P distance कमी, A-N distance जास्त ठेवायला. Margin α हे guarantee करते की gap नेहमी असेल.
+          <div class="analogy">🧲 Same person = Magnet attracts | Different person = Magnet repels</div>
+        </div>
+      </div>
+
+      <div class="block">
+        <div class="blabel" style="color:var(--gold)">📝 Exam Answer</div>
+        <div class="exam-box">
+          <ul>
+            <li><strong>One-Shot Learning:</strong> Learning from 1 or few training samples per class.</li>
+            <li><strong>FaceNet:</strong> Uses deep CNN + L2 normalization to learn embedding function f(x).</li>
+            <li>Triplet = (Anchor A, Positive P, Negative N)</li>
+            <li>Constraint: <span class="formula">||f(A)−f(P)||² + α ≤ ||f(A)−f(N)||²</span></li>
+            <li>Margin <span class="tag">α</span> prevents trivial solution where all embeddings collapse to zero.</li>
+            <li>Triplet Loss: <span class="formula">L = max(||f(A)−f(P)||² − ||f(A)−f(N)||² + α, 0)</span></li>
+            <li><strong>Hard positive:</strong> argmax d(A,P) — most dissimilar same-person image.</li>
+            <li><strong>Hard negative:</strong> argmin d(A,N) — most similar different-person image.</li>
+            <li><strong>Semi-hard negative</strong> preferred → avoids model collapse (f(x)=0).</li>
+            <li>Face Verification: <span class="formula">d(reference, query) = ||f(ref) − f(query)||²</span></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="block">
+        <div class="blabel" style="color:var(--teal)">⚡ Quick Trick</div>
+        <div class="trick-box">
+          <span class="mnemonic">A-P CLOSE 🟢 | A-N FAR 🔴 | Margin α keeps the gap</span>
+          <span class="remember">Triplet = Anchor, Positive, Negative</span>
+          <span class="remember">d(A,P) &lt; d(A,N) − α</span>
+          <span class="remember">Semi-hard &gt; Hard negative (safer)</span>
+          <br><br>
+          Why NOT just minimize d(A,P) = 0? → Because then d(A,N) = 0 too (trivial). Margin α forces separation.
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="section-divider"><span class="divider-label">Lec 53–55 — Semantic Segmentation</span></div>
+
+  <!-- ══════════════ CARD 7 ══════════════ -->
+  <div class="card pink" id="c7">
+    <div class="card-head">
+      <div class="num-circle">07</div>
+      <div class="card-titles">
+        <div class="title">Semantic vs Instance Segmentation + FCN</div>
+        <div class="subtitle">Pixel-Level Classification</div>
+      </div>
+      <div>
+        <div class="lec-tag">Lec 53–55</div>
+        <div class="mcq-flag" style="margin-top:4px">⭐ HIGH PROB</div>
+      </div>
+    </div>
+    <div class="card-body">
+
+      <div class="block">
+        <div class="blabel" style="color:var(--blue)">🇮🇳 मराठी स्पष्टीकरण</div>
+        <div class="marathi-box">
+          <strong>Semantic Segmentation:</strong> प्रत्येक pixel ला class label द्या. 3 cars असतील तर तिन्ही "car" च्या label खाली. Image classification at pixel level.<br><br>
+          <strong>Instance Segmentation:</strong> प्रत्येक object ला स्वतंत्रपणे ओळखा. Car-1, Car-2, Car-3 — वेगवेगळ्या instances. Object boundaries at pixel level.<br><br>
+          <strong>FCN (Fully Convolutional Network):</strong> FC layers ऐवजी Convolution layers वापरतो, जेणेकरून pixel-wise output मिळेल.
+          <div class="analogy">🏙️ Semantic = "City मध्ये cars आहेत." Instance = "Car #1 इथे, Car #2 तिथे."</div>
+        </div>
+      </div>
+
+      <div class="block">
+        <div class="blabel" style="color:var(--gold)">📝 Exam Answer</div>
+        <div class="exam-box">
+          <table class="cmp-table">
+            <tr><th>Feature</th><th>Semantic Segmentation</th><th>Instance Segmentation</th></tr>
+            <tr><td>Output</td><td>Class label per pixel</td><td>Individual object boundaries</td></tr>
+            <tr><td>Multiple same-class objects</td><td>Same label for all</td><td>Different label for each</td></tr>
+            <tr><td>Detail level</td><td>Class-level</td><td>Instance-level</td></tr>
+          </table>
+          <br>
+          <ul>
+            <li><strong>FCN:</strong> Replaces fully connected layers with conv layers → any input size → pixel-wise output.</li>
+            <li><strong>FCN-32s:</strong> 32× upsampling from conv7 → output is coarse/sparse.</li>
+            <li><strong>FCN-16s/8s:</strong> Skip connections from earlier layers → finer output.</li>
+            <li><strong>Deconvolution</strong> = learnable upsampling. Deconv layers are "reverse of conv."</li>
+            <li><strong>Pixel-wise Cross Entropy:</strong> <span class="formula">L = −(1/N) Σ p(x,y)·log q(x,y)</span></li>
+            <li>Applications: Autonomous driving, medical imaging (brain MRI segmentation).</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="block">
+        <div class="blabel" style="color:var(--teal)">⚡ Quick Trick</div>
+        <div class="trick-box">
+          <span class="mnemonic">Semantic = Crowd | Instance = Individual 🙋</span>
+          <span class="remember">FCN = No FC layers!</span>
+          <span class="remember">FCN-32s → coarse (less detail)</span>
+          <span class="remember">Skip connections → finer output</span>
+          <br><br>
+          FCN-32s, FCN-16s, FCN-8s — number = upsampling factor. Smaller number = better detail.
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="section-divider"><span class="divider-label">Lec 46–49 — Normalization</span></div>
+
+  <!-- ══════════════ CARD 8 ══════════════ -->
+  <div class="card teal" id="c8">
+    <div class="card-head">
+      <div class="num-circle">08</div>
+      <div class="card-titles">
+        <div class="title">Batch / Layer / Instance / Group Normalization</div>
+        <div class="subtitle">Internal Covariate Shift — कोणत्या Dimension वर Normalize?</div>
+      </div>
+      <div>
+        <div class="lec-tag">Lec 46–49</div>
+        <div class="mcq-flag" style="margin-top:4px">⭐⭐ VERY HIGH PROB</div>
+      </div>
+    </div>
+    <div class="card-body">
+
+      <div class="block">
+        <div class="blabel" style="color:var(--blue)">🇮🇳 मराठी स्पष्टीकरण</div>
+        <div class="marathi-box">
+          <strong>Covariate Shift:</strong> training दरम्यान प्रत्येक layer च्या input distribution बदलते → training slow होते. Normalization हे fix करते.<br><br>
+          4 types — फरक फक्त <strong>कोणत्या dimension वर normalize करतो</strong> यात आहे:<br>
+          📦 <strong>Batch Norm:</strong> Batch dimension (N) वर — प्रत्येक channel साठी.<br>
+          📋 <strong>Layer Norm:</strong> प्रत्येक sample साठी सर्व channels वर — NLP/Transformers.<br>
+          🎨 <strong>Instance Norm:</strong> प्रत्येक sample, प्रत्येक channel च्या spatial dimensions वर — Style Transfer.<br>
+          👥 <strong>Group Norm:</strong> Channels च्या groups वर — Small batch साठी उत्तम.
+          <div class="analogy">📊 सर्व normalize करतात, पण "कोणाच्या perspective ने" हे वेगळे आहे.</div>
+        </div>
+      </div>
+
+      <div class="block">
+        <div class="blabel" style="color:var(--gold)">📝 Exam Answer</div>
+        <div class="exam-box">
+          <table class="cmp-table">
+            <tr><th>Type</th><th>Normalizes Over</th><th>Best For</th></tr>
+            <tr><td class="hl">Batch Norm</td><td>N (batch) per channel</td><td>Large batch CNN</td></tr>
+            <tr><td class="hl">Layer Norm</td><td>All C, H, W per sample</td><td>RNN, Transformers</td></tr>
+            <tr><td class="hl">Instance Norm</td><td>H × W per sample per channel</td><td>Style Transfer</td></tr>
+            <tr><td class="hl">Group Norm</td><td>Groups of channels per sample</td><td>Small batch size</td></tr>
+          </table>
+          <br>
+          <ul>
+            <li>Batch Norm addresses <strong>Internal Covariate Shift</strong> (Ioffe &amp; Szegedy, 2015).</li>
+            <li>BN allows higher learning rates + acts as regularizer.</li>
+            <li>BN formula: <span class="formula">ŷ = γ·(x−μ)/σ + β</span> (γ, β are learnable).</li>
+            <li>Group Norm (Kaiming He, 2018) — better than BN for small batches.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="block">
+        <div class="blabel" style="color:var(--teal)">⚡ Quick Trick</div>
+        <div class="trick-box">
+          <span class="mnemonic">B-L-I-G → "Big Lions In Groups" 🦁</span>
+          <span class="remember">B = across Batch (N)</span>
+          <span class="remember">L = across all Layers/Channels per sample</span>
+          <span class="remember">I = per channel H×W (Instance)</span>
+          <span class="remember">G = Groups of channels</span>
+          <br><br>
+          Small batch? → Group Norm. Large batch? → Batch Norm. Transformer? → Layer Norm.
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="section-divider"><span class="divider-label">Lec 50 — Training Tricks</span></div>
+
+  <!-- ══════════════ CARD 9 ══════════════ -->
+  <div class="card gold" id="c9">
+    <div class="card-head">
+      <div class="num-circle">09</div>
+      <div class="card-titles">
+        <div class="title">Dropout, Regularization &amp; Early Stopping</div>
+        <div class="subtitle">Overfitting रोखण्याचे उपाय</div>
+      </div>
+      <div>
+        <div class="lec-tag">Lec 50</div>
+        <div class="mcq-flag" style="margin-top:4px">⭐ HIGH PROB</div>
+      </div>
+    </div>
+    <div class="card-body">
+
+      <div class="block">
+        <div class="blabel" style="color:var(--blue)">🇮🇳 मराठी स्पष्टीकरण</div>
+        <div class="marathi-box">
+          <strong>Overfitting:</strong> Model training data वर खूप चांगला perform करतो, पण test data वर खराब — noise शिकतो.<br>
+          <strong>Underfitting:</strong> Model पुरेसा शिकत नाही — simple model, complex problem.<br><br>
+          <strong>Dropout:</strong> Training मध्ये randomly neurons बंद करतो (probability p). Network कोणत्याही एकाच neuron वर अवलंबून राहत नाही. Testing मध्ये सर्व neurons ON असतात.<br><br>
+          <strong>Early Stopping:</strong> Validation loss बघत train करा, जेव्हा validation loss वाढू लागते तेव्हा थांबा.
+          <div class="analogy">🎲 Dropout = "कधी कोणाला बोलावा हे माहीत नाही" → सर्वजण तयार राहतात.</div>
+        </div>
+      </div>
+
+      <div class="block">
+        <div class="blabel" style="color:var(--gold)">📝 Exam Answer</div>
+        <div class="exam-box">
+          <ul>
+            <li><strong>Overfitting:</strong> Model fits noise in training data. High train accuracy, low test accuracy.</li>
+            <li><strong>Regularization = Loss + Regularization Term</strong></li>
+            <li><strong>L1 Reg:</strong> Adds |w| — encourages sparsity (some weights → 0).</li>
+            <li><strong>L2 Reg (Weight Decay):</strong> Adds w² — prefers smaller weights.</li>
+            <li><strong>Dropout</strong> (Srivastava et al.): Randomly drops neurons during training with probability p.</li>
+            <li>Training: neurons dropped. Testing: all neurons active (weights scaled by (1−p)).</li>
+            <li>Effect: Dropout learns more robust features (visible in MNIST experiment).</li>
+            <li><strong>Data Augmentation:</strong> Rotation, flipping, scaling, contrast enhancement — increases training set size.</li>
+            <li><strong>Early Stopping:</strong> Train → evaluate on validation each epoch → save best model → stop when val loss stops improving → use best saved model for testing.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="block">
+        <div class="blabel" style="color:var(--teal)">⚡ Quick Trick</div>
+        <div class="trick-box">
+          <span class="mnemonic">🎲 TRAIN = Random OFF | TEST = ALL ON</span>
+          <span class="remember">L1 → Sparse (some zero)</span>
+          <span class="remember">L2 → Small (all smaller)</span>
+          <span class="remember">Dropout → p = drop probability</span>
+          <span class="remember">Early stop → Val loss = monitor</span>
+          <br><br>
+          Cost = Loss + λ||w||₁ (L1) &nbsp;or&nbsp; Cost = Loss + λ||w||₂² (L2)
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="section-divider"><span class="divider-label">Lec 43–45 — Gradient Descent Optimization</span></div>
+
+  <!-- ══════════════ CARD 10 ══════════════ -->
+  <div class="card red" id="c10">
+    <div class="card-head">
+      <div class="num-circle">10</div>
+      <div class="card-titles">
+        <div class="title">Optimizers: Momentum → Adagrad → RMSProp → Adam</div>
+        <div class="subtitle">SGD च्या पुढे — Adaptive Learning Rate Methods</div>
+      </div>
+      <div>
+        <div class="lec-tag">Lec 43–45</div>
+        <div class="mcq-flag" style="margin-top:4px">⭐⭐ VERY HIGH PROB</div>
+      </div>
+    </div>
+    <div class="card-body">
+
+      <div class="block">
+        <div class="blabel" style="color:var(--blue)">🇮🇳 मराठी स्पष्टीकरण</div>
+        <div class="marathi-box">
+          SGD (plain) slow असतो. Problems: learning rate manually set करावी लागते, saddle points मध्ये अडकतो.<br><br>
+          🔵 <strong>Momentum:</strong> मागचा velocity लक्षात ठेवतो — ball rolling downhill.<br>
+          🟢 <strong>NAG:</strong> Future position ला gradient बघतो (lookahead).<br>
+          🟡 <strong>Adagrad:</strong> प्रत्येक parameter साठी वेगळी learning rate — sparse features साठी चांगला. Problem: LR खूप लवकर कमी होतो.<br>
+          🟠 <strong>RMSProp:</strong> Adagrad चे fix — exponentially decaying average वापरतो, जुनी history विसरतो.<br>
+          🔴 <strong>Adam:</strong> Momentum + RMSProp = सर्वात popular optimizer!
+          <div class="analogy">🚀 SGD = Walking | Momentum = Running | Adam = Car with GPS!</div>
+        </div>
+      </div>
+
+      <div class="block">
+        <div class="blabel" style="color:var(--gold)">📝 Exam Answer</div>
+        <div class="exam-box">
+          <table class="cmp-table">
+            <tr><th>Optimizer</th><th>Key Idea</th><th>Weakness</th></tr>
+            <tr><td class="hl">SGD</td><td>Basic gradient update</td><td>Slow, manual LR, saddle points</td></tr>
+            <tr><td class="hl">Momentum</td><td>Accumulates velocity (past gradients)</td><td>Manual hyperparameters</td></tr>
+            <tr><td class="hl">NAG</td><td>Gradient at lookahead position</td><td>Manual hyperparameters</td></tr>
+            <tr><td class="hl">Adagrad</td><td>Adaptive LR per param (÷ √Σg²)</td><td>LR → 0 for non-convex</td></tr>
+            <tr><td class="hl">RMSProp</td><td>Exponentially decaying avg of g²</td><td>—</td></tr>
+            <tr><td class="hl">Adam</td><td>Momentum + RMSProp + bias correction</td><td>Best general choice ✓</td></tr>
+          </table>
+          <br>
+          <ul>
+            <li><strong>Adam update:</strong> <span class="formula">ŝ = s/(1−β₁)</span>, <span class="formula">r̂ = r/(1−β₂)</span>, <span class="formula">W = W − η·ŝ/√r̂</span></li>
+            <li>Typical values: <span class="tag">β₁ = 0.9</span>, <span class="tag">β₂ = 0.999</span></li>
+            <li>Adagrad problem: accumulation of all historical gradients → LR → 0 (bad for non-convex).</li>
+            <li>Saddle points: gradient ≈ 0 in all dims → SGD gets stuck. Momentum escapes saddle points.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="block">
+        <div class="blabel" style="color:var(--teal)">⚡ Quick Trick</div>
+        <div class="trick-box">
+          <span class="mnemonic">SGD → Momentum → Adagrad → RMSProp → Adam 🏆</span>
+          <span class="remember">Adam = Momentum + RMSProp</span>
+          <span class="remember">Adagrad problem = LR dies</span>
+          <span class="remember">RMSProp = Adagrad + forgetting</span>
+          <span class="remember">β₁=0.9, β₂=0.999 for Adam</span>
+          <br><br>
+          Adagrad: <em>"Too honest — remembers every mistake forever"</em><br>
+          RMSProp: <em>"Forgives old mistakes, focuses on recent"</em>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="section-divider"><span class="divider-label">Lec 41–42 — Popular CNN Models</span></div>
+
+  <!-- ══════════════ CARD 11 ══════════════ -->
+  <div class="card blue" id="c11">
+    <div class="card-head">
+      <div class="num-circle">11</div>
+      <div class="card-titles">
+        <div class="title">ResNet — Residual Network &amp; Skip Connections</div>
+        <div class="subtitle">Vanishing Gradient Problem चे Solution</div>
+      </div>
+      <div>
+        <div class="lec-tag">Lec 42</div>
+        <div class="mcq-flag" style="margin-top:4px">⭐ HIGH PROB</div>
+      </div>
+    </div>
+    <div class="card-body">
+
+      <div class="block">
+        <div class="blabel" style="color:var(--blue)">🇮🇳 मराठी स्पष्टीकरण</div>
+        <div class="marathi-box">
+          Deep network मध्ये जितके जास्त layers, तितका vanishing gradient problem. ResNet ने एक simple trick केली — <strong>Skip Connection (Identity Shortcut)</strong>.<br><br>
+          Layer F(x) शिकण्याऐवजी <strong>Residual F(x) = H(x) − x</strong> शिकते. म्हणजे layer ला फक्त "input पेक्षा किती वेगळे आहे" ते शिकायचे आहे.<br><br>
+          Skip connections gradient ला directly earlier layers कडे पाठवतात → vanishing gradient सुटते!
+          <div class="analogy">🛤️ Skip connection = Highway — gradient ला लांब जायची "highway" मिळते.</div>
+        </div>
+      </div>
+
+      <div class="block">
+        <div class="blabel" style="color:var(--gold)">📝 Exam Answer</div>
+        <div class="exam-box">
+          <ul>
+            <li><strong>ResNet core idea:</strong> <strong>Skip/Identity Shortcut Connections</strong> that skip one or more layers.</li>
+            <li>Layer learns <strong>residual mapping</strong> F(x) = H(x) − x, where H(x) = desired mapping.</li>
+            <li>Forward: <span class="formula">a_l = f(Z_l + a_{l-2})</span> (if same dimension)</li>
+            <li>Stacking identity mappings ensures deeper network ≥ shallow network performance.</li>
+            <li>Gradient can flow to any earlier layer through shortcut → <strong>alleviates vanishing gradient.</strong></li>
+            <li>Deeper network should NOT give higher training error than shallow network (ResNet solves this).</li>
+            <li>Vanishing gradient solutions: ReLU activation, proper weight initialization, skip connections.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="block">
+        <div class="blabel" style="color:var(--teal)">⚡ Quick Trick</div>
+        <div class="trick-box">
+          <span class="mnemonic">H(x) = F(x) + x &nbsp;→&nbsp; Learn RESIDUAL, not the full mapping</span>
+          <span class="remember">Skip connection = Gradient highway</span>
+          <span class="remember">F(x) = H(x) − x (residual)</span>
+          <span class="remember">Deeper ≥ Shallower (guaranteed)</span>
+          <br><br>
+          Why "residual"? If identity mapping is optimal, it's easier to push F(x) → 0 than to learn H(x) = x directly.
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ══════════════ CARD 12 ══════════════ -->
+  <div class="card purple" id="c12">
+    <div class="card-head">
+      <div class="num-circle">12</div>
+      <div class="card-titles">
+        <div class="title">GoogLeNet — Inception Module &amp; Auxiliary Classifiers</div>
+        <div class="subtitle">ILSVRC 2014 Winner — Multi-scale Feature Extraction</div>
+      </div>
+      <div>
+        <div class="lec-tag">Lec 41–42</div>
+        <div class="mcq-flag" style="margin-top:4px">⭐ HIGH PROB</div>
+      </div>
+    </div>
+    <div class="card-body">
+
+      <div class="block">
+        <div class="blabel" style="color:var(--blue)">🇮🇳 मराठी स्पष्टीकरण</div>
+        <div class="marathi-box">
+          <strong>Inception Module:</strong> एकाच वेळी 1×1, 3×3, 5×5 convolutions parallel मध्ये apply करतो, आणि outputs concatenate करतो. यामुळे multi-scale features मिळतात — लहान detail (1×1) आणि मोठा context (5×5) दोन्ही.<br><br>
+          <strong>Auxiliary Classifiers:</strong> Deep network मध्ये gradient vanish होतो. Middle layers वर छोटे classifiers लावतात → gradient signal middle layers पर्यंत पोहोचतो. Testing वेळी हे discard होतात.
+          <div class="analogy">🔭 Inception = एकाच वेळी different zoom levels ने बघणे (1×1 = zoom in, 5×5 = zoom out).</div>
+        </div>
+      </div>
+
+      <div class="block">
+        <div class="blabel" style="color:var(--gold)">📝 Exam Answer</div>
+        <div class="exam-box">
+          <ul>
+            <li><strong>GoogLeNet (Inception v1):</strong> 22 layers with parameters; 27 layers including MaxPool; 9 Inception modules.</li>
+            <li><strong>Inception Module:</strong> Applies 1×1, 3×3, 5×5 convolutions and MaxPool <em>in parallel</em>. Outputs stacked along channel dimension. Multi-level feature extractor.</li>
+            <li>1×1 convolutions also perform <strong>dimensionality reduction</strong> (reduce computation).</li>
+            <li>Top-5 error rate: &lt; 7%.</li>
+            <li><strong>Auxiliary Classifiers:</strong> Smaller CNNs placed on middle Inception modules. Added to handle vanishing gradient in deep network.</li>
+            <li>Auxiliary loss weighted by <span class="tag">0.3</span> during training. <strong>Discarded at inference time.</strong></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="block">
+        <div class="blabel" style="color:var(--teal)">⚡ Quick Trick</div>
+        <div class="trick-box">
+          <span class="mnemonic">🔭 Inception = 1×1 + 3×3 + 5×5 PARALLEL → Concatenate</span>
+          <span class="remember">Aux classifier weight = 0.3</span>
+          <span class="remember">Aux classifiers → discarded at test time</span>
+          <span class="remember">1×1 conv = reduce computation</span>
+          <br><br>
+          1×1 conv trick: 480 channels → reduce → then 5×5. Computation: 5.3M vs 112.9M without 1×1. <strong>21× cheaper!</strong>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="section-divider"><span class="divider-label">Lec 56 — Image Restoration</span></div>
+
+  <!-- ══════════════ CARD 13 ══════════════ -->
+  <div class="card orange" id="c13">
+    <div class="card-head">
+      <div class="num-circle">13</div>
+      <div class="card-titles">
+        <div class="title">Image Restoration Network &amp; Skip Connections</div>
+        <div class="subtitle">Encoder-Decoder + Skip Connections for Denoising</div>
+      </div>
+      <div>
+        <div class="lec-tag">Lec 56</div>
+        <div class="mcq-flag" style="margin-top:4px">⭐ HIGH PROB</div>
+      </div>
+    </div>
+    <div class="card-body">
+
+      <div class="block">
+        <div class="blabel" style="color:var(--blue)">🇮🇳 मराठी स्पष्टीकरण</div>
+        <div class="marathi-box">
+          Image Restoration = खराब (noisy/blurry) image ला clean image मध्ये convert करणे. Network: Encoder (conv) + Decoder (deconv) + Skip Connections.<br><br>
+          <strong>Skip Connections चा उपयोग:</strong> Deep network मध्ये image details हरवतात. Skip connections encoder च्या feature maps directly decoder ला देतात — details preserve होतात. Plus gradient backpropagation सुधारतो.
+          <br><br>
+          Application: <strong>Low Dose CT Denoising</strong> — radiation कमी करण्यासाठी low dose images घेतल्या जातात; Deep Learning network त्या denoise करतो.
+          <div class="analogy">📸 Encoder = "Detail काढा" | Decoder = "पुन्हा बनवा" | Skip = "हे details विसरू नका!"</div>
+        </div>
+      </div>
+
+      <div class="block">
+        <div class="blabel" style="color:var(--gold)">📝 Exam Answer</div>
+        <div class="exam-box">
+          <ul>
+            <li><strong>Image Degradation model:</strong> Degraded = H(Clean) + Noise (H = degradation operator).</li>
+            <li>If H = Identity matrix → Image denoising.</li>
+            <li>Types of restoration: deblurring, denoising, super resolution, inpainting.</li>
+            <li><strong>Restoration Network:</strong> Symmetric Encoder (conv, downsampling) + Decoder (deconv, upsampling) + Skip Connections.</li>
+            <li>Conv layers = feature extractor (eliminate noise). Deconv layers = recover image details.</li>
+            <li><strong>Why Skip Connections?</strong><br>
+              — Deep network loses image details as depth increases.<br>
+              — Skip connections carry feature maps from encoder directly to decoder → preserve details.<br>
+              — Also help backpropagate gradients to bottom layers → easier training.</li>
+            <li>Training loss: <span class="formula">L(Θ) = (1/N) Σ ||F(Xᵢ; Θ) − Yᵢ||²</span> (MSE between restored and clean)</li>
+            <li>Network learns <strong>additive corruption</strong> from input → converges faster than direct mapping.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="block">
+        <div class="blabel" style="color:var(--teal)">⚡ Quick Trick</div>
+        <div class="trick-box">
+          <span class="mnemonic">Encoder ↓ → Bottleneck → Decoder ↑ + Skip connections ↔</span>
+          <span class="remember">H = Identity → Denoising</span>
+          <span class="remember">Skip = preserves details + helps gradient</span>
+          <span class="remember">Loss = MSE (clean vs restored)</span>
+          <br><br>
+          Low Dose CT: current → lower dose (less radiation) → noisy image → DL network denoise → clean CT. Same as image denoising problem!
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ── RAPID FIRE TABLE ── -->
+  <div class="section-divider"><span class="divider-label">Exam Day — Rapid Fire Summary</span></div>
+
+  <div style="background:var(--card); border:1px solid var(--border2); border-radius:16px; overflow:hidden;">
+    <div style="padding:1rem 1.5rem; background:rgba(240,192,64,0.07); border-bottom:1px solid var(--border2);">
+      <span style="font-family:'Syne',sans-serif; font-size:1rem; font-weight:800; color:var(--gold);">⚡ 60-Second Exam Flash Cards</span>
+      <span style="font-size:0.75rem; color:var(--muted); margin-left:1rem;">परीक्षेच्या 5 मिनिटे आधी वाचा</span>
+    </div>
+    <div style="padding:1.2rem 1.5rem;">
+      <table class="cmp-table" style="font-size:0.8rem;">
+        <tr><th>Concept</th><th>One-Line Answer</th><th>Key Formula/Number</th></tr>
+        <tr><td class="hl">Dice Loss</td><td>Overlap-based loss for segmentation</td><td>2|A∩B| / (|A|+|B|), range 0–1</td></tr>
+        <tr><td class="hl">VAE vs AE</td><td>AE=fixed code, VAE=distribution (μ,σ)</td><td>Loss = Recon + KL</td></tr>
+        <tr><td class="hl">KL Divergence</td><td>Measures difference between distributions</td><td>KL=0 means same, NOT symmetric</td></tr>
+        <tr><td class="hl">Reparam. Trick</td><td>z=μ+σε to enable backprop through sampling</td><td>ε ~ N(0,I) external</td></tr>
+        <tr><td class="hl">GAN</td><td>Generator fools Discriminator (minimax game)</td><td>D: max log D(x)+log(1-D(G(z)))</td></tr>
+        <tr><td class="hl">Triplet Loss</td><td>A-P closer, A-N farther with margin α</td><td>max(d(A,P)-d(A,N)+α, 0)</td></tr>
+        <tr><td class="hl">Semantic Seg</td><td>Pixel-level class label (all same class = same label)</td><td>FCN: no FC layers</td></tr>
+        <tr><td class="hl">Batch Norm</td><td>Normalize over N (batch) per channel</td><td>Fixes internal covariate shift</td></tr>
+        <tr><td class="hl">Dropout</td><td>Random neurons OFF (train), ALL ON (test)</td><td>Weight scaled by (1-p) at test</td></tr>
+        <tr><td class="hl">Adam</td><td>Momentum + RMSProp with bias correction</td><td>β₁=0.9, β₂=0.999</td></tr>
+        <tr><td class="hl">ResNet</td><td>Skip connections → learn residual F(x)=H(x)-x</td><td>Fixes vanishing gradient</td></tr>
+        <tr><td class="hl">Inception Module</td><td>1×1 + 3×3 + 5×5 parallel → concatenate</td><td>Aux classifier weight = 0.3</td></tr>
+        <tr><td class="hl">Image Restoration</td><td>Encoder+Decoder+Skip connections, MSE loss</td><td>H=I → denoising problem</td></tr>
+      </table>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  <strong>NPTEL Deep Learning · Week 12 · IIT Kharagpur · Prof. P. K. Biswas</strong><br>
+  Lectures 41–60 · Generated from Week 12 merged PDF<br><br>
+  परीक्षेसाठी खूप खूप शुभेच्छा! 🎯 तुम्ही नक्की उत्तम perform कराल! ✨
+</footer>
+
+</body>
+</html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
