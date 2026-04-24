@@ -3,8 +3,945 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>NPTEL Deep Learning — Week 12 Practice Test</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #f7f5f0;
+  --surface: #ffffff;
+  --ink: #1a1814;
+  --ink2: #5a5650;
+  --ink3: #9a9690;
+  --rule: #e8e4de;
+  --rule2: #d8d4ce;
+  --accent: #2d5be3;
+  --accent-soft: #eef2fd;
+  --green: #1a7f5a;
+  --green-soft: #e8f5ef;
+  --red: #c0392b;
+  --red-soft: #fdecea;
+  --amber: #b45309;
+  --amber-soft: #fef3e2;
+  --purple: #6d28d9;
+  --purple-soft: #f0ebff;
+  --teal: #0e7490;
+  --teal-soft: #e0f5f9;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--bg);
+  color: #9476ba;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 15px;
+  line-height: 1.65;
+  min-height: 100vh;
+}
+
+/* ── NAVIGATION ── */
+nav {
+  background: var(--ink);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 2rem;
+  height: 52px;
+  position: sticky;
+  top: 0;
+  z-index: 200;
+  gap: 1rem;
+}
+.nav-brand {
+  font-family: 'Syne', sans-serif;
+  font-size: 15px;
+  font-weight: 800;
+  letter-spacing: -.3px;
+  color: #fff;
+  white-space: nowrap;
+}
+.nav-tabs {
+  display: flex;
+  gap: 2px;
+}
+.nav-tab {
+  padding: 6px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 500;
+  color: rgba(255,255,255,0.55);
+  border: none;
+  background: none;
+  transition: all .15s;
+  font-family: 'DM Sans', sans-serif;
+}
+.nav-tab:hover { color: #fff; background: rgba(255,255,255,.08); }
+.nav-tab.active { background: var(--accent); color: #fff; }
+.nav-right {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  color: rgba(255,255,255,.4);
+  white-space: nowrap;
+}
+
+/* ── SCREENS ── */
+.screen { display: none; }
+.screen.active { display: block; }
+
+/* ── HERO ── */
+.hero {
+  background: var(--ink);
+  color: #fff;
+  padding: 4rem 2rem 3.5rem;
+  position: relative;
+  overflow: hidden;
+}
+.hero::before {
+  content: 'DL';
+  position: absolute;
+  right: -2rem;
+  top: -1rem;
+  font-family: 'Syne', sans-serif;
+  font-size: 14rem;
+  font-weight: 800;
+  color: rgba(255,255,255,.03);
+  line-height: 1;
+  pointer-events: none;
+  user-select: none;
+}
+.hero-inner { max-width: 860px; margin: 0 auto; }
+.hero-eyebrow {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 2px;
+  color: var(--accent);
+  text-transform: uppercase;
+  margin-bottom: 1rem;
+}
+.hero h1 {
+  font-family: 'Syne', sans-serif;
+  font-size: clamp(2rem, 5vw, 3.2rem);
+  font-weight: 800;
+  line-height: 1.1;
+  margin-bottom: 1rem;
+}
+.hero h1 span { color: var(--accent); }
+.hero-meta {
+  font-size: 14px;
+  color: rgba(255,255,255,.5);
+  margin-bottom: 2rem;
+}
+.hero-stats {
+  display: flex;
+  gap: 2rem;
+  flex-wrap: wrap;
+}
+.hero-stat .n {
+  font-family: 'Syne', sans-serif;
+  font-size: 2rem;
+  font-weight: 800;
+  line-height: 1;
+  display: block;
+}
+.hero-stat .l {
+  font-size: 12px;
+  color: rgba(255,255,255,.4);
+  font-family: 'JetBrains Mono', monospace;
+  letter-spacing: .5px;
+}
+
+/* ── PAGE BODY ── */
+.page-body {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 2.5rem 2rem 5rem;
+}
+
+/* ── START SCREEN ── */
+.start-card {
+  background: var(--surface);
+  border: 1px solid var(--rule);
+  border-radius: 16px;
+  padding: 2.5rem;
+  margin-bottom: 1.5rem;
+}
+.start-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 12px;
+  margin: 2rem 0;
+}
+.start-stat {
+  background: var(--bg);
+  border: 1px solid var(--rule);
+  border-radius: 12px;
+  padding: 1.25rem;
+  text-align: center;
+}
+.start-stat .n {
+  font-family: 'Syne', sans-serif;
+  font-size: 2rem;
+  font-weight: 800;
+  color: var(--accent);
+  line-height: 1;
+  display: block;
+}
+.start-stat .l { font-size: 12px; color: var(--ink2); margin-top: 4px; }
+
+/* ── TEST SCREEN ── */
+.test-topbar {
+  background: var(--surface);
+  border-bottom: 1px solid var(--rule);
+  position: sticky;
+  top: 52px;
+  z-index: 100;
+  padding: .75rem 2rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+.test-counter {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 13px;
+  color: var(--ink2);
+  white-space: nowrap;
+}
+.progress-track {
+  flex: 1;
+  height: 4px;
+  background: var(--rule);
+  border-radius: 2px;
+  overflow: hidden;
+}
+.progress-fill {
+  height: 100%;
+  background: var(--accent);
+  border-radius: 2px;
+  transition: width .3s ease;
+}
+.answered-pill {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  background: var(--accent-soft);
+  color: var(--accent);
+  padding: 3px 10px;
+  border-radius: 20px;
+  white-space: nowrap;
+}
+
+.qwrap {
+  background: var(--surface);
+  border: 1px solid var(--rule);
+  border-radius: 16px;
+  padding: 2rem;
+  margin: 1.5rem 0;
+}
+.q-meta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 1rem;
+}
+.q-num {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  color: var(--ink3);
+}
+.q-topic-badge {
+  font-size: 11px;
+  font-weight: 500;
+  padding: 2px 9px;
+  border-radius: 20px;
+}
+.q-text {
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 1.5;
+  margin-bottom: 1.25rem;
+}
+.opts { display: flex; flex-direction: column; gap: 8px; }
+.opt {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 12px 16px;
+  border: 1.5px solid var(--rule);
+  border-radius: 10px;
+  cursor: pointer;
+  transition: border-color .12s, background .12s;
+  font-size: 14px;
+
+  line-height: 1.45;
+}
+.opt:hover { border-color: var(--accent); background: var(--accent-soft); color: var(--accent); }
+.opt.selected { border-color: var(--accent); background: var(--accent-soft); color: var(--accent); }
+.opt-letter {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  font-weight: 600;
+  min-width: 22px;
+  height: 22px;
+  border-radius: 6px;
+  background: var(--rule);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-top: 1px;
+  transition: background .12s, color .12s;
+}
+.opt.selected .opt-letter { background: var(--accent); color: #fff; }
+.opt.correct { border-color: var(--green); background: var(--green-soft); color: var(--green); }
+.opt.correct .opt-letter { background: var(--green); color: #fff; }
+.opt.wrong { border-color: var(--red); background: var(--red-soft); color: var(--red); }
+.opt.wrong .opt-letter { background: var(--red); color: #fff; }
+.opt.reveal-correct { border-color: var(--green); background: var(--green-soft); color: var(--green); }
+.opt.reveal-correct .opt-letter { background: var(--green); color: #fff; }
+
+.test-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-top: .5rem;
+}
+.submit-row { text-align: center; margin-top: 1rem; }
+
+/* ── BUTTONS ── */
+.btn {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  padding: 10px 24px;
+  border-radius: 8px;
+  border: 1.5px solid var(--ink);
+  background: transparent;
+  color: var(--ink);
+  cursor: pointer;
+  transition: all .12s;
+}
+.btn:hover { background: var(--ink); color: #fff; }
+.btn-primary {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+  font-size: 15px;
+  padding: 12px 32px;
+}
+.btn-primary:hover { background: #1e47c9; border-color: #1e47c9; color: #fff; }
+.btn-lg { font-size: 16px; padding: 14px 40px; }
+.btn:disabled { opacity: .35; cursor: not-allowed; }
+
+/* ── RESULT SCREEN ── */
+.result-hero {
+  background: var(--ink);
+  color: #fff;
+  border-radius: 16px;
+  padding: 2.5rem;
+  margin-bottom: 1.5rem;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.result-score {
+  font-family: 'Syne', sans-serif;
+  font-size: 5rem;
+  font-weight: 800;
+  line-height: 1;
+  margin-bottom: .25rem;
+}
+.result-score span { color: var(--accent); }
+.result-grade {
+  font-size: 20px;
+  font-weight: 500;
+  margin-bottom: .5rem;
+}
+.result-sub { font-size: 14px; color: rgba(255,255,255,.5); }
+.result-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin: 2rem 0 0;
+}
+.result-stat {
+  background: rgba(255,255,255,.06);
+  border-radius: 10px;
+  padding: 1rem;
+}
+.result-stat .n { font-family: 'Syne', sans-serif; font-size: 1.75rem; font-weight: 800; display: block; }
+.result-stat .l { font-size: 12px; color: rgba(255,255,255,.45); font-family: 'JetBrains Mono', monospace; }
+
+.review-section-title {
+  font-family: 'Syne', sans-serif;
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+}
+.review-card {
+  background: var(--surface);
+  border: 1px solid var(--rule);
+  border-radius: 12px;
+  padding: 1.25rem 1.5rem;
+  margin-bottom: 10px;
+}
+.review-card.correct-card { border-left: 3px solid var(--green); }
+.review-card.wrong-card { border-left: 3px solid var(--red); }
+.review-card.skip-card { border-left: 3px solid var(--rule2); }
+.rv-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+.rv-q { font-size: 14px; font-weight: 500; line-height: 1.45; flex: 1; }
+.rv-badge {
+  font-size: 11px;
+  font-weight: 500;
+  font-family: 'JetBrains Mono', monospace;
+  padding: 3px 10px;
+  border-radius: 20px;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.badge-c { background: var(--green-soft); color: var(--green); }
+.badge-w { background: var(--red-soft); color: var(--red); }
+.badge-s { background: var(--bg); color: var(--ink3); }
+.rv-answers { display: flex; flex-direction: column; gap: 5px; }
+.rv-ans { font-size: 13px; padding: 6px 10px; border-radius: 6px; }
+.rv-ans.yours { background: var(--red-soft); color: var(--red); }
+.rv-ans.correct-ans { background: var(--green-soft); color: var(--green); font-weight: 500; }
+.rv-exp {
+  margin-top: 10px;
+  padding: 10px 12px;
+  background: var(--bg);
+  border-radius: 8px;
+  font-size: 13px;
+  color: var(--ink2);
+  line-height: 1.65;
+  border-left: 2px solid var(--rule2);
+}
+
+/* ── STUDY SCREEN ── */
+.study-controls {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+  align-items: center;
+}
+.study-controls input[type=text] {
+  flex: 1;
+  min-width: 200px;
+  padding: 9px 14px;
+  border: 1.5px solid var(--rule);
+  border-radius: 8px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 14px;
+  background: var(--surface);
+  color: var(--ink);
+  outline: none;
+  transition: border-color .12s;
+}
+.study-controls input[type=text]:focus { border-color: var(--accent); }
+.study-controls select {
+  padding: 9px 14px;
+  border: 1.5px solid var(--rule);
+  border-radius: 8px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 14px;
+  background: var(--surface);
+  color: var(--ink);
+  outline: none;
+  cursor: pointer;
+}
+.study-stats-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 10px;
+  margin-bottom: 1.5rem;
+}
+.study-stat {
+  background: var(--surface);
+  border: 1px solid var(--rule);
+  border-radius: 10px;
+  padding: 12px;
+  text-align: center;
+}
+.study-stat .n { font-family: 'Syne', sans-serif; font-size: 1.5rem; font-weight: 800; color: var(--accent); }
+.study-stat .l { font-size: 11px; color: var(--ink3); margin-top: 2px; font-family: 'JetBrains Mono', monospace; }
+
+.eq-card {
+  background: var(--surface);
+  border: 1px solid var(--rule);
+  border-radius: 14px;
+  padding: 1.5rem;
+  margin-bottom: 12px;
+  transition: box-shadow .15s;
+}
+.eq-card:hover { box-shadow: 0 4px 20px rgba(0,0,0,.06); }
+.eq-meta { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; }
+.eq-num { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--ink3); }
+.eq-topic { font-size: 11px; font-weight: 500; padding: 2px 9px; border-radius: 20px; }
+.eq-q { font-size: 15px; font-weight: 500; margin-bottom: 14px; line-height: 1.45; }
+.eq-opts { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin-bottom: 14px; }
+.eq-opt {
+  font-size: 13px;
+  padding: 8px 11px;
+  border-radius: 8px;
+  border: 1px solid var(--rule);
+  color: var(--ink2);
+  line-height: 1.4;
+  display: flex;
+  gap: 6px;
+  align-items: flex-start;
+}
+.eq-opt.is-answer { border-color: var(--green); color: var(--green); font-weight: 500; }
+.eq-opt-letter { font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 600; min-width: 14px; flex-shrink: 0; }
+.eq-exp {
+  padding: 12px 14px;
+  background: var(--bg);
+  border-radius: 8px;
+  border-left: 2px solid var(--accent);
+}
+.eq-exp-lbl {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--ink3);
+  margin-bottom: 6px;
+}
+.eq-exp-mr { font-size: 13px; color: white; line-height: 1.7; margin-bottom: 6px; }
+.eq-exp-en { font-size: 12px; color: white; line-height: 1.6; padding-top: 6px; border-top: 1px solid var(--rule); font-style: italic; }
+.no-results { text-align: center; padding: 4rem 2rem; color: var(--ink3); font-size: 15px; }
+
+/* ── TOPIC COLORS ── */
+.tc-blue { background: #dbeafe; color: #1e40af; }
+.tc-purple { background: #ede9fe; color: #5b21b6; }
+.tc-green { background: #d1fae5; color: #065f46; }
+.tc-teal { background: #cffafe; color: #164e63; }
+.tc-amber { background: #fef3c7; color: #92400e; }
+.tc-red { background: #fee2e2; color: #991b1b; }
+.tc-pink { background: #fce7f3; color: #9d174d; }
+.tc-gray { background: #f3f4f6; color: #374151; }
+
+@media (max-width: 600px) {
+  .page-body { padding: 1.5rem 1rem 4rem; }
+  nav { padding: 0 1rem; }
+  .nav-brand { font-size: 13px; }
+  .nav-tab { padding: 5px 10px; font-size: 12px; }
+  .hero { padding: 2.5rem 1rem 2rem; }
+  .eq-opts { grid-template-columns: 1fr; }
+  .result-stats { grid-template-columns: repeat(3,1fr); }
+  .result-score { font-size: 3.5rem; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <span class="nav-brand">NPTEL DL · Week 12</span>
+  <div class="nav-tabs">
+    <button class="nav-tab active" onclick="showScreen('start')">Home</button>
+    <button class="nav-tab" id="tab-test" onclick="showScreen('test')">Test</button>
+    <button class="nav-tab" id="tab-result" onclick="showScreen('result')" style="display:none">Result</button>
+    <button class="nav-tab" onclick="showScreen('study')">Study</button>
+  </div>
+  <span class="nav-right">April 25 · 100 Q</span>
+</nav>
+
+<!-- ══ START SCREEN ══ -->
+<div id="screen-start" class="screen active">
+  <div class="hero">
+    <div class="hero-inner">
+      <div class="hero-eyebrow">NPTEL Deep Learning · IIT Kharagpur · Prof. P. K. Biswas</div>
+      <h1>Week 12<br><span>Practice Test</span></h1>
+      <p class="hero-meta">Lectures 41–60 · Covers all major topics</p>
+      <div class="hero-stats">
+        <div class="hero-stat"><span class="n">100</span><span class="l">QUESTIONS</span></div>
+        <div class="hero-stat"><span class="n">12</span><span class="l">TOPICS</span></div>
+        <div class="hero-stat"><span class="n">0</span><span class="l">NEGATIVE MARKS</span></div>
+        <div class="hero-stat"><span class="n">End</span><span class="l">SCORE REVEAL</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="page-body">
+    <div class="start-card">
+      <h2 style="font-family:'Syne',sans-serif;font-size:1.4rem;font-weight:800;margin-bottom:.75rem;">How this test works</h2>
+      <p style="color:var(--ink2);margin-bottom:1.5rem;">Answer all 100 MCQs. Questions are shuffled every attempt. Your score and detailed answer review appear only after you submit.</p>
+      <div class="start-grid">
+        <div class="start-stat"><span class="n">100</span><div class="l">Questions</div></div>
+        <div class="start-stat"><span class="n">1</span><div class="l">Mark each</div></div>
+        <div class="start-stat"><span class="n">None</span><div class="l">Negative marking</div></div>
+        <div class="start-stat"><span class="n">Any</span><div class="l">Go back / change</div></div>
+      </div>
+      <div style="margin-top:1.5rem;">
+        <button class="btn btn-primary btn-lg" onclick="startTest()">Start Practice Test →</button>
+      </div>
+    </div>
+
+    <div class="start-card" style="margin-top:1rem;">
+      <h2 style="font-family:'Syne',sans-serif;font-size:1.1rem;font-weight:800;margin-bottom:1rem;">Topics covered</h2>
+      <div style="display:flex;flex-wrap:wrap;gap:7px;">
+        <span class="eq-topic tc-blue">Image Restoration</span>
+        <span class="eq-topic tc-blue">Image Denoising</span>
+        <span class="eq-topic tc-purple">Dice Loss</span>
+        <span class="eq-topic tc-purple">Pixel-wise Cross Entropy</span>
+        <span class="eq-topic tc-green">Image Restoration Network</span>
+        <span class="eq-topic tc-green">Skip Connections</span>
+        <span class="eq-topic tc-amber">VAE</span>
+        <span class="eq-topic tc-amber">KL Divergence</span>
+        <span class="eq-topic tc-amber">Reparameterization</span>
+        <span class="eq-topic tc-pink">GAN</span>
+        <span class="eq-topic tc-teal">Triplet Loss</span>
+        <span class="eq-topic tc-gray">Semantic Segmentation</span>
+        <span class="eq-topic tc-gray">Normalization</span>
+        <span class="eq-topic tc-gray">Dropout</span>
+        <span class="eq-topic tc-red">Optimizers</span>
+        <span class="eq-topic tc-purple">ResNet</span>
+        <span class="eq-topic tc-purple">GoogLeNet</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ TEST SCREEN ══ -->
+<div id="screen-test" class="screen">
+  <div class="test-topbar">
+    <span class="test-counter" id="t-counter">Q 1 / 100</span>
+    <div class="progress-track"><div class="progress-fill" id="t-progress" style="width:0%"></div></div>
+    <span class="answered-pill" id="t-answered">0 answered</span>
+  </div>
+  <div class="page-body" style="padding-top:1rem;">
+    <div id="t-qwrap"></div>
+    <div class="test-nav">
+      <button class="btn" id="t-prev" onclick="go(-1)" style="visibility:hidden">← Prev</button>
+      <button class="btn" id="t-next" onclick="go(1)">Next →</button>
+    </div>
+    <div class="submit-row">
+      <button class="btn btn-primary" id="t-submit" onclick="submitTest()" style="display:none">Submit Test &amp; See Score</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══ RESULT SCREEN ══ -->
+<div id="screen-result" class="screen">
+  <div class="page-body">
+    <div class="result-hero">
+      <div class="result-score"><span id="r-score">—</span><span style="font-size:2rem;color:rgba(255,255,255,.3)">/100</span></div>
+      <div class="result-grade" id="r-grade">—</div>
+      <div class="result-sub" id="r-sub">—</div>
+      <div class="result-stats">
+        <div class="result-stat"><span class="n" id="r-correct" style="color:#6ee7b7">—</span><span class="l">CORRECT</span></div>
+        <div class="result-stat"><span class="n" id="r-wrong" style="color:#fca5a5">—</span><span class="l">WRONG</span></div>
+        <div class="result-stat"><span class="n" id="r-skip">—</span><span class="l">SKIPPED</span></div>
+      </div>
+    </div>
+
+    <div style="margin-bottom:1.5rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;">
+      <h2 class="review-section-title" style="margin:0;">Full Answer Review</h2>
+      <button class="btn btn-primary" onclick="restartTest()">Retake Test (new shuffle)</button>
+    </div>
+    <div id="review-list"></div>
+  </div>
+</div>
+
+<!-- ══ STUDY SCREEN ══ -->
+<div id="screen-study" class="screen">
+  <div class="hero" style="padding:3rem 2rem 2.5rem;">
+    <div class="hero-inner">
+      <div class="hero-eyebrow">All 100 Questions</div>
+      <h1>Study Guide<br><span>+ Explanations</span></h1>
+    </div>
+  </div>
+  <div class="page-body">
+    <div class="study-controls">
+      <input type="text" id="s-search" placeholder="Search questions or topics..." oninput="renderStudy()">
+      <select id="s-topic" onchange="renderStudy()">
+        <option value="">All topics</option>
+      </select>
+    </div>
+    <div class="study-stats-row">
+      <div class="study-stat"><div class="n" id="s-showing">100</div><div class="l">SHOWING</div></div>
+      <div class="study-stat"><div class="n">100</div><div class="l">TOTAL Q</div></div>
+      <div class="study-stat"><div class="n">17</div><div class="l">TOPICS</div></div>
+      <div class="study-stat"><div class="n" style="font-size:1rem;padding-top:4px;">Ans + Explain</div><div class="l">EACH Q</div></div>
+    </div>
+    <div id="study-list"></div>
+  </div>
+</div>
+
+<script>
+const TCLASS={
+  "Image Restoration":"tc-blue","Image Denoising":"tc-blue",
+  "Dice Loss":"tc-purple","Pixel-wise Cross Entropy":"tc-purple",
+  "Image Restoration Network":"tc-green","Skip Connections":"tc-green",
+  "VAE":"tc-amber","KL Divergence":"tc-amber","Reparameterization":"tc-amber",
+  "GAN":"tc-pink","Triplet Loss":"tc-teal","Semantic Segmentation":"tc-gray",
+  "Normalization":"tc-gray","Dropout":"tc-gray","Optimizers":"tc-red",
+  "ResNet":"tc-purple","GoogLeNet":"tc-purple"
+};
+
+const ALL=[
+  {n:1,t:"Image Restoration",q:"What is the primary goal of image restoration?",opts:["To compress images for storage","To recover a clean image from a degraded input","To convert images to grayscale","To increase image resolution only"],a:1,mr:"Image restoration चे main goal आहे degraded (खराब) image मधून original clean image परत मिळवणे. Degradation म्हणजे blur, noise, low resolution किंवा missing pixels.",en:"Goal is to recover a clean image from a degraded input — covering blur, noise, low resolution, or missing pixels."},
+  {n:2,t:"Image Restoration",q:"Which of the following is NOT a type of image restoration?",opts:["Deblurring","Denoising","Image compression","Super resolution"],a:2,mr:"Image compression हे restoration नाही — ते image लहान करण्यासाठी असते. Restoration मध्ये deblurring, denoising, super-resolution, inpainting येतात.",en:"Image compression reduces file size — it is not restoration. Restoration tasks: deblurring, denoising, super-resolution, inpainting."},
+  {n:3,t:"Image Restoration",q:"In the image degradation model, which formula represents the degraded image y?",opts:["y = H(x) + noise","y = x − H","y = H × x²","y = noise only"],a:0,mr:"Degradation model: y = H(x) + noise. H हा degradation operator आहे (blur, low resolution etc.), आणि त्यात random noise add होतो.",en:"The degradation model is y = H(x) + noise. H is the degradation operator and noise is additive random noise."},
+  {n:4,t:"Image Restoration",q:"When the degradation operator H is the identity matrix, the restoration task becomes:",opts:["Super resolution","Image inpainting","Image denoising","Image deblurring"],a:2,mr:"जेव्हा H = Identity matrix, म्हणजे image blur नाही — फक्त noise add झाले आहे. अशावेळी task फक्त noise काढणे = denoising.",en:"When H = identity, the only degradation is additive noise, so the task reduces to image denoising."},
+  {n:5,t:"Image Restoration",q:"Image inpainting refers to:",opts:["Adding noise to images","Recovering missing or corrupted regions of an image","Shrinking the image size","Converting image to binary"],a:1,mr:"Inpainting म्हणजे image मधील missing किंवा corrupted भाग recover करणे. जसे की torn photo मधील missing area fill करणे.",en:"Inpainting recovers missing or damaged regions — like restoring scratched photos by filling in missing areas."},
+  {n:6,t:"Image Denoising",q:"Low-dose CT denoising is an example of which task?",opts:["Image generation","Image deblurring","Image denoising","Image translation"],a:2,mr:"Low-dose CT scan मध्ये radiation कमी असल्यामुळे image noisy येतो. Deep learning network हे noise काढतो — image denoising चे real-world application.",en:"Low-dose CT produces noisy images due to less radiation. DL denoises these — a practical denoising application in medical imaging."},
+  {n:7,t:"Image Restoration",q:"Which loss function is most commonly used in image restoration networks?",opts:["Cross entropy loss","Dice loss","Mean Squared Error (MSE)","Triplet loss"],a:2,mr:"Image restoration मध्ये predicted clean image आणि actual clean image मधील difference MSE ने मोजतात. Pixel-level regression task आहे.",en:"MSE is used because restoration is pixel-level regression — we measure the average squared pixel difference between predicted and ground-truth clean image."},
+  {n:8,t:"Image Restoration",q:"The MSE loss trains the restoration network to map:",opts:["Clean image to noisy image","Noisy image to clean image","Gray image to colored image","Small image to large image"],a:1,mr:"MSE loss network ला शिकवतो की noisy/corrupted input घे आणि clean output दे.",en:"MSE trains the network to map corrupted input to clean output — penalizes squared difference between output and ground-truth clean image."},
+  {n:9,t:"Image Restoration",q:"MSE formula is: MSE = ?",opts:["(1/N) Σ |ŷᵢ − yᵢ|","(1/N) Σ (ŷᵢ − yᵢ)²","Σ ŷᵢ × yᵢ","(1/N) Σ log(ŷᵢ / yᵢ)"],a:1,mr:"MSE = (1/N) × सर्व (predicted − actual)² चा sum. Square केल्यामुळे मोठे errors जास्त penalize होतात.",en:"MSE = (1/N) Σ (ŷᵢ − yᵢ)². Squaring ensures large errors are penalized more and average is taken over all N pixels."},
+  {n:10,t:"Image Restoration",q:"Which statement about MSE is correct?",opts:["MSE is insensitive to outliers","MSE penalizes large errors more due to squaring","MSE is only used in classification","MSE cannot be used for image tasks"],a:1,mr:"MSE मध्ये error square करतात, त्यामुळे मोठे errors खूप जास्त penalize होतात — sensitive to outliers.",en:"Squaring amplifies larger errors — a pixel off by 10 contributes 100 to loss vs 1 for a pixel off by 1. MSE is sensitive to outliers."},
+  {n:11,t:"Image Restoration Network",q:"What does the encoder part of a restoration network do?",opts:["Up-samples image to higher resolution","Down-samples image to extract abstract features","Adds noise to the image","Applies color correction"],a:1,mr:"Encoder = convolution layers जे image down-sample करतात आणि abstract features काढतात. यात noise कमी होत जाते.",en:"The encoder uses conv layers to progressively down-sample the image, extracting abstract features while discarding noise."},
+  {n:12,t:"Image Restoration Network",q:"What does the decoder in a restoration network do?",opts:["Extracts features","Down-samples features","Up-samples to reconstruct the clean image","Classifies image categories"],a:2,mr:"Decoder = deconvolution layers जे features पासून पुन्हा full resolution clean image तयार करतात.",en:"The decoder uses deconvolutional layers to up-sample feature maps back to full resolution, reconstructing the clean output image."},
+  {n:13,t:"Image Restoration Network",q:"Convolutional layers in the restoration network serve primarily as:",opts:["Image classifiers","Feature extractors that eliminate noise","Output generators","Upsampling modules"],a:1,mr:"Conv layers features काढतात आणि noise eliminate करतात. ते image ला classify करत नाहीत.",en:"Conv layers act as feature extractors — they learn filters responding to meaningful patterns while suppressing noise during encoding."},
+  {n:14,t:"Image Restoration Network",q:"Deconvolutional layers in the restoration network serve primarily as:",opts:["Feature extractors","Loss calculators","Image reconstruction modules","Normalization layers"],a:2,mr:"Deconv layers up-sampling करतात आणि abstract features पासून clean image reconstruct करतात.",en:"Deconv (transposed conv) layers up-sample spatial dimensions, reconstructing the clean image from compressed feature representations."},
+  {n:15,t:"Skip Connections",q:"What is the main purpose of skip connections in an image restoration network?",opts:["To increase model size","To pass feature maps from encoder to decoder, preserving image details","To apply batch normalization","To reduce learning rate"],a:1,mr:"Skip connections encoder च्या feature maps थेट decoder ला देतात. Deep network मध्ये हरवलेली fine image details preserve होतात.",en:"Skip connections pass encoder feature maps directly to the decoder, preserving fine spatial details that would otherwise be lost in deep layers."},
+  {n:16,t:"Skip Connections",q:"Skip connections help improve backpropagation by:",opts:["Stopping gradients from flowing","Providing an alternative gradient path, reducing vanishing gradient problem","Increasing batch size","Removing residuals"],a:1,mr:"Skip connections gradient साठी alternate path देतात. Deep network मध्ये gradient vanish होण्याची problem कमी होते.",en:"Skip connections provide a shorter path for gradients to flow backward, alleviating the vanishing gradient problem in deep architectures."},
+  {n:17,t:"Skip Connections",q:"Without skip connections, deep restoration networks tend to:",opts:["Train faster","Lose fine image details in deep layers","Produce sharper images","Reduce computation"],a:1,mr:"Skip connections नसल्यास deep layers मध्ये fine image details (edges, textures) हरवतात.",en:"Without skip connections, spatial details progressively disappear as depth increases — decoder lacks fine-grained info to reconstruct sharp images."},
+  {n:18,t:"Skip Connections",q:"Skip connections are also used in which famous architecture?",opts:["AlexNet","VGG-16","ResNet","GoogLeNet"],a:2,mr:"ResNet मध्ये skip/identity connections वापरल्या जातात ज्या residual learning enable करतात.",en:"ResNet uses identity shortcut connections — enabling training of very deep networks (100+ layers) effectively."},
+  {n:19,t:"Dice Loss",q:"Dice coefficient of 1 means:",opts:["No overlap between predicted and actual mask","Complete overlap between predicted and actual mask","50% overlap","Random overlap"],a:1,mr:"Dice = 1 म्हणजे predicted mask आणि actual mask पूर्णपणे match होतात — perfect segmentation.",en:"Dice = 1 indicates perfect overlap between predicted and ground-truth masks — ideal segmentation result."},
+  {n:20,t:"Dice Loss",q:"Dice coefficient of 0 means:",opts:["Perfect segmentation","Complete overlap","No overlap between masks","Maximum loss"],a:2,mr:"Dice = 0 म्हणजे predicted mask आणि actual mask मध्ये अजिबात overlap नाही — worst segmentation.",en:"Dice = 0 means zero overlap between predicted and ground-truth masks — completely wrong segmentation."},
+  {n:21,t:"Dice Loss",q:"The formula for Dice coefficient is:",opts:["2|A∩B| / (|A| × |B|)","2|A∩B| / (|A| + |B|)","|A∩B| / (|A| + |B|)","(|A| + |B|) / 2|A∩B|"],a:1,mr:"Formula: 2 × intersection / (|A| + |B|). '2' या कारणाने की intersection A आणि B दोन्हींमध्ये मोजला जातो.",en:"Dice = 2|A∩B| / (|A|+|B|). Factor of 2 normalizes for the fact that intersection is counted in both terms of the denominator."},
+  {n:22,t:"Dice Loss",q:"Dice Loss is defined as:",opts:["1 + Dice coefficient","Dice coefficient","1 − Dice coefficient","−log(Dice coefficient)"],a:2,mr:"Dice Loss = 1 − Dice coefficient. Dice जास्त (overlap चांगला) → Loss कमी.",en:"Dice Loss = 1 − Dice. Perfect overlap (Dice=1) gives loss=0; no overlap (Dice=0) gives loss=1."},
+  {n:23,t:"Dice Loss",q:"Dice Loss is preferred over cross entropy in segmentation when:",opts:["Images are very large","There is class imbalance (e.g., tiny tumor vs large background)","Batch size is small","Learning rate is high"],a:1,mr:"Medical images मध्ये tumor खूप लहान असतो (class imbalance). Dice directly overlap मोजतो — imbalance handle करतो.",en:"Dice handles class imbalance well. In medical images, tumor region is tiny vs huge background. Cross-entropy gets dominated by background; Dice measures overlap directly."},
+  {n:24,t:"Dice Loss",q:"How is |A∩B| computed in practice in Dice coefficient?",opts:["Max of A and B","Element-wise multiplication of prediction and target, then summed","Sum of A and B","Subtraction of A from B"],a:1,mr:"|A∩B| = predicted mask आणि target mask चे element-wise multiplication, नंतर sum. दोन्ही 1 असतील तेव्हाच product 1 येतो.",en:"|A∩B| = element-wise multiplication of predicted and target mask, then summed. Only pixels where both are 1 contribute."},
+  {n:25,t:"Pixel-wise Cross Entropy",q:"Pixel-wise cross entropy computes loss:",opts:["Once for the entire image","Separately for each pixel, then averages","Only for boundary pixels","Only for foreground pixels"],a:1,mr:"प्रत्येक pixel साठी स्वतंत्रपणे classification loss मोजतात, मग average काढतात.",en:"Unlike image classification, pixel-wise CE computes a classification loss for every pixel independently, then averages them."},
+  {n:26,t:"Pixel-wise Cross Entropy",q:"Pixel-wise cross entropy is mainly used for which task?",opts:["Image classification","Object detection","Semantic segmentation","Image compression"],a:2,mr:"Semantic segmentation मध्ये प्रत्येक pixel ला class label द्यायचे असते. Pixel-wise CE हे per-pixel classification loss आहे.",en:"Semantic segmentation requires a class label for every pixel. Pixel-wise CE provides the per-pixel classification loss needed."},
+  {n:27,t:"Pixel-wise Cross Entropy",q:"The formula for pixel-wise cross entropy is:",opts:["(1/N) Σ (ŷ−y)²","−(1/N) Σ p(x,y)·log q(x,y)","Σ p(x,y) / q(x,y)","N × Σ log p(x,y)"],a:1,mr:"Formula: −(1/N) Σ p(x,y) log q(x,y). p = true label, q = predicted probability.",en:"L = −(1/N) Σ p(x,y)·log q(x,y). The negative log penalizes low confidence on the correct class per pixel."},
+  {n:28,t:"Semantic Segmentation",q:"Semantic segmentation assigns:",opts:["One label to the entire image","A class label to every pixel in the image","Bounding boxes to objects","Labels only to edges"],a:1,mr:"Semantic segmentation = pixel-level classification. प्रत्येक pixel ला class label मिळतो.",en:"Semantic segmentation is dense prediction — every pixel receives a class label. It's image classification at pixel level."},
+  {n:29,t:"Semantic Segmentation",q:"In semantic segmentation, if three cars appear in an image, they are labeled as:",opts:["Car-1, Car-2, Car-3 (distinct labels)","All labeled 'car' (same label)","Labeled by size","Left unlabeled"],a:1,mr:"Semantic segmentation मध्ये सर्व car pixels ला 'car' label मिळतो — individual instances वेगळ्या होत नाहीत.",en:"Semantic segmentation groups by class, not instance. All car pixels get the same 'car' label regardless of how many cars are present."},
+  {n:30,t:"Semantic Segmentation",q:"Instance segmentation differs from semantic segmentation by:",opts:["Operating on grayscale images only","Assigning unique labels to individual object instances","Ignoring class information","Only detecting edges"],a:1,mr:"Instance segmentation प्रत्येक object ला वेगळ्याने ओळखतो — Car-1, Car-2, Car-3.",en:"Instance segmentation identifies individual object instances — each car gets a unique ID. Semantic only tells you class membership."},
+  {n:31,t:"Semantic Segmentation",q:"FCN stands for:",opts:["Fast Convolutional Network","Fully Connected Network","Fully Convolutional Network","Feature Compression Network"],a:2,mr:"FCN = Fully Convolutional Network. यात traditional FC layers नसतात — सर्व layers convolutional असतात.",en:"FCN = Fully Convolutional Network. It replaces FC layers with conv layers so the network can produce spatial output maps."},
+  {n:32,t:"Semantic Segmentation",q:"FCN replaces fully connected layers with:",opts:["Pooling layers","Recurrent layers","Convolutional layers","Dropout layers"],a:2,mr:"FCN मध्ये FC layers ऐवजी 1×1 convolutional layers वापरतात. यामुळे network pixel-wise output देऊ शकते.",en:"FCN replaces FC layers with 1×1 conv layers. This preserves spatial information and allows pixel-wise prediction output."},
+  {n:33,t:"Semantic Segmentation",q:"FCN-32s produces output that is:",opts:["Very detailed (fine)","Coarse due to 32x upsampling","Same resolution as input","Binary segmentation only"],a:1,mr:"FCN-32s मध्ये feature map 32 times up-sample करतात — हे खूप coarse/sparse output देते.",en:"FCN-32s upsamples directly from stride-32 features — this aggressive upsampling loses spatial detail, producing coarse output."},
+  {n:34,t:"Semantic Segmentation",q:"Skip connections in FCN (e.g., FCN-8s vs FCN-32s) produce:",opts:["Coarser segmentation output","Finer and more detailed segmentation output","Slower training","Larger model size"],a:1,mr:"FCN-8s मध्ये earlier layers चे skip connections वापरतात — earlier layers मध्ये fine spatial details असतात → output sharp.",en:"FCN-8s fuses predictions from multiple scales. Earlier layers retain fine spatial info, producing much more detailed segmentation."},
+  {n:35,t:"VAE",q:"What does a traditional (vanilla) Autoencoder map input to?",opts:["A probability distribution","A fixed deterministic latent vector","A set of class probabilities","A discrete code"],a:1,mr:"Traditional AE input ला एका fixed, deterministic latent vector वर map करतो — एक exact point, distribution नाही.",en:"A standard AE encoder maps each input to a single fixed point in latent space — deterministic, no distribution around it."},
+  {n:36,t:"VAE",q:"What does the encoder in a VAE output?",opts:["A fixed latent vector","Mean (μ) and standard deviation (σ) of a latent distribution","Class probabilities","A reconstructed image"],a:1,mr:"VAE encoder दोन vectors output करतो: μ (mean) आणि σ (standard deviation) — distribution चे parameters.",en:"VAE encoder outputs μ and σ defining a Gaussian distribution in latent space. Code z is sampled from N(μ, σ²)."},
+  {n:37,t:"VAE",q:"In a VAE, the latent code z is obtained by:",opts:["Directly using μ","Sampling from the distribution N(μ, σ²)","Taking the maximum of μ and σ","Using the median of the distribution"],a:1,mr:"z हे N(μ, σ²) distribution मधून sample केले जाते — त्यामुळे smooth generation होते.",en:"z is sampled from Gaussian N(μ, σ²) defined by encoder outputs. This stochastic sampling makes VAE generative."},
+  {n:38,t:"VAE",q:"The prior distribution assumed for the latent space in VAE is:",opts:["Uniform distribution","Bernoulli distribution","Standard normal N(0, I)","Laplace distribution"],a:2,mr:"VAE मध्ये prior P(z) = N(0, I) assume केली जाते. KL loss हे enforce करतो.",en:"VAE assumes standard normal prior P(z)=N(0,I). The KL term pushes encoder distribution toward this prior."},
+  {n:39,t:"VAE",q:"VAE total loss = ?",opts:["Reconstruction loss only","KL divergence only","Reconstruction loss + KL divergence","Cross entropy + MSE"],a:2,mr:"VAE loss = Reconstruction loss + KL Divergence loss. दोन्ही एकत्र काम करतात.",en:"VAE Loss = Reconstruction Loss + KL Divergence. Reconstruction ensures class structure; KL ensures smooth continuous latent space."},
+  {n:40,t:"VAE",q:"In VAE, the reconstruction loss ensures:",opts:["Latent space is smooth","Class-specific structure is maintained in latent space","KL divergence is minimized","Encoder is removed"],a:1,mr:"Reconstruction loss network ला force करतो की similar inputs (same class) latent space मध्ये जवळ असतील.",en:"Reconstruction loss encourages grouping similar inputs in latent space so they decode faithfully — maintaining class-specific clusters."},
+  {n:41,t:"VAE",q:"In VAE, the KL divergence loss ensures:",opts:["Reconstructed images are sharp","Latent encodings are clustered near origin (smooth latent space)","Model has fewer parameters","Training is faster"],a:1,mr:"KL loss latent encodings ला N(0,I) च्या जवळ ठेवतो — smooth continuous latent space.",en:"KL loss pushes encodings toward N(0,I), preventing isolated clusters and creating a continuous smooth latent space."},
+  {n:42,t:"VAE",q:"If only reconstruction loss is used (no KL) in VAE, the latent space will be:",opts:["Smooth and continuous","Discontinuous with isolated clusters","Random and uniform","All zeros"],a:1,mr:"KL loss नसल्यास encoder isolated clusters बनवतो — gaps असतात, sampling करणे unreliable.",en:"Without KL, encoder creates isolated clusters with gaps between them — sampling from gap regions gives nonsensical outputs."},
+  {n:43,t:"VAE",q:"VAE enables which capability that traditional AE does not?",opts:["Dimensionality reduction","Image compression","Generating new realistic samples by sampling from latent space","Faster training"],a:2,mr:"VAE च्या continuous latent space मधून random z sample करता येतो आणि realistic नवीन image generate होतो.",en:"VAE's continuous latent space allows sampling any z~N(0,I) and decoding it into a realistic image. Traditional AE cannot do this."},
+  {n:44,t:"VAE",q:"Vector arithmetic in VAE latent space is possible because:",opts:["VAE uses more layers","VAE latent space is continuous and smooth","VAE uses MSE loss","VAE has a discriminator"],a:1,mr:"Smooth, continuous latent space मुळे vector arithmetic meaningful असते — 'glasses code' add/subtract करता येतो.",en:"Meaningful vector arithmetic requires smooth structured latent space where directions correspond to semantic attributes — VAE's KL provides this."},
+  {n:45,t:"KL Divergence",q:"KL divergence measures:",opts:["Distance between two images","How much one probability distribution diverges from another","Mean of a distribution","Variance of a distribution"],a:1,mr:"KL divergence distribution P आणि distribution Q मधील 'difference' मोजतो.",en:"KL divergence quantifies how much distribution Q differs from reference P. It measures information loss when Q approximates P."},
+  {n:46,t:"KL Divergence",q:"KL(P||Q) = 0 implies:",opts:["P and Q are completely different","P and Q are identical distributions","KL is maximized","Q is the prior"],a:1,mr:"KL = 0 फक्त तेव्हाच होतो जेव्हा P आणि Q exactly same distributions असतात.",en:"KL divergence equals zero if and only if P and Q are identical probability distributions everywhere."},
+  {n:47,t:"KL Divergence",q:"KL divergence is always:",opts:["Negative","Zero","Non-negative (≥ 0)","Equal to 1"],a:2,mr:"KL divergence कधीही negative नसते — Gibbs' inequality ने prove होते. KL ≥ 0 नेहमी.",en:"By Gibbs' inequality, KL(P||Q) ≥ 0 always. It equals 0 only when P = Q."},
+  {n:48,t:"KL Divergence",q:"Is KL divergence symmetric?",opts:["Yes, KL(P||Q) = KL(Q||P) always","No, KL(P||Q) ≠ KL(Q||P) in general","Only for Gaussian distributions","Only when P = Q"],a:1,mr:"KL asymmetric आहे — म्हणून KL हे true 'distance metric' नाही.",en:"KL divergence is asymmetric — KL(P||Q) ≠ KL(Q||P) in general. It is not a true metric."},
+  {n:49,t:"KL Divergence",q:"The formula for KL divergence KL(P||Q) is:",opts:["Σ Q(x) log[P(x)/Q(x)]","Σ P(x) log[P(x)/Q(x)]","Σ P(x) × Q(x)","Σ |P(x) − Q(x)|"],a:1,mr:"KL(P||Q) = Σ P(x) log[P(x)/Q(x)].",en:"KL(P||Q) = Σ P(x) log[P(x)/Q(x)]. Expectation under P — measures surprise using Q to encode samples drawn from P."},
+  {n:50,t:"KL Divergence",q:"In VAE, KL divergence is minimized between:",opts:["Reconstruction and input","Encoder distribution Q(z|x) and prior P(z) = N(0,I)","Decoder output and noise","Generator and discriminator"],a:1,mr:"VAE मध्ये encoder distribution Q(z|x) ला prior P(z) = N(0,I) च्या जवळ आणण्यासाठी KL minimize करतात.",en:"VAE minimizes KL(Q(z|x)||P(z)) where P(z)=N(0,I). This regularizes encoder to produce distributions close to standard normal prior."},
+  {n:51,t:"KL Divergence",q:"ELBO stands for:",opts:["Expected Loss Based Optimization","Evidence Lower BOund","Encoder Latent Backpropagation Output","Efficient Latent Bounded Objective"],a:1,mr:"ELBO = Evidence Lower BOund. VAE मध्ये log P(x) maximize करणे hard असते, म्हणून ELBO maximize करतात.",en:"ELBO = Evidence Lower BOund. Since maximizing log P(x) is intractable, VAE maximizes ELBO = E[log P(x|z)] − KL(Q||P)."},
+  {n:52,t:"KL Divergence",q:"Maximizing ELBO in VAE means:",opts:["Only minimizing KL","Only maximizing reconstruction","Maximizing reconstruction likelihood and minimizing KL divergence simultaneously","Maximizing KL only"],a:2,mr:"ELBO = Reconstruction term − KL term. ELBO maximize = reconstruction जास्त + KL कमी — दोन्ही एकत्र.",en:"Maximizing ELBO simultaneously maximizes reconstruction quality (first term) and minimizes the KL penalty (second term)."},
+  {n:53,t:"Reparameterization",q:"Why is direct sampling from Q(z|x) a problem during VAE training?",opts:["It makes the model too large","Sampling is non-differentiable, breaking backpropagation","It increases the loss","It slows down inference"],a:1,mr:"Sampling = random operation. Random operation मधून gradient pass होत नाही — backpropagation काम करत नाही.",en:"Sampling is stochastic with no defined gradient. Including it in the computation graph breaks backpropagation — gradients cannot flow to encoder."},
+  {n:54,t:"Reparameterization",q:"In the reparameterization trick, z is expressed as:",opts:["z = μ × σ","z = μ + σ ⊙ ε","z = ε / σ + μ","z = μ − σ"],a:1,mr:"z = μ + σ ⊙ ε. μ आणि σ learnable आहेत. ε external noise आहे.",en:"z = μ + σ ⊙ ε. Deterministic function of μ, σ (learnable) and ε (external). Gradients flow through μ and σ."},
+  {n:55,t:"Reparameterization",q:"In the reparameterization trick, ε is sampled from:",opts:["N(μ, σ²)","Uniform distribution U(0,1)","Standard normal N(0, I)","Bernoulli distribution"],a:2,mr:"ε ~ N(0, I) — standard normal distribution मधून sample केले जाते. हे external आहे — network parameters चा भाग नाही.",en:"ε is sampled from standard normal N(0,I). It's external randomness — not part of the learnable parameters μ and σ."},
+  {n:56,t:"Reparameterization",q:"After reparameterization, gradients can flow through:",opts:["ε only","μ and σ (learnable parameters)","The random variable directly","The decoder only"],a:1,mr:"z = μ + σε हे deterministic formula आहे. Gradient dz/dμ = 1, dz/dσ = ε — easily computable.",en:"With z = μ + σε, gradients ∂L/∂μ and ∂L/∂σ are well-defined, enabling end-to-end backpropagation through the full VAE."},
+  {n:57,t:"Reparameterization",q:"The reparameterization trick separates:",opts:["Encoder from decoder","Randomness (ε) from learnable parameters (μ, σ)","Generator from discriminator","Loss from gradient"],a:1,mr:"Trick म्हणजे randomness (ε) आणि learnable parameters (μ, σ) वेगळे करणे.",en:"Key insight: separate stochastic part (ε, external) from deterministic part (μ, σ, learnable). Gradients only flow through deterministic part."},
+  {n:58,t:"Reparameterization",q:"Without the reparameterization trick, VAE training would fail because:",opts:["The encoder has too many layers","Gradients cannot propagate through a non-differentiable sampling operation","The KL divergence explodes","The decoder becomes too shallow"],a:1,mr:"Direct sampling non-differentiable → gradient chain तुटतो → encoder update होत नाही → training fail.",en:"Without reparameterization, the sampling node has no gradient. Encoder's μ and σ cannot be updated — training halts."},
+  {n:59,t:"GAN",q:"What does GAN stand for?",opts:["Generative Adaptive Network","Generative Adversarial Network","Gradient Adversarial Node","Generative Attention Network"],a:1,mr:"GAN = Generative Adversarial Network. 'Adversarial' म्हणजे दोन networks एकमेकांशी compete करतात.",en:"GAN = Generative Adversarial Network. 'Adversarial' refers to the competing relationship — a minimax game between generator and discriminator."},
+  {n:60,t:"GAN",q:"In a GAN, the Generator takes as input:",opts:["A real image","A class label","Random noise vector z","Training data"],a:2,mr:"Generator एक random noise vector z घेतो (Gaussian किंवा uniform) आणि त्यातून realistic image बनवतो.",en:"Generator takes random noise z (from Gaussian/uniform distribution) and maps it to a realistic data point — learns data distribution from noise."},
+  {n:61,t:"GAN",q:"In a GAN, the Discriminator outputs:",opts:["A generated image","P(input is real)","A class label","A latent vector"],a:1,mr:"Discriminator D(x) output करतो = probability that input x is real. D(x)≈1 = real, D(x)≈0 = fake.",en:"Discriminator outputs D(x) ∈ [0,1] — probability that input x is from real data distribution. D≈1 means real, D≈0 means fake."},
+  {n:62,t:"GAN",q:"The Discriminator training objective is to:",opts:["Maximize D(real) and maximize D(fake)","Maximize D(real) and minimize D(fake)","Minimize D(real) and minimize D(fake)","Minimize D(real) and maximize D(fake)"],a:1,mr:"D ला real images real म्हणायचे (D(x)→1) आणि fake images fake म्हणायचे (D(G(z))→0).",en:"D wants: high D(x) for real data, low D(G(z)) for fake. Objective: maximize E[log D(x)] + E[log(1−D(G(z)))]."},
+  {n:63,t:"GAN",q:"The Generator training objective is to:",opts:["Minimize D(G(z))","Maximize D(G(z)) — fool the discriminator","Minimize D(real)","Maximize reconstruction loss"],a:1,mr:"G ला D ला फसवायचे आहे — fake images real वाटायला हव्यात. G maximize करतो E[log D(G(z))].",en:"G wants its fake images classified as real by D. Maximizes E[log D(G(z))] — tries to fool D into outputting high probability for generated images."},
+  {n:64,t:"GAN",q:"D objective formula: maximize",opts:["E[log D(G(z))]","E[log D(x)] only","E[log D(x)] + E[log(1−D(G(z)))]","E[log(1−D(x))]"],a:2,mr:"D objective = E[log D(x)] + E[log(1−D(G(z)))]. पहिला term real, दुसरा fake साठी.",en:"D maximizes E[log D(x)] (correct on real) + E[log(1−D(G(z)))] (correct on fake) — standard binary cross-entropy for two classes."},
+  {n:65,t:"GAN",q:"G objective formula: maximize",opts:["E[log(1−D(G(z)))]","E[log D(x)]","E[log D(G(z))]","E[log D(x)] − E[log D(G(z))]"],a:2,mr:"G maximize करतो E[log D(G(z))]. Non-saturating version — practical training मध्ये gradient चांगला मिळतो.",en:"G maximizes E[log D(G(z))] (non-saturating). This gives stronger gradients early in training vs minimizing E[log(1−D(G(z)))]."},
+  {n:66,t:"GAN",q:"GAN training involves:",opts:["Only training the generator","Only training the discriminator","Alternately training D and G","Training both simultaneously with same loss"],a:2,mr:"Training alternate होते: k steps D update → 1 step G update.",en:"GAN training alternates: k steps updating D (freeze G), then 1 step updating G (freeze D). Prevents one network dominating the other."},
+  {n:67,t:"GAN",q:"GAN is described as which type of game?",opts:["Cooperative game","Zero-sum / Minimax game","Multi-player game","Reward game"],a:1,mr:"GAN = minimax game. G minimize करतो D च्या objective ला, D maximize करतो — zero-sum.",en:"GAN is a minimax game. D maximizes the objective, G minimizes it. They have exactly opposing goals — when one wins, the other loses."},
+  {n:68,t:"GAN",q:"What type of model is GAN?",opts:["Explicit generative model","Implicit generative model","Discriminative model","Supervised model only"],a:1,mr:"GAN = implicit generative model. P(x) explicit formula नसते — G directly samples देतो.",en:"GAN is an implicit generative model. It doesn't define P(x) — instead G learns to sample from P(x) by mapping noise to data space."},
+  {n:69,t:"GAN",q:"Which of these is a real application of GANs?",opts:["Image classification","Image-to-image translation (pix2pix)","Object detection","Image compression only"],a:1,mr:"pix2pix = image-to-image translation (sketch → photo, day → night). GAN चे powerful application.",en:"pix2pix uses conditional GANs for image-to-image translation. Other GAN apps: super-resolution, inpainting, video synthesis."},
+  {n:70,t:"GAN",q:"The main difference between VAE and GAN generated images:",opts:["VAE images are sharper","GAN images tend to be sharper; VAE images can be blurry","Both identical quality","GAN requires labeled data; VAE does not"],a:1,mr:"GAN images sharp असतात — adversarial training direct image quality वर focus करते. VAE MSE वापरते → blurry.",en:"GANs produce sharper, more photo-realistic images. VAEs trained with MSE/pixel loss tend to produce blurry outputs due to mode averaging."},
+  {n:71,t:"Triplet Loss",q:"Triplet loss is used in which application?",opts:["Image segmentation","Image denoising","Face recognition (FaceNet)","Image super resolution"],a:2,mr:"Triplet loss FaceNet मध्ये वापरतात — face recognition साठी. FaceNet faces ला embedding space मध्ये map करतो.",en:"Triplet loss introduced in FaceNet (Google, 2015) for face embeddings — enabling high-accuracy face verification."},
+  {n:72,t:"Triplet Loss",q:"A triplet consists of:",opts:["Anchor, Positive, Negative","Input, Hidden, Output","Real, Fake, Neutral","Encoder, Decoder, Latent"],a:0,mr:"Triplet = तीन images: Anchor (reference), Positive (same person), Negative (different person).",en:"A triplet is (Anchor A, Positive P, Negative N). A and P are different images of same person. N is a different person."},
+  {n:73,t:"Triplet Loss",q:"In triplet loss, the Positive sample is:",opts:["A different person from the Anchor","The same person as the Anchor (different image)","A random image","A synthetic image"],a:1,mr:"Positive = Anchor सारखाच व्यक्ती, पण वेगळा image (different pose, lighting). A-P distance कमी असावी.",en:"Positive = different image of the same person as Anchor — different time, angle, or lighting. Goal: make their embeddings close."},
+  {n:74,t:"Triplet Loss",q:"In triplet loss, the Negative sample is:",opts:["Same person, different pose","A different person from the Anchor","Same image as Anchor","A noisy version of Anchor"],a:1,mr:"Negative = Anchor पेक्षा वेगळा व्यक्ती. A-N embedding distance जास्त असावी.",en:"Negative = image of a completely different person from Anchor. Goal: push Anchor and Negative embeddings far apart."},
+  {n:75,t:"Triplet Loss",q:"The triplet loss constraint is:",opts:["d(A,P) ≥ d(A,N) + α","d(A,P) + α ≤ d(A,N)","d(A,N) + α ≤ d(A,P)","d(A,P) = d(A,N)"],a:1,mr:"Constraint: d(A,P) + α ≤ d(A,N). Same-person distance + margin ≤ different-person distance.",en:"d(A,P) + α ≤ d(A,N): same-person distance must be smaller than different-person distance by at least margin α."},
+  {n:76,t:"Triplet Loss",q:"The margin α in triplet loss is used to:",opts:["Speed up training","Prevent the trivial solution where all embeddings collapse to zero","Increase the learning rate","Reduce model size"],a:1,mr:"Margin α नसल्यास network सर्व embeddings 0 ला set करतो (trivial solution). α required separation enforce करतो.",en:"Without margin α, network satisfies constraint trivially by making all embeddings zero. Margin α enforces minimum separation."},
+  {n:77,t:"Triplet Loss",q:"Triplet Loss formula L = ?",opts:["max(d(A,P) + d(A,N) + α, 0)","max(d(A,P) − d(A,N) + α, 0)","min(d(A,P) − d(A,N) + α, 0)","d(A,P) − d(A,N) + α (no max)"],a:1,mr:"L = max(d(A,P) − d(A,N) + α, 0). max with 0 → constraint already satisfied असल्यास loss = 0.",en:"L = max(d(A,P)−d(A,N)+α, 0). The max(·,0) hinge means no loss when constraint is already satisfied — only positive for violating triplets."},
+  {n:78,t:"Triplet Loss",q:"Hard positive is defined as:",opts:["Easiest same-person pair","Most dissimilar same-person image (argmax d(A,P))","Random same-person image","Closest different-person image"],a:1,mr:"Hard positive = Anchor सारख्याच व्यक्तीचा सर्वात वेगळा image (maximum distance).",en:"Hard positive = same-person image with largest distance from Anchor = argmax d(A,P). Most challenging for pulling same-person embeddings together."},
+  {n:79,t:"Triplet Loss",q:"Hard negative is defined as:",opts:["Most dissimilar different-person image","Most similar different-person image to Anchor (argmin d(A,N))","A random image","Same-person image"],a:1,mr:"Hard negative = Anchor च्या सर्वात जवळचा different person image.",en:"Hard negative = different-person image closest to Anchor = argmin d(A,N). Most confusable imposter — hardest case for separation."},
+  {n:80,t:"Triplet Loss",q:"Why is semi-hard negative preferred over hard negative?",opts:["It is computationally cheaper","To avoid model collapse (all embeddings = 0)","It increases batch size","It removes the need for margin α"],a:1,mr:"Hard negatives exclusively वापरल्यास model collapse होतो. Semi-hard negatives balance देतात.",en:"Hard negatives exclusively lead to model collapse. Semi-hard negatives provide meaningful gradients without causing instability."},
+  {n:81,t:"Triplet Loss",q:"One-shot learning means:",opts:["Training with 100 samples","Learning to recognize a class from 1 or very few examples","Training for 1 epoch only","Using 1 layer only"],a:1,mr:"One-shot learning = 1 किंवा खूप कमी examples वरून नवीन class ओळखणे.",en:"One-shot learning: recognize new classes from just one or very few examples, without retraining. FaceNet enables this via universal embeddings."},
+  {n:82,t:"Normalization",q:"Batch normalization normalizes across:",opts:["All channels per sample","The batch dimension (N) per channel","Spatial dimensions only","Groups of channels"],a:1,mr:"Batch Norm प्रत्येक channel साठी batch dimension (N samples) across normalize करतो.",en:"Batch Norm computes mean and variance across N samples in the batch for each channel independently, then normalizes."},
+  {n:83,t:"Normalization",q:"Batch normalization was introduced to address:",opts:["Overfitting","Internal covariate shift","Vanishing gradients only","Data imbalance"],a:1,mr:"Internal covariate shift = training दरम्यान प्रत्येक layer च्या input distribution बदलते. Batch Norm हे fix करते.",en:"Internal covariate shift: input distribution to each layer changes during training. BN normalizes these inputs, stabilizing training."},
+  {n:84,t:"Normalization",q:"Layer normalization is preferred over batch normalization for:",opts:["CNNs with large batches","RNNs, Transformers, and small batch scenarios","Image segmentation only","GANs only"],a:1,mr:"Layer Norm प्रत्येक sample साठी independently normalize करतो — batch size वर अवलंबून नाही.",en:"Layer Norm computes statistics across all features of a single sample — independent of batch size. Ideal for RNNs, Transformers."},
+  {n:85,t:"Normalization",q:"Instance normalization normalizes across:",opts:["Batch dimension","All channels per sample","H × W per sample per channel","Groups of channels"],a:2,mr:"Instance Norm प्रत्येक sample च्या प्रत्येक channel साठी spatial dimensions (H × W) across normalize करतो.",en:"Instance Norm normalizes each channel of each sample across spatial H×W. Removes instance-specific contrast — ideal for style transfer."},
+  {n:86,t:"Normalization",q:"Group normalization is best suited for:",opts:["Large batch training","Very small batch sizes where BN fails","RNN training","Style transfer only"],a:1,mr:"Batch Norm small batches साठी unreliable असतो. Group Norm batch size independent — small batch साठी चांगला.",en:"Group Norm (Kaiming He, 2018) is independent of batch size — divides channels into groups, normalizes within each group per sample."},
+  {n:87,t:"Normalization",q:"BN formula ŷ = γ·(x−μ)/σ + β — what are γ and β?",opts:["Fixed hyperparameters","Learnable scale and shift parameters","Input mean and variance","Output mean and variance"],a:1,mr:"γ (scale) आणि β (shift) learnable parameters आहेत. Network ला identity transform शिकता येतो.",en:"γ and β are learnable affine parameters. After normalization, network can restore original distribution by learning γ=σ and β=μ."},
+  {n:88,t:"Dropout",q:"During training, dropout sets neurons to zero with probability:",opts:["0","1","p (dropout rate)","0.5 always"],a:2,mr:"Training मध्ये प्रत्येक neuron probability p ने zero set होतो. p = dropout rate.",en:"During training, each neuron is independently set to 0 with probability p (the dropout rate). p=0.5 common for FC layers."},
+  {n:89,t:"Dropout",q:"During testing, dropout:",opts:["Still randomly drops neurons","Keeps all neurons active (weights scaled by (1−p))","Doubles all weights","Uses p = 1"],a:1,mr:"Testing मध्ये dropout नसते — सर्व neurons active. Weights scaled by (1−p) केले जातात.",en:"At test time, all neurons are active. Weights scaled by (1−p) to ensure expected output matches what was seen during dropout training."},
+  {n:90,t:"Dropout",q:"The main purpose of dropout is to:",opts:["Speed up inference","Prevent overfitting by reducing co-adaptation of neurons","Increase model accuracy always","Reduce number of layers"],a:1,mr:"Dropout neurons ला एकमेकांवर अवलंबून राहण्यापासून रोखतो (co-adaptation) → overfitting कमी.",en:"Dropout prevents neurons from co-adapting — each neuron learns more robust independent features, reducing overfitting as implicit ensemble."},
+  {n:91,t:"Dropout",q:"L1 regularization encourages:",opts:["Large weights","Small but non-zero weights","Sparse weights (many weights → 0)","Uniform weight distribution"],a:2,mr:"L1 regularization |w| add करतो. Gradient constant → small weights exactly 0 → sparse solution.",en:"L1 adds |w| to loss. Constant gradient pushes weights toward zero regardless of magnitude — many weights become exactly zero (sparse model)."},
+  {n:92,t:"Dropout",q:"L2 regularization (weight decay) penalizes:",opts:["Sparse weights","Large weights (adds w² to cost)","All weights equally","Zero weights"],a:1,mr:"L2 regularization w² add करतो. Penalty weight च्या magnitude वर proportional — large weights penalize होतात.",en:"L2 adds λw² to loss. Gradient = 2λw — proportional to magnitude. Large weights heavily penalized, pushed toward zero but rarely exactly zero."},
+  {n:93,t:"Dropout",q:"Early stopping monitors which metric to decide when to stop training?",opts:["Training loss only","Validation loss","Test accuracy","Gradient magnitude"],a:1,mr:"Validation loss monitor करतात. जेव्हा validation loss वाढू लागतो (overfitting), best model save करून training थांबवतात.",en:"Early stopping monitors validation loss each epoch. When val loss increases (overfitting signal), training stops and best checkpoint is saved."},
+  {n:94,t:"Optimizers",q:"Momentum optimizer improves upon SGD by:",opts:["Eliminating the learning rate","Accumulating velocity (past gradient history) to escape saddle points","Using separate LR per parameter","Normalizing gradients"],a:1,mr:"Momentum मागचे gradients (velocity) accumulate करतो. Saddle points मध्ये अडकल्यास 'inertia' पुढे नेतो.",en:"Momentum accumulates velocity: v = αv − η∇L; W = W+v. Past gradients contribute to current update, helping escape saddle points."},
+  {n:95,t:"Optimizers",q:"NAG (Nesterov Accelerated Gradient) differs from standard Momentum by:",opts:["Using a larger batch size","Computing gradient at the lookahead (future) position","Removing the velocity term","Using adaptive learning rate"],a:1,mr:"NAG = lookahead momentum. Future position वर gradient calculate करतो — more accurate correction.",en:"NAG computes gradient at 'anticipated' future position (W+αv) rather than current position — gives more accurate gradient."},
+  {n:96,t:"Optimizers",q:"Adagrad adapts the learning rate by:",opts:["Using momentum only","Dividing LR by the square root of the sum of all historical squared gradients","Using exponential decay","Ignoring gradient history"],a:1,mr:"Adagrad प्रत्येक parameter साठी वेगळी LR ठेवतो — frequently updated → smaller LR, rarely updated → larger LR.",en:"Adagrad divides LR by √(Σg²) — sum of all past squared gradients. Infrequent parameters get large LR; frequent ones get small LR."},
+  {n:97,t:"Optimizers",q:"What is the main problem with Adagrad for non-convex optimization?",opts:["Learning rate increases unboundedly","Learning rate decreases to near zero, stopping learning","Gradients explode","Model overfits"],a:1,mr:"Adagrad सर्व historical gradients accumulate करतो — denominator फक्त वाढत जातो → LR → 0 → learning थांबते.",en:"Adagrad accumulates ALL past squared gradients without decay. Denominator grows monotonically → LR shrinks to near-zero → learning stops."},
+  {n:98,t:"Optimizers",q:"RMSProp fixes Adagrad's problem by:",opts:["Removing gradient history entirely","Using exponentially decaying average of squared gradients","Adding momentum term","Using fixed learning rate"],a:1,mr:"RMSProp exponentially decaying average वापरतो — जुने gradients forget होतात, LR → 0 होत नाही.",en:"RMSProp uses E[g²] = ρ·E[g²] + (1−ρ)·g² — exponential moving average. Old gradients fade out, preventing unbounded denominator growth."},
+  {n:99,t:"Optimizers",q:"Adam optimizer combines:",opts:["SGD and Adagrad","Momentum (1st moment) and RMSProp (2nd moment) with bias correction","L1 and L2 regularization","Batch norm and dropout"],a:1,mr:"Adam = Momentum (1st moment) + RMSProp (2nd moment) + bias correction. Best of both worlds — most widely used.",en:"Adam maintains: s (1st moment = EMA of gradients) and r (2nd moment = EMA of squared gradients), plus bias correction."},
+  {n:100,t:"Optimizers",q:"Default β₁ and β₂ values in Adam are:",opts:["β₁=0.999, β₂=0.9","β₁=0.5, β₂=0.5","β₁=0.9, β₂=0.999","β₁=0.1, β₂=0.9"],a:2,mr:"Adam defaults: β₁=0.9 (momentum decay), β₂=0.999 (squared gradient decay), ε=10⁻⁸ (numerical stability).",en:"Adam defaults: β₁=0.9 (1st moment decay), β₂=0.999 (2nd moment decay), ε=1e-8 (stability). These work well across most tasks."},
+];
+
+/* ── SCREEN MANAGEMENT ── */
+function showScreen(id){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById('screen-'+id).classList.add('active');
+  document.querySelectorAll('.nav-tab').forEach(t=>t.classList.remove('active'));
+  const map={start:0,test:1,result:2,study:3};
+  const tabs=document.querySelectorAll('.nav-tab');
+  if(id==='result'){tabs[2].classList.add('active');}
+  else if(id==='study'){tabs[3].classList.add('active');}
+  else if(id==='test'){tabs[1].classList.add('active');}
+  else{tabs[0].classList.add('active');}
+  if(id==='study') renderStudy();
+  window.scrollTo(0,0);
+}
+
+/* ── TEST LOGIC ── */
+let questions=[], answers=[], current=0;
+const LETTERS=['A','B','C','D'];
+
+function shuffle(arr){const a=[...arr];for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
+
+function startTest(){
+  questions=shuffle(ALL).slice(0,100);
+  answers=new Array(100).fill(-1);
+  current=0;
+  document.getElementById('tab-result').style.display='none';
+  showScreen('test');
+  renderQ();
+}
+
+function renderQ(){
+  const q=questions[current];
+  const pct=Math.round((current+1)/100*100);
+  document.getElementById('t-counter').textContent='Q '+(current+1)+' / 100';
+  document.getElementById('t-progress').style.width=pct+'%';
+  const done=answers.filter(x=>x!==-1).length;
+  document.getElementById('t-answered').textContent=done+' answered';
+  document.getElementById('t-prev').style.visibility=current>0?'visible':'hidden';
+  document.getElementById('t-next').textContent=current<99?'Next →':'Review →';
+  const allDone=answers.filter(x=>x!==-1).length===100;
+  document.getElementById('t-submit').style.display=(allDone||current===99)?'inline-block':'none';
+
+  let html=`<div class="qwrap">
+    <div class="q-meta">
+      <span class="q-num">Q${current+1}</span>
+      <span class="q-topic-badge ${TCLASS[q.t]||'tc-gray'}">${q.t}</span>
+    </div>
+    <div class="q-text">${q.q}</div>
+    <div class="opts">`;
+  q.opts.forEach((o,i)=>{
+    let cls='opt'+(answers[current]===i?' selected':'');
+    html+=`<div class="${cls}" onclick="selectOpt(${i})"><span class="opt-letter">${LETTERS[i]}</span><span>${o}</span></div>`;
+  });
+  html+='</div></div>';
+  document.getElementById('t-qwrap').innerHTML=html;
+}
+
+function selectOpt(i){
+  answers[current]=i;
+  renderQ();
+  if(current<99) setTimeout(()=>go(1),300);
+}
+
+function go(d){
+  current=Math.max(0,Math.min(99,current+d));
+  renderQ();
+  window.scrollTo(0,52);
+}
+
+function submitTest(){
+  const correct=answers.filter((a,i)=>a===questions[i].a).length;
+  const wrong=answers.filter((a,i)=>a!==-1&&a!==questions[i].a).length;
+  const skip=answers.filter(a=>a===-1).length;
+
+  document.getElementById('r-score').textContent=correct;
+  document.getElementById('r-correct').textContent=correct;
+  document.getElementById('r-wrong').textContent=wrong;
+  document.getElementById('r-skip').textContent=skip;
+
+  let grade,sub;
+  if(correct>=85){grade='Excellent — Exam Ready!';sub='Outstanding performance. You have strong command over Week 12 topics.';}
+  else if(correct>=70){grade='Good — Almost There';sub='Solid understanding. Review the wrong answers and you\'re set.';}
+  else if(correct>=50){grade='Average — More Practice Needed';sub='Focus on weak topics. Use the Study section to revise explanations.';}
+  else{grade='Needs Work — Revise All Topics';sub='Go through the Study guide carefully before the exam.';}
+  document.getElementById('r-grade').textContent=grade;
+  document.getElementById('r-sub').textContent=sub;
+
+  let rhtml='';
+  questions.forEach((q,i)=>{
+    const ua=answers[i];
+    const ok=ua===q.a;
+    const sk=ua===-1;
+    const cardClass=sk?'skip-card':ok?'correct-card':'wrong-card';
+    const badge=sk?'<span class="rv-badge badge-s">Skipped</span>':ok?'<span class="rv-badge badge-c">Correct</span>':'<span class="rv-badge badge-w">Wrong</span>';
+    rhtml+=`<div class="review-card ${cardClass}">
+      <div class="rv-head"><span class="rv-q">Q${i+1}. ${q.q}</span>${badge}</div>
+      <div class="rv-answers">`;
+    if(!sk&&!ok) rhtml+=`<div class="rv-ans yours">Your answer: ${LETTERS[ua]}. ${q.opts[ua]}</div>`;
+    rhtml+=`<div class="rv-ans correct-ans">Correct: ${LETTERS[q.a]}. ${q.opts[q.a]}</div>`;
+    rhtml+=`</div><div class="rv-exp"><strong>Why:</strong> ${q.mr}<br><em style="font-size:12px;color:var(--ink2);">${q.en}</em></div></div>`;
+  });
+  document.getElementById('review-list').innerHTML=rhtml;
+  document.getElementById('tab-result').style.display='inline-block';
+  showScreen('result');
+}
+
+function restartTest(){
+  showScreen('start');
+}
+
+/* ── STUDY ── */
+const topics=[...new Set(ALL.map(q=>q.t))];
+const sel=document.getElementById('s-topic');
+topics.forEach(t=>{const o=document.createElement('option');o.value=t;o.textContent=t;sel.appendChild(o);});
+
+function renderStudy(){
+  const sq=(document.getElementById('s-search').value||'').toLowerCase();
+  const tf=document.getElementById('s-topic').value;
+  const filtered=ALL.filter(q=>{
+    const mt=!tf||q.t===tf;
+    const ms=!sq||q.q.toLowerCase().includes(sq)||q.t.toLowerCase().includes(sq)||q.opts.some(o=>o.toLowerCase().includes(sq))||q.mr.toLowerCase().includes(sq);
+    return mt&&ms;
+  });
+  document.getElementById('s-showing').textContent=filtered.length;
+  if(!filtered.length){document.getElementById('study-list').innerHTML='<div class="no-results">No questions match your search.</div>';return;}
+  let html='';
+  filtered.forEach(q=>{
+    html+=`<div class="eq-card">
+      <div class="eq-meta"><span class="eq-num">Q${q.n}</span><span class="eq-topic ${TCLASS[q.t]||'tc-gray'}">${q.t}</span></div>
+      <div class="eq-q">${q.q}</div>
+      <div class="eq-opts">`;
+    q.opts.forEach((o,i)=>{
+      html+=`<div class="eq-opt${i===q.a?' is-answer':''}"><span class="eq-opt-letter">${LETTERS[i]}.</span><span>${o}</span></div>`;
+    });
+    html+=`</div>
+      <div class="eq-exp">
+        <div class="eq-exp-lbl">Explanation</div>
+        <div class="eq-exp-mr">${q.mr}</div>
+        <div class="eq-exp-en">${q.en}</div>
+      </div>
+    </div>`;
+  });
+  document.getElementById('study-list').innerHTML=html;
+}
+renderStudy();
+</script>
+
 <title>NPTEL Deep Learning – Week 12 Marathi Study Guide</title>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600;700&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+
 <style>
 :root {
   --bg: #0c0c10;
@@ -3350,937 +4287,5 @@ footer strong { color: var(--muted); }
   <p style="margin-top:8px; color:#555">Best of luck for your exam on 25 April! 🎯</p>
 </div>
 
-<title>NPTEL Deep Learning — Week 12 Practice Test</title>
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-<style>
-:root {
-  --bg: #f7f5f0;
-  --surface: #ffffff;
-  --ink: #1a1814;
-  --ink2: #5a5650;
-  --ink3: #9a9690;
-  --rule: #e8e4de;
-  --rule2: #d8d4ce;
-  --accent: #2d5be3;
-  --accent-soft: #eef2fd;
-  --green: #1a7f5a;
-  --green-soft: #e8f5ef;
-  --red: #c0392b;
-  --red-soft: #fdecea;
-  --amber: #b45309;
-  --amber-soft: #fef3e2;
-  --purple: #6d28d9;
-  --purple-soft: #f0ebff;
-  --teal: #0e7490;
-  --teal-soft: #e0f5f9;
-}
-* { box-sizing: border-box; margin: 0; padding: 0; }
-html { scroll-behavior: smooth; }
-body {
-  background: var(--bg);
-  color: var(--ink);
-  font-family: 'DM Sans', sans-serif;
-  font-size: 15px;
-  line-height: 1.65;
-  min-height: 100vh;
-}
-
-/* ── NAVIGATION ── */
-nav {
-  background: var(--ink);
-  color: #fff;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 2rem;
-  height: 52px;
-  position: sticky;
-  top: 0;
-  z-index: 200;
-  gap: 1rem;
-}
-.nav-brand {
-  font-family: 'Syne', sans-serif;
-  font-size: 15px;
-  font-weight: 800;
-  letter-spacing: -.3px;
-  color: #fff;
-  white-space: nowrap;
-}
-.nav-tabs {
-  display: flex;
-  gap: 2px;
-}
-.nav-tab {
-  padding: 6px 16px;
-  border-radius: 6px;
-  cursor: pointer;
-  font-size: 13px;
-  font-weight: 500;
-  color: rgba(255,255,255,0.55);
-  border: none;
-  background: none;
-  transition: all .15s;
-  font-family: 'DM Sans', sans-serif;
-}
-.nav-tab:hover { color: #fff; background: rgba(255,255,255,.08); }
-.nav-tab.active { background: var(--accent); color: #fff; }
-.nav-right {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 11px;
-  color: rgba(255,255,255,.4);
-  white-space: nowrap;
-}
-
-/* ── SCREENS ── */
-.screen { display: none; }
-.screen.active { display: block; }
-
-/* ── HERO ── */
-.hero {
-  background: var(--ink);
-  color: #fff;
-  padding: 4rem 2rem 3.5rem;
-  position: relative;
-  overflow: hidden;
-}
-.hero::before {
-  content: 'DL';
-  position: absolute;
-  right: -2rem;
-  top: -1rem;
-  font-family: 'Syne', sans-serif;
-  font-size: 14rem;
-  font-weight: 800;
-  color: rgba(255,255,255,.03);
-  line-height: 1;
-  pointer-events: none;
-  user-select: none;
-}
-.hero-inner { max-width: 860px; margin: 0 auto; }
-.hero-eyebrow {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 11px;
-  letter-spacing: 2px;
-  color: var(--accent);
-  text-transform: uppercase;
-  margin-bottom: 1rem;
-}
-.hero h1 {
-  font-family: 'Syne', sans-serif;
-  font-size: clamp(2rem, 5vw, 3.2rem);
-  font-weight: 800;
-  line-height: 1.1;
-  margin-bottom: 1rem;
-}
-.hero h1 span { color: var(--accent); }
-.hero-meta {
-  font-size: 14px;
-  color: rgba(255,255,255,.5);
-  margin-bottom: 2rem;
-}
-.hero-stats {
-  display: flex;
-  gap: 2rem;
-  flex-wrap: wrap;
-}
-.hero-stat .n {
-  font-family: 'Syne', sans-serif;
-  font-size: 2rem;
-  font-weight: 800;
-  line-height: 1;
-  display: block;
-}
-.hero-stat .l {
-  font-size: 12px;
-  color: rgba(255,255,255,.4);
-  font-family: 'JetBrains Mono', monospace;
-  letter-spacing: .5px;
-}
-
-/* ── PAGE BODY ── */
-.page-body {
-  max-width: 860px;
-  margin: 0 auto;
-  padding: 2.5rem 2rem 5rem;
-}
-
-/* ── START SCREEN ── */
-.start-card {
-  background: var(--surface);
-  border: 1px solid var(--rule);
-  border-radius: 16px;
-  padding: 2.5rem;
-  margin-bottom: 1.5rem;
-}
-.start-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-  gap: 12px;
-  margin: 2rem 0;
-}
-.start-stat {
-  background: var(--bg);
-  border: 1px solid var(--rule);
-  border-radius: 12px;
-  padding: 1.25rem;
-  text-align: center;
-}
-.start-stat .n {
-  font-family: 'Syne', sans-serif;
-  font-size: 2rem;
-  font-weight: 800;
-  color: var(--accent);
-  line-height: 1;
-  display: block;
-}
-.start-stat .l { font-size: 12px; color: var(--ink2); margin-top: 4px; }
-
-/* ── TEST SCREEN ── */
-.test-topbar {
-  background: var(--surface);
-  border-bottom: 1px solid var(--rule);
-  position: sticky;
-  top: 52px;
-  z-index: 100;
-  padding: .75rem 2rem;
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-}
-.test-counter {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 13px;
-  color: var(--ink2);
-  white-space: nowrap;
-}
-.progress-track {
-  flex: 1;
-  height: 4px;
-  background: var(--rule);
-  border-radius: 2px;
-  overflow: hidden;
-}
-.progress-fill {
-  height: 100%;
-  background: var(--accent);
-  border-radius: 2px;
-  transition: width .3s ease;
-}
-.answered-pill {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 11px;
-  background: var(--accent-soft);
-  color: var(--accent);
-  padding: 3px 10px;
-  border-radius: 20px;
-  white-space: nowrap;
-}
-
-.qwrap {
-  background: var(--surface);
-  border: 1px solid var(--rule);
-  border-radius: 16px;
-  padding: 2rem;
-  margin: 1.5rem 0;
-}
-.q-meta {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  margin-bottom: 1rem;
-}
-.q-num {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 11px;
-  color: var(--ink3);
-}
-.q-topic-badge {
-  font-size: 11px;
-  font-weight: 500;
-  padding: 2px 9px;
-  border-radius: 20px;
-}
-.q-text {
-  font-size: 16px;
-  font-weight: 500;
-  line-height: 1.5;
-  margin-bottom: 1.25rem;
-}
-.opts { display: flex; flex-direction: column; gap: 8px; }
-.opt {
-  display: flex;
-  align-items: flex-start;
-  gap: 12px;
-  padding: 12px 16px;
-  border: 1.5px solid var(--rule);
-  border-radius: 10px;
-  cursor: pointer;
-  transition: border-color .12s, background .12s;
-  font-size: 14px;
-  color: var(--ink2);
-  line-height: 1.45;
-}
-.opt:hover { border-color: var(--accent); background: var(--accent-soft); color: var(--accent); }
-.opt.selected { border-color: var(--accent); background: var(--accent-soft); color: var(--accent); }
-.opt-letter {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 12px;
-  font-weight: 600;
-  min-width: 22px;
-  height: 22px;
-  border-radius: 6px;
-  background: var(--rule);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-  margin-top: 1px;
-  transition: background .12s, color .12s;
-}
-.opt.selected .opt-letter { background: var(--accent); color: #fff; }
-.opt.correct { border-color: var(--green); background: var(--green-soft); color: var(--green); }
-.opt.correct .opt-letter { background: var(--green); color: #fff; }
-.opt.wrong { border-color: var(--red); background: var(--red-soft); color: var(--red); }
-.opt.wrong .opt-letter { background: var(--red); color: #fff; }
-.opt.reveal-correct { border-color: var(--green); background: var(--green-soft); color: var(--green); }
-.opt.reveal-correct .opt-letter { background: var(--green); color: #fff; }
-
-.test-nav {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 1rem;
-  margin-top: .5rem;
-}
-.submit-row { text-align: center; margin-top: 1rem; }
-
-/* ── BUTTONS ── */
-.btn {
-  font-family: 'DM Sans', sans-serif;
-  font-size: 14px;
-  font-weight: 500;
-  padding: 10px 24px;
-  border-radius: 8px;
-  border: 1.5px solid var(--ink);
-  background: transparent;
-  color: var(--ink);
-  cursor: pointer;
-  transition: all .12s;
-}
-.btn:hover { background: var(--ink); color: #fff; }
-.btn-primary {
-  background: var(--accent);
-  border-color: var(--accent);
-  color: #fff;
-  font-size: 15px;
-  padding: 12px 32px;
-}
-.btn-primary:hover { background: #1e47c9; border-color: #1e47c9; color: #fff; }
-.btn-lg { font-size: 16px; padding: 14px 40px; }
-.btn:disabled { opacity: .35; cursor: not-allowed; }
-
-/* ── RESULT SCREEN ── */
-.result-hero {
-  background: var(--ink);
-  color: #fff;
-  border-radius: 16px;
-  padding: 2.5rem;
-  margin-bottom: 1.5rem;
-  text-align: center;
-  position: relative;
-  overflow: hidden;
-}
-.result-score {
-  font-family: 'Syne', sans-serif;
-  font-size: 5rem;
-  font-weight: 800;
-  line-height: 1;
-  margin-bottom: .25rem;
-}
-.result-score span { color: var(--accent); }
-.result-grade {
-  font-size: 20px;
-  font-weight: 500;
-  margin-bottom: .5rem;
-}
-.result-sub { font-size: 14px; color: rgba(255,255,255,.5); }
-.result-stats {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 12px;
-  margin: 2rem 0 0;
-}
-.result-stat {
-  background: rgba(255,255,255,.06);
-  border-radius: 10px;
-  padding: 1rem;
-}
-.result-stat .n { font-family: 'Syne', sans-serif; font-size: 1.75rem; font-weight: 800; display: block; }
-.result-stat .l { font-size: 12px; color: rgba(255,255,255,.45); font-family: 'JetBrains Mono', monospace; }
-
-.review-section-title {
-  font-family: 'Syne', sans-serif;
-  font-size: 1.1rem;
-  font-weight: 700;
-  margin-bottom: 1rem;
-}
-.review-card {
-  background: var(--surface);
-  border: 1px solid var(--rule);
-  border-radius: 12px;
-  padding: 1.25rem 1.5rem;
-  margin-bottom: 10px;
-}
-.review-card.correct-card { border-left: 3px solid var(--green); }
-.review-card.wrong-card { border-left: 3px solid var(--red); }
-.review-card.skip-card { border-left: 3px solid var(--rule2); }
-.rv-head {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: 12px;
-  margin-bottom: 10px;
-}
-.rv-q { font-size: 14px; font-weight: 500; line-height: 1.45; flex: 1; }
-.rv-badge {
-  font-size: 11px;
-  font-weight: 500;
-  font-family: 'JetBrains Mono', monospace;
-  padding: 3px 10px;
-  border-radius: 20px;
-  white-space: nowrap;
-  flex-shrink: 0;
-}
-.badge-c { background: var(--green-soft); color: var(--green); }
-.badge-w { background: var(--red-soft); color: var(--red); }
-.badge-s { background: var(--bg); color: var(--ink3); }
-.rv-answers { display: flex; flex-direction: column; gap: 5px; }
-.rv-ans { font-size: 13px; padding: 6px 10px; border-radius: 6px; }
-.rv-ans.yours { background: var(--red-soft); color: var(--red); }
-.rv-ans.correct-ans { background: var(--green-soft); color: var(--green); font-weight: 500; }
-.rv-exp {
-  margin-top: 10px;
-  padding: 10px 12px;
-  background: var(--bg);
-  border-radius: 8px;
-  font-size: 13px;
-  color: var(--ink2);
-  line-height: 1.65;
-  border-left: 2px solid var(--rule2);
-}
-
-/* ── STUDY SCREEN ── */
-.study-controls {
-  display: flex;
-  gap: 10px;
-  margin-bottom: 1.5rem;
-  flex-wrap: wrap;
-  align-items: center;
-}
-.study-controls input[type=text] {
-  flex: 1;
-  min-width: 200px;
-  padding: 9px 14px;
-  border: 1.5px solid var(--rule);
-  border-radius: 8px;
-  font-family: 'DM Sans', sans-serif;
-  font-size: 14px;
-  background: var(--surface);
-  color: var(--ink);
-  outline: none;
-  transition: border-color .12s;
-}
-.study-controls input[type=text]:focus { border-color: var(--accent); }
-.study-controls select {
-  padding: 9px 14px;
-  border: 1.5px solid var(--rule);
-  border-radius: 8px;
-  font-family: 'DM Sans', sans-serif;
-  font-size: 14px;
-  background: var(--surface);
-  color: var(--ink);
-  outline: none;
-  cursor: pointer;
-}
-.study-stats-row {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-  gap: 10px;
-  margin-bottom: 1.5rem;
-}
-.study-stat {
-  background: var(--surface);
-  border: 1px solid var(--rule);
-  border-radius: 10px;
-  padding: 12px;
-  text-align: center;
-}
-.study-stat .n { font-family: 'Syne', sans-serif; font-size: 1.5rem; font-weight: 800; color: var(--accent); }
-.study-stat .l { font-size: 11px; color: var(--ink3); margin-top: 2px; font-family: 'JetBrains Mono', monospace; }
-
-.eq-card {
-  background: var(--surface);
-  border: 1px solid var(--rule);
-  border-radius: 14px;
-  padding: 1.5rem;
-  margin-bottom: 12px;
-  transition: box-shadow .15s;
-}
-.eq-card:hover { box-shadow: 0 4px 20px rgba(0,0,0,.06); }
-.eq-meta { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; }
-.eq-num { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--ink3); }
-.eq-topic { font-size: 11px; font-weight: 500; padding: 2px 9px; border-radius: 20px; }
-.eq-q { font-size: 15px; font-weight: 500; margin-bottom: 14px; line-height: 1.45; }
-.eq-opts { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin-bottom: 14px; }
-.eq-opt {
-  font-size: 13px;
-  padding: 8px 11px;
-  border-radius: 8px;
-  border: 1px solid var(--rule);
-  color: var(--ink2);
-  line-height: 1.4;
-  display: flex;
-  gap: 6px;
-  align-items: flex-start;
-}
-.eq-opt.is-answer { background: var(--green-soft); border-color: var(--green); color: var(--green); font-weight: 500; }
-.eq-opt-letter { font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 600; min-width: 14px; flex-shrink: 0; }
-.eq-exp {
-  padding: 12px 14px;
-  background: var(--bg);
-  border-radius: 8px;
-  border-left: 2px solid var(--accent);
-}
-.eq-exp-lbl {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 10px;
-  letter-spacing: 1px;
-  text-transform: uppercase;
-  color: var(--ink3);
-  margin-bottom: 6px;
-}
-.eq-exp-mr { font-size: 13px; color: var(--ink); line-height: 1.7; margin-bottom: 6px; }
-.eq-exp-en { font-size: 12px; color: var(--ink2); line-height: 1.6; padding-top: 6px; border-top: 1px solid var(--rule); font-style: italic; }
-.no-results { text-align: center; padding: 4rem 2rem; color: var(--ink3); font-size: 15px; }
-
-/* ── TOPIC COLORS ── */
-.tc-blue { background: #dbeafe; color: #1e40af; }
-.tc-purple { background: #ede9fe; color: #5b21b6; }
-.tc-green { background: #d1fae5; color: #065f46; }
-.tc-teal { background: #cffafe; color: #164e63; }
-.tc-amber { background: #fef3c7; color: #92400e; }
-.tc-red { background: #fee2e2; color: #991b1b; }
-.tc-pink { background: #fce7f3; color: #9d174d; }
-.tc-gray { background: #f3f4f6; color: #374151; }
-
-@media (max-width: 600px) {
-  .page-body { padding: 1.5rem 1rem 4rem; }
-  nav { padding: 0 1rem; }
-  .nav-brand { font-size: 13px; }
-  .nav-tab { padding: 5px 10px; font-size: 12px; }
-  .hero { padding: 2.5rem 1rem 2rem; }
-  .eq-opts { grid-template-columns: 1fr; }
-  .result-stats { grid-template-columns: repeat(3,1fr); }
-  .result-score { font-size: 3.5rem; }
-}
-</style>
-</head>
-<body>
-
-<!-- NAV -->
-<nav>
-  <span class="nav-brand">NPTEL DL · Week 12</span>
-  <div class="nav-tabs">
-    <button class="nav-tab active" onclick="showScreen('start')">Home</button>
-    <button class="nav-tab" id="tab-test" onclick="showScreen('test')">Test</button>
-    <button class="nav-tab" id="tab-result" onclick="showScreen('result')" style="display:none">Result</button>
-    <button class="nav-tab" onclick="showScreen('study')">Study</button>
-  </div>
-  <span class="nav-right">April 25 · 100 Q</span>
-</nav>
-
-<!-- ══ START SCREEN ══ -->
-<div id="screen-start" class="screen active">
-  <div class="hero">
-    <div class="hero-inner">
-      <div class="hero-eyebrow">NPTEL Deep Learning · IIT Kharagpur · Prof. P. K. Biswas</div>
-      <h1>Week 12<br><span>Practice Test</span></h1>
-      <p class="hero-meta">Lectures 41–60 · Covers all major topics</p>
-      <div class="hero-stats">
-        <div class="hero-stat"><span class="n">100</span><span class="l">QUESTIONS</span></div>
-        <div class="hero-stat"><span class="n">12</span><span class="l">TOPICS</span></div>
-        <div class="hero-stat"><span class="n">0</span><span class="l">NEGATIVE MARKS</span></div>
-        <div class="hero-stat"><span class="n">End</span><span class="l">SCORE REVEAL</span></div>
-      </div>
-    </div>
-  </div>
-
-  <div class="page-body">
-    <div class="start-card">
-      <h2 style="font-family:'Syne',sans-serif;font-size:1.4rem;font-weight:800;margin-bottom:.75rem;">How this test works</h2>
-      <p style="color:var(--ink2);margin-bottom:1.5rem;">Answer all 100 MCQs. Questions are shuffled every attempt. Your score and detailed answer review appear only after you submit.</p>
-      <div class="start-grid">
-        <div class="start-stat"><span class="n">100</span><div class="l">Questions</div></div>
-        <div class="start-stat"><span class="n">1</span><div class="l">Mark each</div></div>
-        <div class="start-stat"><span class="n">None</span><div class="l">Negative marking</div></div>
-        <div class="start-stat"><span class="n">Any</span><div class="l">Go back / change</div></div>
-      </div>
-      <div style="margin-top:1.5rem;">
-        <button class="btn btn-primary btn-lg" onclick="startTest()">Start Practice Test →</button>
-      </div>
-    </div>
-
-    <div class="start-card" style="margin-top:1rem;">
-      <h2 style="font-family:'Syne',sans-serif;font-size:1.1rem;font-weight:800;margin-bottom:1rem;">Topics covered</h2>
-      <div style="display:flex;flex-wrap:wrap;gap:7px;">
-        <span class="eq-topic tc-blue">Image Restoration</span>
-        <span class="eq-topic tc-blue">Image Denoising</span>
-        <span class="eq-topic tc-purple">Dice Loss</span>
-        <span class="eq-topic tc-purple">Pixel-wise Cross Entropy</span>
-        <span class="eq-topic tc-green">Image Restoration Network</span>
-        <span class="eq-topic tc-green">Skip Connections</span>
-        <span class="eq-topic tc-amber">VAE</span>
-        <span class="eq-topic tc-amber">KL Divergence</span>
-        <span class="eq-topic tc-amber">Reparameterization</span>
-        <span class="eq-topic tc-pink">GAN</span>
-        <span class="eq-topic tc-teal">Triplet Loss</span>
-        <span class="eq-topic tc-gray">Semantic Segmentation</span>
-        <span class="eq-topic tc-gray">Normalization</span>
-        <span class="eq-topic tc-gray">Dropout</span>
-        <span class="eq-topic tc-red">Optimizers</span>
-        <span class="eq-topic tc-purple">ResNet</span>
-        <span class="eq-topic tc-purple">GoogLeNet</span>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- ══ TEST SCREEN ══ -->
-<div id="screen-test" class="screen">
-  <div class="test-topbar">
-    <span class="test-counter" id="t-counter">Q 1 / 100</span>
-    <div class="progress-track"><div class="progress-fill" id="t-progress" style="width:0%"></div></div>
-    <span class="answered-pill" id="t-answered">0 answered</span>
-  </div>
-  <div class="page-body" style="padding-top:1rem;">
-    <div id="t-qwrap"></div>
-    <div class="test-nav">
-      <button class="btn" id="t-prev" onclick="go(-1)" style="visibility:hidden">← Prev</button>
-      <button class="btn" id="t-next" onclick="go(1)">Next →</button>
-    </div>
-    <div class="submit-row">
-      <button class="btn btn-primary" id="t-submit" onclick="submitTest()" style="display:none">Submit Test &amp; See Score</button>
-    </div>
-  </div>
-</div>
-
-<!-- ══ RESULT SCREEN ══ -->
-<div id="screen-result" class="screen">
-  <div class="page-body">
-    <div class="result-hero">
-      <div class="result-score"><span id="r-score">—</span><span style="font-size:2rem;color:rgba(255,255,255,.3)">/100</span></div>
-      <div class="result-grade" id="r-grade">—</div>
-      <div class="result-sub" id="r-sub">—</div>
-      <div class="result-stats">
-        <div class="result-stat"><span class="n" id="r-correct" style="color:#6ee7b7">—</span><span class="l">CORRECT</span></div>
-        <div class="result-stat"><span class="n" id="r-wrong" style="color:#fca5a5">—</span><span class="l">WRONG</span></div>
-        <div class="result-stat"><span class="n" id="r-skip">—</span><span class="l">SKIPPED</span></div>
-      </div>
-    </div>
-
-    <div style="margin-bottom:1.5rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;">
-      <h2 class="review-section-title" style="margin:0;">Full Answer Review</h2>
-      <button class="btn btn-primary" onclick="restartTest()">Retake Test (new shuffle)</button>
-    </div>
-    <div id="review-list"></div>
-  </div>
-</div>
-
-<!-- ══ STUDY SCREEN ══ -->
-<div id="screen-study" class="screen">
-  <div class="hero" style="padding:3rem 2rem 2.5rem;">
-    <div class="hero-inner">
-      <div class="hero-eyebrow">All 100 Questions</div>
-      <h1>Study Guide<br><span>+ Explanations</span></h1>
-    </div>
-  </div>
-  <div class="page-body">
-    <div class="study-controls">
-      <input type="text" id="s-search" placeholder="Search questions or topics..." oninput="renderStudy()">
-      <select id="s-topic" onchange="renderStudy()">
-        <option value="">All topics</option>
-      </select>
-    </div>
-    <div class="study-stats-row">
-      <div class="study-stat"><div class="n" id="s-showing">100</div><div class="l">SHOWING</div></div>
-      <div class="study-stat"><div class="n">100</div><div class="l">TOTAL Q</div></div>
-      <div class="study-stat"><div class="n">17</div><div class="l">TOPICS</div></div>
-      <div class="study-stat"><div class="n" style="font-size:1rem;padding-top:4px;">Ans + Explain</div><div class="l">EACH Q</div></div>
-    </div>
-    <div id="study-list"></div>
-  </div>
-</div>
-
-<script>
-const TCLASS={
-  "Image Restoration":"tc-blue","Image Denoising":"tc-blue",
-  "Dice Loss":"tc-purple","Pixel-wise Cross Entropy":"tc-purple",
-  "Image Restoration Network":"tc-green","Skip Connections":"tc-green",
-  "VAE":"tc-amber","KL Divergence":"tc-amber","Reparameterization":"tc-amber",
-  "GAN":"tc-pink","Triplet Loss":"tc-teal","Semantic Segmentation":"tc-gray",
-  "Normalization":"tc-gray","Dropout":"tc-gray","Optimizers":"tc-red",
-  "ResNet":"tc-purple","GoogLeNet":"tc-purple"
-};
-
-const ALL=[
-  {n:1,t:"Image Restoration",q:"What is the primary goal of image restoration?",opts:["To compress images for storage","To recover a clean image from a degraded input","To convert images to grayscale","To increase image resolution only"],a:1,mr:"Image restoration चे main goal आहे degraded (खराब) image मधून original clean image परत मिळवणे. Degradation म्हणजे blur, noise, low resolution किंवा missing pixels.",en:"Goal is to recover a clean image from a degraded input — covering blur, noise, low resolution, or missing pixels."},
-  {n:2,t:"Image Restoration",q:"Which of the following is NOT a type of image restoration?",opts:["Deblurring","Denoising","Image compression","Super resolution"],a:2,mr:"Image compression हे restoration नाही — ते image लहान करण्यासाठी असते. Restoration मध्ये deblurring, denoising, super-resolution, inpainting येतात.",en:"Image compression reduces file size — it is not restoration. Restoration tasks: deblurring, denoising, super-resolution, inpainting."},
-  {n:3,t:"Image Restoration",q:"In the image degradation model, which formula represents the degraded image y?",opts:["y = H(x) + noise","y = x − H","y = H × x²","y = noise only"],a:0,mr:"Degradation model: y = H(x) + noise. H हा degradation operator आहे (blur, low resolution etc.), आणि त्यात random noise add होतो.",en:"The degradation model is y = H(x) + noise. H is the degradation operator and noise is additive random noise."},
-  {n:4,t:"Image Restoration",q:"When the degradation operator H is the identity matrix, the restoration task becomes:",opts:["Super resolution","Image inpainting","Image denoising","Image deblurring"],a:2,mr:"जेव्हा H = Identity matrix, म्हणजे image blur नाही — फक्त noise add झाले आहे. अशावेळी task फक्त noise काढणे = denoising.",en:"When H = identity, the only degradation is additive noise, so the task reduces to image denoising."},
-  {n:5,t:"Image Restoration",q:"Image inpainting refers to:",opts:["Adding noise to images","Recovering missing or corrupted regions of an image","Shrinking the image size","Converting image to binary"],a:1,mr:"Inpainting म्हणजे image मधील missing किंवा corrupted भाग recover करणे. जसे की torn photo मधील missing area fill करणे.",en:"Inpainting recovers missing or damaged regions — like restoring scratched photos by filling in missing areas."},
-  {n:6,t:"Image Denoising",q:"Low-dose CT denoising is an example of which task?",opts:["Image generation","Image deblurring","Image denoising","Image translation"],a:2,mr:"Low-dose CT scan मध्ये radiation कमी असल्यामुळे image noisy येतो. Deep learning network हे noise काढतो — image denoising चे real-world application.",en:"Low-dose CT produces noisy images due to less radiation. DL denoises these — a practical denoising application in medical imaging."},
-  {n:7,t:"Image Restoration",q:"Which loss function is most commonly used in image restoration networks?",opts:["Cross entropy loss","Dice loss","Mean Squared Error (MSE)","Triplet loss"],a:2,mr:"Image restoration मध्ये predicted clean image आणि actual clean image मधील difference MSE ने मोजतात. Pixel-level regression task आहे.",en:"MSE is used because restoration is pixel-level regression — we measure the average squared pixel difference between predicted and ground-truth clean image."},
-  {n:8,t:"Image Restoration",q:"The MSE loss trains the restoration network to map:",opts:["Clean image to noisy image","Noisy image to clean image","Gray image to colored image","Small image to large image"],a:1,mr:"MSE loss network ला शिकवतो की noisy/corrupted input घे आणि clean output दे.",en:"MSE trains the network to map corrupted input to clean output — penalizes squared difference between output and ground-truth clean image."},
-  {n:9,t:"Image Restoration",q:"MSE formula is: MSE = ?",opts:["(1/N) Σ |ŷᵢ − yᵢ|","(1/N) Σ (ŷᵢ − yᵢ)²","Σ ŷᵢ × yᵢ","(1/N) Σ log(ŷᵢ / yᵢ)"],a:1,mr:"MSE = (1/N) × सर्व (predicted − actual)² चा sum. Square केल्यामुळे मोठे errors जास्त penalize होतात.",en:"MSE = (1/N) Σ (ŷᵢ − yᵢ)². Squaring ensures large errors are penalized more and average is taken over all N pixels."},
-  {n:10,t:"Image Restoration",q:"Which statement about MSE is correct?",opts:["MSE is insensitive to outliers","MSE penalizes large errors more due to squaring","MSE is only used in classification","MSE cannot be used for image tasks"],a:1,mr:"MSE मध्ये error square करतात, त्यामुळे मोठे errors खूप जास्त penalize होतात — sensitive to outliers.",en:"Squaring amplifies larger errors — a pixel off by 10 contributes 100 to loss vs 1 for a pixel off by 1. MSE is sensitive to outliers."},
-  {n:11,t:"Image Restoration Network",q:"What does the encoder part of a restoration network do?",opts:["Up-samples image to higher resolution","Down-samples image to extract abstract features","Adds noise to the image","Applies color correction"],a:1,mr:"Encoder = convolution layers जे image down-sample करतात आणि abstract features काढतात. यात noise कमी होत जाते.",en:"The encoder uses conv layers to progressively down-sample the image, extracting abstract features while discarding noise."},
-  {n:12,t:"Image Restoration Network",q:"What does the decoder in a restoration network do?",opts:["Extracts features","Down-samples features","Up-samples to reconstruct the clean image","Classifies image categories"],a:2,mr:"Decoder = deconvolution layers जे features पासून पुन्हा full resolution clean image तयार करतात.",en:"The decoder uses deconvolutional layers to up-sample feature maps back to full resolution, reconstructing the clean output image."},
-  {n:13,t:"Image Restoration Network",q:"Convolutional layers in the restoration network serve primarily as:",opts:["Image classifiers","Feature extractors that eliminate noise","Output generators","Upsampling modules"],a:1,mr:"Conv layers features काढतात आणि noise eliminate करतात. ते image ला classify करत नाहीत.",en:"Conv layers act as feature extractors — they learn filters responding to meaningful patterns while suppressing noise during encoding."},
-  {n:14,t:"Image Restoration Network",q:"Deconvolutional layers in the restoration network serve primarily as:",opts:["Feature extractors","Loss calculators","Image reconstruction modules","Normalization layers"],a:2,mr:"Deconv layers up-sampling करतात आणि abstract features पासून clean image reconstruct करतात.",en:"Deconv (transposed conv) layers up-sample spatial dimensions, reconstructing the clean image from compressed feature representations."},
-  {n:15,t:"Skip Connections",q:"What is the main purpose of skip connections in an image restoration network?",opts:["To increase model size","To pass feature maps from encoder to decoder, preserving image details","To apply batch normalization","To reduce learning rate"],a:1,mr:"Skip connections encoder च्या feature maps थेट decoder ला देतात. Deep network मध्ये हरवलेली fine image details preserve होतात.",en:"Skip connections pass encoder feature maps directly to the decoder, preserving fine spatial details that would otherwise be lost in deep layers."},
-  {n:16,t:"Skip Connections",q:"Skip connections help improve backpropagation by:",opts:["Stopping gradients from flowing","Providing an alternative gradient path, reducing vanishing gradient problem","Increasing batch size","Removing residuals"],a:1,mr:"Skip connections gradient साठी alternate path देतात. Deep network मध्ये gradient vanish होण्याची problem कमी होते.",en:"Skip connections provide a shorter path for gradients to flow backward, alleviating the vanishing gradient problem in deep architectures."},
-  {n:17,t:"Skip Connections",q:"Without skip connections, deep restoration networks tend to:",opts:["Train faster","Lose fine image details in deep layers","Produce sharper images","Reduce computation"],a:1,mr:"Skip connections नसल्यास deep layers मध्ये fine image details (edges, textures) हरवतात.",en:"Without skip connections, spatial details progressively disappear as depth increases — decoder lacks fine-grained info to reconstruct sharp images."},
-  {n:18,t:"Skip Connections",q:"Skip connections are also used in which famous architecture?",opts:["AlexNet","VGG-16","ResNet","GoogLeNet"],a:2,mr:"ResNet मध्ये skip/identity connections वापरल्या जातात ज्या residual learning enable करतात.",en:"ResNet uses identity shortcut connections — enabling training of very deep networks (100+ layers) effectively."},
-  {n:19,t:"Dice Loss",q:"Dice coefficient of 1 means:",opts:["No overlap between predicted and actual mask","Complete overlap between predicted and actual mask","50% overlap","Random overlap"],a:1,mr:"Dice = 1 म्हणजे predicted mask आणि actual mask पूर्णपणे match होतात — perfect segmentation.",en:"Dice = 1 indicates perfect overlap between predicted and ground-truth masks — ideal segmentation result."},
-  {n:20,t:"Dice Loss",q:"Dice coefficient of 0 means:",opts:["Perfect segmentation","Complete overlap","No overlap between masks","Maximum loss"],a:2,mr:"Dice = 0 म्हणजे predicted mask आणि actual mask मध्ये अजिबात overlap नाही — worst segmentation.",en:"Dice = 0 means zero overlap between predicted and ground-truth masks — completely wrong segmentation."},
-  {n:21,t:"Dice Loss",q:"The formula for Dice coefficient is:",opts:["2|A∩B| / (|A| × |B|)","2|A∩B| / (|A| + |B|)","|A∩B| / (|A| + |B|)","(|A| + |B|) / 2|A∩B|"],a:1,mr:"Formula: 2 × intersection / (|A| + |B|). '2' या कारणाने की intersection A आणि B दोन्हींमध्ये मोजला जातो.",en:"Dice = 2|A∩B| / (|A|+|B|). Factor of 2 normalizes for the fact that intersection is counted in both terms of the denominator."},
-  {n:22,t:"Dice Loss",q:"Dice Loss is defined as:",opts:["1 + Dice coefficient","Dice coefficient","1 − Dice coefficient","−log(Dice coefficient)"],a:2,mr:"Dice Loss = 1 − Dice coefficient. Dice जास्त (overlap चांगला) → Loss कमी.",en:"Dice Loss = 1 − Dice. Perfect overlap (Dice=1) gives loss=0; no overlap (Dice=0) gives loss=1."},
-  {n:23,t:"Dice Loss",q:"Dice Loss is preferred over cross entropy in segmentation when:",opts:["Images are very large","There is class imbalance (e.g., tiny tumor vs large background)","Batch size is small","Learning rate is high"],a:1,mr:"Medical images मध्ये tumor खूप लहान असतो (class imbalance). Dice directly overlap मोजतो — imbalance handle करतो.",en:"Dice handles class imbalance well. In medical images, tumor region is tiny vs huge background. Cross-entropy gets dominated by background; Dice measures overlap directly."},
-  {n:24,t:"Dice Loss",q:"How is |A∩B| computed in practice in Dice coefficient?",opts:["Max of A and B","Element-wise multiplication of prediction and target, then summed","Sum of A and B","Subtraction of A from B"],a:1,mr:"|A∩B| = predicted mask आणि target mask चे element-wise multiplication, नंतर sum. दोन्ही 1 असतील तेव्हाच product 1 येतो.",en:"|A∩B| = element-wise multiplication of predicted and target mask, then summed. Only pixels where both are 1 contribute."},
-  {n:25,t:"Pixel-wise Cross Entropy",q:"Pixel-wise cross entropy computes loss:",opts:["Once for the entire image","Separately for each pixel, then averages","Only for boundary pixels","Only for foreground pixels"],a:1,mr:"प्रत्येक pixel साठी स्वतंत्रपणे classification loss मोजतात, मग average काढतात.",en:"Unlike image classification, pixel-wise CE computes a classification loss for every pixel independently, then averages them."},
-  {n:26,t:"Pixel-wise Cross Entropy",q:"Pixel-wise cross entropy is mainly used for which task?",opts:["Image classification","Object detection","Semantic segmentation","Image compression"],a:2,mr:"Semantic segmentation मध्ये प्रत्येक pixel ला class label द्यायचे असते. Pixel-wise CE हे per-pixel classification loss आहे.",en:"Semantic segmentation requires a class label for every pixel. Pixel-wise CE provides the per-pixel classification loss needed."},
-  {n:27,t:"Pixel-wise Cross Entropy",q:"The formula for pixel-wise cross entropy is:",opts:["(1/N) Σ (ŷ−y)²","−(1/N) Σ p(x,y)·log q(x,y)","Σ p(x,y) / q(x,y)","N × Σ log p(x,y)"],a:1,mr:"Formula: −(1/N) Σ p(x,y) log q(x,y). p = true label, q = predicted probability.",en:"L = −(1/N) Σ p(x,y)·log q(x,y). The negative log penalizes low confidence on the correct class per pixel."},
-  {n:28,t:"Semantic Segmentation",q:"Semantic segmentation assigns:",opts:["One label to the entire image","A class label to every pixel in the image","Bounding boxes to objects","Labels only to edges"],a:1,mr:"Semantic segmentation = pixel-level classification. प्रत्येक pixel ला class label मिळतो.",en:"Semantic segmentation is dense prediction — every pixel receives a class label. It's image classification at pixel level."},
-  {n:29,t:"Semantic Segmentation",q:"In semantic segmentation, if three cars appear in an image, they are labeled as:",opts:["Car-1, Car-2, Car-3 (distinct labels)","All labeled 'car' (same label)","Labeled by size","Left unlabeled"],a:1,mr:"Semantic segmentation मध्ये सर्व car pixels ला 'car' label मिळतो — individual instances वेगळ्या होत नाहीत.",en:"Semantic segmentation groups by class, not instance. All car pixels get the same 'car' label regardless of how many cars are present."},
-  {n:30,t:"Semantic Segmentation",q:"Instance segmentation differs from semantic segmentation by:",opts:["Operating on grayscale images only","Assigning unique labels to individual object instances","Ignoring class information","Only detecting edges"],a:1,mr:"Instance segmentation प्रत्येक object ला वेगळ्याने ओळखतो — Car-1, Car-2, Car-3.",en:"Instance segmentation identifies individual object instances — each car gets a unique ID. Semantic only tells you class membership."},
-  {n:31,t:"Semantic Segmentation",q:"FCN stands for:",opts:["Fast Convolutional Network","Fully Connected Network","Fully Convolutional Network","Feature Compression Network"],a:2,mr:"FCN = Fully Convolutional Network. यात traditional FC layers नसतात — सर्व layers convolutional असतात.",en:"FCN = Fully Convolutional Network. It replaces FC layers with conv layers so the network can produce spatial output maps."},
-  {n:32,t:"Semantic Segmentation",q:"FCN replaces fully connected layers with:",opts:["Pooling layers","Recurrent layers","Convolutional layers","Dropout layers"],a:2,mr:"FCN मध्ये FC layers ऐवजी 1×1 convolutional layers वापरतात. यामुळे network pixel-wise output देऊ शकते.",en:"FCN replaces FC layers with 1×1 conv layers. This preserves spatial information and allows pixel-wise prediction output."},
-  {n:33,t:"Semantic Segmentation",q:"FCN-32s produces output that is:",opts:["Very detailed (fine)","Coarse due to 32x upsampling","Same resolution as input","Binary segmentation only"],a:1,mr:"FCN-32s मध्ये feature map 32 times up-sample करतात — हे खूप coarse/sparse output देते.",en:"FCN-32s upsamples directly from stride-32 features — this aggressive upsampling loses spatial detail, producing coarse output."},
-  {n:34,t:"Semantic Segmentation",q:"Skip connections in FCN (e.g., FCN-8s vs FCN-32s) produce:",opts:["Coarser segmentation output","Finer and more detailed segmentation output","Slower training","Larger model size"],a:1,mr:"FCN-8s मध्ये earlier layers चे skip connections वापरतात — earlier layers मध्ये fine spatial details असतात → output sharp.",en:"FCN-8s fuses predictions from multiple scales. Earlier layers retain fine spatial info, producing much more detailed segmentation."},
-  {n:35,t:"VAE",q:"What does a traditional (vanilla) Autoencoder map input to?",opts:["A probability distribution","A fixed deterministic latent vector","A set of class probabilities","A discrete code"],a:1,mr:"Traditional AE input ला एका fixed, deterministic latent vector वर map करतो — एक exact point, distribution नाही.",en:"A standard AE encoder maps each input to a single fixed point in latent space — deterministic, no distribution around it."},
-  {n:36,t:"VAE",q:"What does the encoder in a VAE output?",opts:["A fixed latent vector","Mean (μ) and standard deviation (σ) of a latent distribution","Class probabilities","A reconstructed image"],a:1,mr:"VAE encoder दोन vectors output करतो: μ (mean) आणि σ (standard deviation) — distribution चे parameters.",en:"VAE encoder outputs μ and σ defining a Gaussian distribution in latent space. Code z is sampled from N(μ, σ²)."},
-  {n:37,t:"VAE",q:"In a VAE, the latent code z is obtained by:",opts:["Directly using μ","Sampling from the distribution N(μ, σ²)","Taking the maximum of μ and σ","Using the median of the distribution"],a:1,mr:"z हे N(μ, σ²) distribution मधून sample केले जाते — त्यामुळे smooth generation होते.",en:"z is sampled from Gaussian N(μ, σ²) defined by encoder outputs. This stochastic sampling makes VAE generative."},
-  {n:38,t:"VAE",q:"The prior distribution assumed for the latent space in VAE is:",opts:["Uniform distribution","Bernoulli distribution","Standard normal N(0, I)","Laplace distribution"],a:2,mr:"VAE मध्ये prior P(z) = N(0, I) assume केली जाते. KL loss हे enforce करतो.",en:"VAE assumes standard normal prior P(z)=N(0,I). The KL term pushes encoder distribution toward this prior."},
-  {n:39,t:"VAE",q:"VAE total loss = ?",opts:["Reconstruction loss only","KL divergence only","Reconstruction loss + KL divergence","Cross entropy + MSE"],a:2,mr:"VAE loss = Reconstruction loss + KL Divergence loss. दोन्ही एकत्र काम करतात.",en:"VAE Loss = Reconstruction Loss + KL Divergence. Reconstruction ensures class structure; KL ensures smooth continuous latent space."},
-  {n:40,t:"VAE",q:"In VAE, the reconstruction loss ensures:",opts:["Latent space is smooth","Class-specific structure is maintained in latent space","KL divergence is minimized","Encoder is removed"],a:1,mr:"Reconstruction loss network ला force करतो की similar inputs (same class) latent space मध्ये जवळ असतील.",en:"Reconstruction loss encourages grouping similar inputs in latent space so they decode faithfully — maintaining class-specific clusters."},
-  {n:41,t:"VAE",q:"In VAE, the KL divergence loss ensures:",opts:["Reconstructed images are sharp","Latent encodings are clustered near origin (smooth latent space)","Model has fewer parameters","Training is faster"],a:1,mr:"KL loss latent encodings ला N(0,I) च्या जवळ ठेवतो — smooth continuous latent space.",en:"KL loss pushes encodings toward N(0,I), preventing isolated clusters and creating a continuous smooth latent space."},
-  {n:42,t:"VAE",q:"If only reconstruction loss is used (no KL) in VAE, the latent space will be:",opts:["Smooth and continuous","Discontinuous with isolated clusters","Random and uniform","All zeros"],a:1,mr:"KL loss नसल्यास encoder isolated clusters बनवतो — gaps असतात, sampling करणे unreliable.",en:"Without KL, encoder creates isolated clusters with gaps between them — sampling from gap regions gives nonsensical outputs."},
-  {n:43,t:"VAE",q:"VAE enables which capability that traditional AE does not?",opts:["Dimensionality reduction","Image compression","Generating new realistic samples by sampling from latent space","Faster training"],a:2,mr:"VAE च्या continuous latent space मधून random z sample करता येतो आणि realistic नवीन image generate होतो.",en:"VAE's continuous latent space allows sampling any z~N(0,I) and decoding it into a realistic image. Traditional AE cannot do this."},
-  {n:44,t:"VAE",q:"Vector arithmetic in VAE latent space is possible because:",opts:["VAE uses more layers","VAE latent space is continuous and smooth","VAE uses MSE loss","VAE has a discriminator"],a:1,mr:"Smooth, continuous latent space मुळे vector arithmetic meaningful असते — 'glasses code' add/subtract करता येतो.",en:"Meaningful vector arithmetic requires smooth structured latent space where directions correspond to semantic attributes — VAE's KL provides this."},
-  {n:45,t:"KL Divergence",q:"KL divergence measures:",opts:["Distance between two images","How much one probability distribution diverges from another","Mean of a distribution","Variance of a distribution"],a:1,mr:"KL divergence distribution P आणि distribution Q मधील 'difference' मोजतो.",en:"KL divergence quantifies how much distribution Q differs from reference P. It measures information loss when Q approximates P."},
-  {n:46,t:"KL Divergence",q:"KL(P||Q) = 0 implies:",opts:["P and Q are completely different","P and Q are identical distributions","KL is maximized","Q is the prior"],a:1,mr:"KL = 0 फक्त तेव्हाच होतो जेव्हा P आणि Q exactly same distributions असतात.",en:"KL divergence equals zero if and only if P and Q are identical probability distributions everywhere."},
-  {n:47,t:"KL Divergence",q:"KL divergence is always:",opts:["Negative","Zero","Non-negative (≥ 0)","Equal to 1"],a:2,mr:"KL divergence कधीही negative नसते — Gibbs' inequality ने prove होते. KL ≥ 0 नेहमी.",en:"By Gibbs' inequality, KL(P||Q) ≥ 0 always. It equals 0 only when P = Q."},
-  {n:48,t:"KL Divergence",q:"Is KL divergence symmetric?",opts:["Yes, KL(P||Q) = KL(Q||P) always","No, KL(P||Q) ≠ KL(Q||P) in general","Only for Gaussian distributions","Only when P = Q"],a:1,mr:"KL asymmetric आहे — म्हणून KL हे true 'distance metric' नाही.",en:"KL divergence is asymmetric — KL(P||Q) ≠ KL(Q||P) in general. It is not a true metric."},
-  {n:49,t:"KL Divergence",q:"The formula for KL divergence KL(P||Q) is:",opts:["Σ Q(x) log[P(x)/Q(x)]","Σ P(x) log[P(x)/Q(x)]","Σ P(x) × Q(x)","Σ |P(x) − Q(x)|"],a:1,mr:"KL(P||Q) = Σ P(x) log[P(x)/Q(x)].",en:"KL(P||Q) = Σ P(x) log[P(x)/Q(x)]. Expectation under P — measures surprise using Q to encode samples drawn from P."},
-  {n:50,t:"KL Divergence",q:"In VAE, KL divergence is minimized between:",opts:["Reconstruction and input","Encoder distribution Q(z|x) and prior P(z) = N(0,I)","Decoder output and noise","Generator and discriminator"],a:1,mr:"VAE मध्ये encoder distribution Q(z|x) ला prior P(z) = N(0,I) च्या जवळ आणण्यासाठी KL minimize करतात.",en:"VAE minimizes KL(Q(z|x)||P(z)) where P(z)=N(0,I). This regularizes encoder to produce distributions close to standard normal prior."},
-  {n:51,t:"KL Divergence",q:"ELBO stands for:",opts:["Expected Loss Based Optimization","Evidence Lower BOund","Encoder Latent Backpropagation Output","Efficient Latent Bounded Objective"],a:1,mr:"ELBO = Evidence Lower BOund. VAE मध्ये log P(x) maximize करणे hard असते, म्हणून ELBO maximize करतात.",en:"ELBO = Evidence Lower BOund. Since maximizing log P(x) is intractable, VAE maximizes ELBO = E[log P(x|z)] − KL(Q||P)."},
-  {n:52,t:"KL Divergence",q:"Maximizing ELBO in VAE means:",opts:["Only minimizing KL","Only maximizing reconstruction","Maximizing reconstruction likelihood and minimizing KL divergence simultaneously","Maximizing KL only"],a:2,mr:"ELBO = Reconstruction term − KL term. ELBO maximize = reconstruction जास्त + KL कमी — दोन्ही एकत्र.",en:"Maximizing ELBO simultaneously maximizes reconstruction quality (first term) and minimizes the KL penalty (second term)."},
-  {n:53,t:"Reparameterization",q:"Why is direct sampling from Q(z|x) a problem during VAE training?",opts:["It makes the model too large","Sampling is non-differentiable, breaking backpropagation","It increases the loss","It slows down inference"],a:1,mr:"Sampling = random operation. Random operation मधून gradient pass होत नाही — backpropagation काम करत नाही.",en:"Sampling is stochastic with no defined gradient. Including it in the computation graph breaks backpropagation — gradients cannot flow to encoder."},
-  {n:54,t:"Reparameterization",q:"In the reparameterization trick, z is expressed as:",opts:["z = μ × σ","z = μ + σ ⊙ ε","z = ε / σ + μ","z = μ − σ"],a:1,mr:"z = μ + σ ⊙ ε. μ आणि σ learnable आहेत. ε external noise आहे.",en:"z = μ + σ ⊙ ε. Deterministic function of μ, σ (learnable) and ε (external). Gradients flow through μ and σ."},
-  {n:55,t:"Reparameterization",q:"In the reparameterization trick, ε is sampled from:",opts:["N(μ, σ²)","Uniform distribution U(0,1)","Standard normal N(0, I)","Bernoulli distribution"],a:2,mr:"ε ~ N(0, I) — standard normal distribution मधून sample केले जाते. हे external आहे — network parameters चा भाग नाही.",en:"ε is sampled from standard normal N(0,I). It's external randomness — not part of the learnable parameters μ and σ."},
-  {n:56,t:"Reparameterization",q:"After reparameterization, gradients can flow through:",opts:["ε only","μ and σ (learnable parameters)","The random variable directly","The decoder only"],a:1,mr:"z = μ + σε हे deterministic formula आहे. Gradient dz/dμ = 1, dz/dσ = ε — easily computable.",en:"With z = μ + σε, gradients ∂L/∂μ and ∂L/∂σ are well-defined, enabling end-to-end backpropagation through the full VAE."},
-  {n:57,t:"Reparameterization",q:"The reparameterization trick separates:",opts:["Encoder from decoder","Randomness (ε) from learnable parameters (μ, σ)","Generator from discriminator","Loss from gradient"],a:1,mr:"Trick म्हणजे randomness (ε) आणि learnable parameters (μ, σ) वेगळे करणे.",en:"Key insight: separate stochastic part (ε, external) from deterministic part (μ, σ, learnable). Gradients only flow through deterministic part."},
-  {n:58,t:"Reparameterization",q:"Without the reparameterization trick, VAE training would fail because:",opts:["The encoder has too many layers","Gradients cannot propagate through a non-differentiable sampling operation","The KL divergence explodes","The decoder becomes too shallow"],a:1,mr:"Direct sampling non-differentiable → gradient chain तुटतो → encoder update होत नाही → training fail.",en:"Without reparameterization, the sampling node has no gradient. Encoder's μ and σ cannot be updated — training halts."},
-  {n:59,t:"GAN",q:"What does GAN stand for?",opts:["Generative Adaptive Network","Generative Adversarial Network","Gradient Adversarial Node","Generative Attention Network"],a:1,mr:"GAN = Generative Adversarial Network. 'Adversarial' म्हणजे दोन networks एकमेकांशी compete करतात.",en:"GAN = Generative Adversarial Network. 'Adversarial' refers to the competing relationship — a minimax game between generator and discriminator."},
-  {n:60,t:"GAN",q:"In a GAN, the Generator takes as input:",opts:["A real image","A class label","Random noise vector z","Training data"],a:2,mr:"Generator एक random noise vector z घेतो (Gaussian किंवा uniform) आणि त्यातून realistic image बनवतो.",en:"Generator takes random noise z (from Gaussian/uniform distribution) and maps it to a realistic data point — learns data distribution from noise."},
-  {n:61,t:"GAN",q:"In a GAN, the Discriminator outputs:",opts:["A generated image","P(input is real)","A class label","A latent vector"],a:1,mr:"Discriminator D(x) output करतो = probability that input x is real. D(x)≈1 = real, D(x)≈0 = fake.",en:"Discriminator outputs D(x) ∈ [0,1] — probability that input x is from real data distribution. D≈1 means real, D≈0 means fake."},
-  {n:62,t:"GAN",q:"The Discriminator training objective is to:",opts:["Maximize D(real) and maximize D(fake)","Maximize D(real) and minimize D(fake)","Minimize D(real) and minimize D(fake)","Minimize D(real) and maximize D(fake)"],a:1,mr:"D ला real images real म्हणायचे (D(x)→1) आणि fake images fake म्हणायचे (D(G(z))→0).",en:"D wants: high D(x) for real data, low D(G(z)) for fake. Objective: maximize E[log D(x)] + E[log(1−D(G(z)))]."},
-  {n:63,t:"GAN",q:"The Generator training objective is to:",opts:["Minimize D(G(z))","Maximize D(G(z)) — fool the discriminator","Minimize D(real)","Maximize reconstruction loss"],a:1,mr:"G ला D ला फसवायचे आहे — fake images real वाटायला हव्यात. G maximize करतो E[log D(G(z))].",en:"G wants its fake images classified as real by D. Maximizes E[log D(G(z))] — tries to fool D into outputting high probability for generated images."},
-  {n:64,t:"GAN",q:"D objective formula: maximize",opts:["E[log D(G(z))]","E[log D(x)] only","E[log D(x)] + E[log(1−D(G(z)))]","E[log(1−D(x))]"],a:2,mr:"D objective = E[log D(x)] + E[log(1−D(G(z)))]. पहिला term real, दुसरा fake साठी.",en:"D maximizes E[log D(x)] (correct on real) + E[log(1−D(G(z)))] (correct on fake) — standard binary cross-entropy for two classes."},
-  {n:65,t:"GAN",q:"G objective formula: maximize",opts:["E[log(1−D(G(z)))]","E[log D(x)]","E[log D(G(z))]","E[log D(x)] − E[log D(G(z))]"],a:2,mr:"G maximize करतो E[log D(G(z))]. Non-saturating version — practical training मध्ये gradient चांगला मिळतो.",en:"G maximizes E[log D(G(z))] (non-saturating). This gives stronger gradients early in training vs minimizing E[log(1−D(G(z)))]."},
-  {n:66,t:"GAN",q:"GAN training involves:",opts:["Only training the generator","Only training the discriminator","Alternately training D and G","Training both simultaneously with same loss"],a:2,mr:"Training alternate होते: k steps D update → 1 step G update.",en:"GAN training alternates: k steps updating D (freeze G), then 1 step updating G (freeze D). Prevents one network dominating the other."},
-  {n:67,t:"GAN",q:"GAN is described as which type of game?",opts:["Cooperative game","Zero-sum / Minimax game","Multi-player game","Reward game"],a:1,mr:"GAN = minimax game. G minimize करतो D च्या objective ला, D maximize करतो — zero-sum.",en:"GAN is a minimax game. D maximizes the objective, G minimizes it. They have exactly opposing goals — when one wins, the other loses."},
-  {n:68,t:"GAN",q:"What type of model is GAN?",opts:["Explicit generative model","Implicit generative model","Discriminative model","Supervised model only"],a:1,mr:"GAN = implicit generative model. P(x) explicit formula नसते — G directly samples देतो.",en:"GAN is an implicit generative model. It doesn't define P(x) — instead G learns to sample from P(x) by mapping noise to data space."},
-  {n:69,t:"GAN",q:"Which of these is a real application of GANs?",opts:["Image classification","Image-to-image translation (pix2pix)","Object detection","Image compression only"],a:1,mr:"pix2pix = image-to-image translation (sketch → photo, day → night). GAN चे powerful application.",en:"pix2pix uses conditional GANs for image-to-image translation. Other GAN apps: super-resolution, inpainting, video synthesis."},
-  {n:70,t:"GAN",q:"The main difference between VAE and GAN generated images:",opts:["VAE images are sharper","GAN images tend to be sharper; VAE images can be blurry","Both identical quality","GAN requires labeled data; VAE does not"],a:1,mr:"GAN images sharp असतात — adversarial training direct image quality वर focus करते. VAE MSE वापरते → blurry.",en:"GANs produce sharper, more photo-realistic images. VAEs trained with MSE/pixel loss tend to produce blurry outputs due to mode averaging."},
-  {n:71,t:"Triplet Loss",q:"Triplet loss is used in which application?",opts:["Image segmentation","Image denoising","Face recognition (FaceNet)","Image super resolution"],a:2,mr:"Triplet loss FaceNet मध्ये वापरतात — face recognition साठी. FaceNet faces ला embedding space मध्ये map करतो.",en:"Triplet loss introduced in FaceNet (Google, 2015) for face embeddings — enabling high-accuracy face verification."},
-  {n:72,t:"Triplet Loss",q:"A triplet consists of:",opts:["Anchor, Positive, Negative","Input, Hidden, Output","Real, Fake, Neutral","Encoder, Decoder, Latent"],a:0,mr:"Triplet = तीन images: Anchor (reference), Positive (same person), Negative (different person).",en:"A triplet is (Anchor A, Positive P, Negative N). A and P are different images of same person. N is a different person."},
-  {n:73,t:"Triplet Loss",q:"In triplet loss, the Positive sample is:",opts:["A different person from the Anchor","The same person as the Anchor (different image)","A random image","A synthetic image"],a:1,mr:"Positive = Anchor सारखाच व्यक्ती, पण वेगळा image (different pose, lighting). A-P distance कमी असावी.",en:"Positive = different image of the same person as Anchor — different time, angle, or lighting. Goal: make their embeddings close."},
-  {n:74,t:"Triplet Loss",q:"In triplet loss, the Negative sample is:",opts:["Same person, different pose","A different person from the Anchor","Same image as Anchor","A noisy version of Anchor"],a:1,mr:"Negative = Anchor पेक्षा वेगळा व्यक्ती. A-N embedding distance जास्त असावी.",en:"Negative = image of a completely different person from Anchor. Goal: push Anchor and Negative embeddings far apart."},
-  {n:75,t:"Triplet Loss",q:"The triplet loss constraint is:",opts:["d(A,P) ≥ d(A,N) + α","d(A,P) + α ≤ d(A,N)","d(A,N) + α ≤ d(A,P)","d(A,P) = d(A,N)"],a:1,mr:"Constraint: d(A,P) + α ≤ d(A,N). Same-person distance + margin ≤ different-person distance.",en:"d(A,P) + α ≤ d(A,N): same-person distance must be smaller than different-person distance by at least margin α."},
-  {n:76,t:"Triplet Loss",q:"The margin α in triplet loss is used to:",opts:["Speed up training","Prevent the trivial solution where all embeddings collapse to zero","Increase the learning rate","Reduce model size"],a:1,mr:"Margin α नसल्यास network सर्व embeddings 0 ला set करतो (trivial solution). α required separation enforce करतो.",en:"Without margin α, network satisfies constraint trivially by making all embeddings zero. Margin α enforces minimum separation."},
-  {n:77,t:"Triplet Loss",q:"Triplet Loss formula L = ?",opts:["max(d(A,P) + d(A,N) + α, 0)","max(d(A,P) − d(A,N) + α, 0)","min(d(A,P) − d(A,N) + α, 0)","d(A,P) − d(A,N) + α (no max)"],a:1,mr:"L = max(d(A,P) − d(A,N) + α, 0). max with 0 → constraint already satisfied असल्यास loss = 0.",en:"L = max(d(A,P)−d(A,N)+α, 0). The max(·,0) hinge means no loss when constraint is already satisfied — only positive for violating triplets."},
-  {n:78,t:"Triplet Loss",q:"Hard positive is defined as:",opts:["Easiest same-person pair","Most dissimilar same-person image (argmax d(A,P))","Random same-person image","Closest different-person image"],a:1,mr:"Hard positive = Anchor सारख्याच व्यक्तीचा सर्वात वेगळा image (maximum distance).",en:"Hard positive = same-person image with largest distance from Anchor = argmax d(A,P). Most challenging for pulling same-person embeddings together."},
-  {n:79,t:"Triplet Loss",q:"Hard negative is defined as:",opts:["Most dissimilar different-person image","Most similar different-person image to Anchor (argmin d(A,N))","A random image","Same-person image"],a:1,mr:"Hard negative = Anchor च्या सर्वात जवळचा different person image.",en:"Hard negative = different-person image closest to Anchor = argmin d(A,N). Most confusable imposter — hardest case for separation."},
-  {n:80,t:"Triplet Loss",q:"Why is semi-hard negative preferred over hard negative?",opts:["It is computationally cheaper","To avoid model collapse (all embeddings = 0)","It increases batch size","It removes the need for margin α"],a:1,mr:"Hard negatives exclusively वापरल्यास model collapse होतो. Semi-hard negatives balance देतात.",en:"Hard negatives exclusively lead to model collapse. Semi-hard negatives provide meaningful gradients without causing instability."},
-  {n:81,t:"Triplet Loss",q:"One-shot learning means:",opts:["Training with 100 samples","Learning to recognize a class from 1 or very few examples","Training for 1 epoch only","Using 1 layer only"],a:1,mr:"One-shot learning = 1 किंवा खूप कमी examples वरून नवीन class ओळखणे.",en:"One-shot learning: recognize new classes from just one or very few examples, without retraining. FaceNet enables this via universal embeddings."},
-  {n:82,t:"Normalization",q:"Batch normalization normalizes across:",opts:["All channels per sample","The batch dimension (N) per channel","Spatial dimensions only","Groups of channels"],a:1,mr:"Batch Norm प्रत्येक channel साठी batch dimension (N samples) across normalize करतो.",en:"Batch Norm computes mean and variance across N samples in the batch for each channel independently, then normalizes."},
-  {n:83,t:"Normalization",q:"Batch normalization was introduced to address:",opts:["Overfitting","Internal covariate shift","Vanishing gradients only","Data imbalance"],a:1,mr:"Internal covariate shift = training दरम्यान प्रत्येक layer च्या input distribution बदलते. Batch Norm हे fix करते.",en:"Internal covariate shift: input distribution to each layer changes during training. BN normalizes these inputs, stabilizing training."},
-  {n:84,t:"Normalization",q:"Layer normalization is preferred over batch normalization for:",opts:["CNNs with large batches","RNNs, Transformers, and small batch scenarios","Image segmentation only","GANs only"],a:1,mr:"Layer Norm प्रत्येक sample साठी independently normalize करतो — batch size वर अवलंबून नाही.",en:"Layer Norm computes statistics across all features of a single sample — independent of batch size. Ideal for RNNs, Transformers."},
-  {n:85,t:"Normalization",q:"Instance normalization normalizes across:",opts:["Batch dimension","All channels per sample","H × W per sample per channel","Groups of channels"],a:2,mr:"Instance Norm प्रत्येक sample च्या प्रत्येक channel साठी spatial dimensions (H × W) across normalize करतो.",en:"Instance Norm normalizes each channel of each sample across spatial H×W. Removes instance-specific contrast — ideal for style transfer."},
-  {n:86,t:"Normalization",q:"Group normalization is best suited for:",opts:["Large batch training","Very small batch sizes where BN fails","RNN training","Style transfer only"],a:1,mr:"Batch Norm small batches साठी unreliable असतो. Group Norm batch size independent — small batch साठी चांगला.",en:"Group Norm (Kaiming He, 2018) is independent of batch size — divides channels into groups, normalizes within each group per sample."},
-  {n:87,t:"Normalization",q:"BN formula ŷ = γ·(x−μ)/σ + β — what are γ and β?",opts:["Fixed hyperparameters","Learnable scale and shift parameters","Input mean and variance","Output mean and variance"],a:1,mr:"γ (scale) आणि β (shift) learnable parameters आहेत. Network ला identity transform शिकता येतो.",en:"γ and β are learnable affine parameters. After normalization, network can restore original distribution by learning γ=σ and β=μ."},
-  {n:88,t:"Dropout",q:"During training, dropout sets neurons to zero with probability:",opts:["0","1","p (dropout rate)","0.5 always"],a:2,mr:"Training मध्ये प्रत्येक neuron probability p ने zero set होतो. p = dropout rate.",en:"During training, each neuron is independently set to 0 with probability p (the dropout rate). p=0.5 common for FC layers."},
-  {n:89,t:"Dropout",q:"During testing, dropout:",opts:["Still randomly drops neurons","Keeps all neurons active (weights scaled by (1−p))","Doubles all weights","Uses p = 1"],a:1,mr:"Testing मध्ये dropout नसते — सर्व neurons active. Weights scaled by (1−p) केले जातात.",en:"At test time, all neurons are active. Weights scaled by (1−p) to ensure expected output matches what was seen during dropout training."},
-  {n:90,t:"Dropout",q:"The main purpose of dropout is to:",opts:["Speed up inference","Prevent overfitting by reducing co-adaptation of neurons","Increase model accuracy always","Reduce number of layers"],a:1,mr:"Dropout neurons ला एकमेकांवर अवलंबून राहण्यापासून रोखतो (co-adaptation) → overfitting कमी.",en:"Dropout prevents neurons from co-adapting — each neuron learns more robust independent features, reducing overfitting as implicit ensemble."},
-  {n:91,t:"Dropout",q:"L1 regularization encourages:",opts:["Large weights","Small but non-zero weights","Sparse weights (many weights → 0)","Uniform weight distribution"],a:2,mr:"L1 regularization |w| add करतो. Gradient constant → small weights exactly 0 → sparse solution.",en:"L1 adds |w| to loss. Constant gradient pushes weights toward zero regardless of magnitude — many weights become exactly zero (sparse model)."},
-  {n:92,t:"Dropout",q:"L2 regularization (weight decay) penalizes:",opts:["Sparse weights","Large weights (adds w² to cost)","All weights equally","Zero weights"],a:1,mr:"L2 regularization w² add करतो. Penalty weight च्या magnitude वर proportional — large weights penalize होतात.",en:"L2 adds λw² to loss. Gradient = 2λw — proportional to magnitude. Large weights heavily penalized, pushed toward zero but rarely exactly zero."},
-  {n:93,t:"Dropout",q:"Early stopping monitors which metric to decide when to stop training?",opts:["Training loss only","Validation loss","Test accuracy","Gradient magnitude"],a:1,mr:"Validation loss monitor करतात. जेव्हा validation loss वाढू लागतो (overfitting), best model save करून training थांबवतात.",en:"Early stopping monitors validation loss each epoch. When val loss increases (overfitting signal), training stops and best checkpoint is saved."},
-  {n:94,t:"Optimizers",q:"Momentum optimizer improves upon SGD by:",opts:["Eliminating the learning rate","Accumulating velocity (past gradient history) to escape saddle points","Using separate LR per parameter","Normalizing gradients"],a:1,mr:"Momentum मागचे gradients (velocity) accumulate करतो. Saddle points मध्ये अडकल्यास 'inertia' पुढे नेतो.",en:"Momentum accumulates velocity: v = αv − η∇L; W = W+v. Past gradients contribute to current update, helping escape saddle points."},
-  {n:95,t:"Optimizers",q:"NAG (Nesterov Accelerated Gradient) differs from standard Momentum by:",opts:["Using a larger batch size","Computing gradient at the lookahead (future) position","Removing the velocity term","Using adaptive learning rate"],a:1,mr:"NAG = lookahead momentum. Future position वर gradient calculate करतो — more accurate correction.",en:"NAG computes gradient at 'anticipated' future position (W+αv) rather than current position — gives more accurate gradient."},
-  {n:96,t:"Optimizers",q:"Adagrad adapts the learning rate by:",opts:["Using momentum only","Dividing LR by the square root of the sum of all historical squared gradients","Using exponential decay","Ignoring gradient history"],a:1,mr:"Adagrad प्रत्येक parameter साठी वेगळी LR ठेवतो — frequently updated → smaller LR, rarely updated → larger LR.",en:"Adagrad divides LR by √(Σg²) — sum of all past squared gradients. Infrequent parameters get large LR; frequent ones get small LR."},
-  {n:97,t:"Optimizers",q:"What is the main problem with Adagrad for non-convex optimization?",opts:["Learning rate increases unboundedly","Learning rate decreases to near zero, stopping learning","Gradients explode","Model overfits"],a:1,mr:"Adagrad सर्व historical gradients accumulate करतो — denominator फक्त वाढत जातो → LR → 0 → learning थांबते.",en:"Adagrad accumulates ALL past squared gradients without decay. Denominator grows monotonically → LR shrinks to near-zero → learning stops."},
-  {n:98,t:"Optimizers",q:"RMSProp fixes Adagrad's problem by:",opts:["Removing gradient history entirely","Using exponentially decaying average of squared gradients","Adding momentum term","Using fixed learning rate"],a:1,mr:"RMSProp exponentially decaying average वापरतो — जुने gradients forget होतात, LR → 0 होत नाही.",en:"RMSProp uses E[g²] = ρ·E[g²] + (1−ρ)·g² — exponential moving average. Old gradients fade out, preventing unbounded denominator growth."},
-  {n:99,t:"Optimizers",q:"Adam optimizer combines:",opts:["SGD and Adagrad","Momentum (1st moment) and RMSProp (2nd moment) with bias correction","L1 and L2 regularization","Batch norm and dropout"],a:1,mr:"Adam = Momentum (1st moment) + RMSProp (2nd moment) + bias correction. Best of both worlds — most widely used.",en:"Adam maintains: s (1st moment = EMA of gradients) and r (2nd moment = EMA of squared gradients), plus bias correction."},
-  {n:100,t:"Optimizers",q:"Default β₁ and β₂ values in Adam are:",opts:["β₁=0.999, β₂=0.9","β₁=0.5, β₂=0.5","β₁=0.9, β₂=0.999","β₁=0.1, β₂=0.9"],a:2,mr:"Adam defaults: β₁=0.9 (momentum decay), β₂=0.999 (squared gradient decay), ε=10⁻⁸ (numerical stability).",en:"Adam defaults: β₁=0.9 (1st moment decay), β₂=0.999 (2nd moment decay), ε=1e-8 (stability). These work well across most tasks."},
-];
-
-/* ── SCREEN MANAGEMENT ── */
-function showScreen(id){
-  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
-  document.getElementById('screen-'+id).classList.add('active');
-  document.querySelectorAll('.nav-tab').forEach(t=>t.classList.remove('active'));
-  const map={start:0,test:1,result:2,study:3};
-  const tabs=document.querySelectorAll('.nav-tab');
-  if(id==='result'){tabs[2].classList.add('active');}
-  else if(id==='study'){tabs[3].classList.add('active');}
-  else if(id==='test'){tabs[1].classList.add('active');}
-  else{tabs[0].classList.add('active');}
-  if(id==='study') renderStudy();
-  window.scrollTo(0,0);
-}
-
-/* ── TEST LOGIC ── */
-let questions=[], answers=[], current=0;
-const LETTERS=['A','B','C','D'];
-
-function shuffle(arr){const a=[...arr];for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
-
-function startTest(){
-  questions=shuffle(ALL).slice(0,100);
-  answers=new Array(100).fill(-1);
-  current=0;
-  document.getElementById('tab-result').style.display='none';
-  showScreen('test');
-  renderQ();
-}
-
-function renderQ(){
-  const q=questions[current];
-  const pct=Math.round((current+1)/100*100);
-  document.getElementById('t-counter').textContent='Q '+(current+1)+' / 100';
-  document.getElementById('t-progress').style.width=pct+'%';
-  const done=answers.filter(x=>x!==-1).length;
-  document.getElementById('t-answered').textContent=done+' answered';
-  document.getElementById('t-prev').style.visibility=current>0?'visible':'hidden';
-  document.getElementById('t-next').textContent=current<99?'Next →':'Review →';
-  const allDone=answers.filter(x=>x!==-1).length===100;
-  document.getElementById('t-submit').style.display=(allDone||current===99)?'inline-block':'none';
-
-  let html=`<div class="qwrap">
-    <div class="q-meta">
-      <span class="q-num">Q${current+1}</span>
-      <span class="q-topic-badge ${TCLASS[q.t]||'tc-gray'}">${q.t}</span>
-    </div>
-    <div class="q-text">${q.q}</div>
-    <div class="opts">`;
-  q.opts.forEach((o,i)=>{
-    let cls='opt'+(answers[current]===i?' selected':'');
-    html+=`<div class="${cls}" onclick="selectOpt(${i})"><span class="opt-letter">${LETTERS[i]}</span><span>${o}</span></div>`;
-  });
-  html+='</div></div>';
-  document.getElementById('t-qwrap').innerHTML=html;
-}
-
-function selectOpt(i){
-  answers[current]=i;
-  renderQ();
-  if(current<99) setTimeout(()=>go(1),300);
-}
-
-function go(d){
-  current=Math.max(0,Math.min(99,current+d));
-  renderQ();
-  window.scrollTo(0,52);
-}
-
-function submitTest(){
-  const correct=answers.filter((a,i)=>a===questions[i].a).length;
-  const wrong=answers.filter((a,i)=>a!==-1&&a!==questions[i].a).length;
-  const skip=answers.filter(a=>a===-1).length;
-
-  document.getElementById('r-score').textContent=correct;
-  document.getElementById('r-correct').textContent=correct;
-  document.getElementById('r-wrong').textContent=wrong;
-  document.getElementById('r-skip').textContent=skip;
-
-  let grade,sub;
-  if(correct>=85){grade='Excellent — Exam Ready!';sub='Outstanding performance. You have strong command over Week 12 topics.';}
-  else if(correct>=70){grade='Good — Almost There';sub='Solid understanding. Review the wrong answers and you\'re set.';}
-  else if(correct>=50){grade='Average — More Practice Needed';sub='Focus on weak topics. Use the Study section to revise explanations.';}
-  else{grade='Needs Work — Revise All Topics';sub='Go through the Study guide carefully before the exam.';}
-  document.getElementById('r-grade').textContent=grade;
-  document.getElementById('r-sub').textContent=sub;
-
-  let rhtml='';
-  questions.forEach((q,i)=>{
-    const ua=answers[i];
-    const ok=ua===q.a;
-    const sk=ua===-1;
-    const cardClass=sk?'skip-card':ok?'correct-card':'wrong-card';
-    const badge=sk?'<span class="rv-badge badge-s">Skipped</span>':ok?'<span class="rv-badge badge-c">Correct</span>':'<span class="rv-badge badge-w">Wrong</span>';
-    rhtml+=`<div class="review-card ${cardClass}">
-      <div class="rv-head"><span class="rv-q">Q${i+1}. ${q.q}</span>${badge}</div>
-      <div class="rv-answers">`;
-    if(!sk&&!ok) rhtml+=`<div class="rv-ans yours">Your answer: ${LETTERS[ua]}. ${q.opts[ua]}</div>`;
-    rhtml+=`<div class="rv-ans correct-ans">Correct: ${LETTERS[q.a]}. ${q.opts[q.a]}</div>`;
-    rhtml+=`</div><div class="rv-exp"><strong>Why:</strong> ${q.mr}<br><em style="font-size:12px;color:var(--ink2);">${q.en}</em></div></div>`;
-  });
-  document.getElementById('review-list').innerHTML=rhtml;
-  document.getElementById('tab-result').style.display='inline-block';
-  showScreen('result');
-}
-
-function restartTest(){
-  showScreen('start');
-}
-
-/* ── STUDY ── */
-const topics=[...new Set(ALL.map(q=>q.t))];
-const sel=document.getElementById('s-topic');
-topics.forEach(t=>{const o=document.createElement('option');o.value=t;o.textContent=t;sel.appendChild(o);});
-
-function renderStudy(){
-  const sq=(document.getElementById('s-search').value||'').toLowerCase();
-  const tf=document.getElementById('s-topic').value;
-  const filtered=ALL.filter(q=>{
-    const mt=!tf||q.t===tf;
-    const ms=!sq||q.q.toLowerCase().includes(sq)||q.t.toLowerCase().includes(sq)||q.opts.some(o=>o.toLowerCase().includes(sq))||q.mr.toLowerCase().includes(sq);
-    return mt&&ms;
-  });
-  document.getElementById('s-showing').textContent=filtered.length;
-  if(!filtered.length){document.getElementById('study-list').innerHTML='<div class="no-results">No questions match your search.</div>';return;}
-  let html='';
-  filtered.forEach(q=>{
-    html+=`<div class="eq-card">
-      <div class="eq-meta"><span class="eq-num">Q${q.n}</span><span class="eq-topic ${TCLASS[q.t]||'tc-gray'}">${q.t}</span></div>
-      <div class="eq-q">${q.q}</div>
-      <div class="eq-opts">`;
-    q.opts.forEach((o,i)=>{
-      html+=`<div class="eq-opt${i===q.a?' is-answer':''}"><span class="eq-opt-letter">${LETTERS[i]}.</span><span>${o}</span></div>`;
-    });
-    html+=`</div>
-      <div class="eq-exp">
-        <div class="eq-exp-lbl">Explanation</div>
-        <div class="eq-exp-mr">${q.mr}</div>
-        <div class="eq-exp-en">${q.en}</div>
-      </div>
-    </div>`;
-  });
-  document.getElementById('study-list').innerHTML=html;
-}
-renderStudy();
-</script>
 </body>
 </html>
