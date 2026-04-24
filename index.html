@@ -3350,5 +3350,587 @@ footer strong { color: var(--muted); }
   <p style="margin-top:8px; color:#555">Best of luck for your exam on 25 April! 🎯</p>
 </div>
 
+<h2 class="sr-only">NPTEL Deep Learning Week 12 — 100 question practice MCQ test with score shown only at the end</h2>
+<style>
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);}
+*{box-sizing:border-box;}
+#screen-start,#screen-test,#screen-result{width:100%;}
+.meta{font-size:13px;color:var(--color-text-secondary);}
+.qcard{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:1.25rem 1.25rem 1rem;margin-bottom:12px;}
+.qnum{font-size:11px;color:var(--color-text-tertiary);margin-bottom:6px;}
+.qtxt{font-size:14px;font-weight:500;color:var(--color-text-primary);margin:0 0 12px;line-height:1.55;}
+.opt{display:flex;align-items:flex-start;gap:10px;padding:8px 10px;border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-md);cursor:pointer;margin-bottom:6px;font-size:13px;color:var(--color-text-secondary);transition:background 0.1s;}
+.opt:hover{background:var(--color-background-secondary);}
+.opt.selected{border-color:var(--color-border-info);background:var(--color-background-info);color:var(--color-text-info);}
+.opt.correct{border-color:#1D9E75;background:#E1F5EE;color:#085041;}
+.opt.wrong{border-color:#E24B4A;background:#FCEBEB;color:#791F1F;}
+.opt.reveal-correct{border-color:#1D9E75;background:#E1F5EE;color:#085041;}
+.opt-letter{font-weight:500;min-width:18px;font-size:13px;}
+.prog-bar{height:4px;background:var(--color-background-secondary);border-radius:2px;margin-bottom:1.25rem;}
+.prog-fill{height:4px;background:#1D9E75;border-radius:2px;transition:width 0.3s;}
+.stat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:1.5rem;}
+.stat-box{background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:12px;text-align:center;}
+.stat-n{font-size:24px;font-weight:500;color:var(--color-text-primary);}
+.stat-l{font-size:12px;color:var(--color-text-secondary);margin-top:2px;}
+.result-card{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:1rem 1.25rem;margin-bottom:8px;}
+.rc-q{font-size:13px;font-weight:500;color:var(--color-text-primary);margin:0 0 6px;}
+.rc-row{font-size:12px;margin:3px 0;}
+.badge-c{display:inline-block;padding:2px 8px;border-radius:var(--border-radius-md);background:#E1F5EE;color:#085041;font-size:11px;font-weight:500;}
+.badge-w{display:inline-block;padding:2px 8px;border-radius:var(--border-radius-md);background:#FCEBEB;color:#791F1F;font-size:11px;font-weight:500;}
+.nav-row{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:0.75rem 0;}
+</style>
+
+<div id="screen-start" style="padding:1.5rem 0 1rem;">
+  <p style="font-size:22px;font-weight:500;margin:0 0 6px;color:var(--color-text-primary);">NPTEL Deep Learning — Practice Test</p>
+  <p class="meta" style="margin:0 0 1.5rem;">100 questions · Week 12 · Marks shown only at the end</p>
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px;margin-bottom:1.5rem;">
+    <div class="stat-box"><div class="stat-n">100</div><div class="stat-l">Questions</div></div>
+    <div class="stat-box"><div class="stat-n">1</div><div class="stat-l">Mark each</div></div>
+    <div class="stat-box"><div class="stat-n">0</div><div class="stat-l">Negative marking</div></div>
+    <div class="stat-box"><div class="stat-n" style="font-size:16px;">End only</div><div class="stat-l">Score visible</div></div>
+  </div>
+  <button onclick="startTest()" style="font-size:15px;padding:10px 28px;">Start test</button>
+</div>
+
+<div id="screen-test" style="display:none;padding:1rem 0;">
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+    <span id="q-counter" class="meta"></span>
+    <span id="q-topic" style="font-size:11px;color:var(--color-text-tertiary);"></span>
+  </div>
+  <div class="prog-bar"><div class="prog-fill" id="prog-fill" style="width:0%"></div></div>
+  <div id="qcard-wrap"></div>
+  <div class="nav-row">
+    <button id="btn-prev" onclick="go(-1)" style="font-size:13px;padding:7px 18px;">Prev</button>
+    <span id="answered-count" class="meta"></span>
+    <button id="btn-next" onclick="go(1)" style="font-size:13px;padding:7px 18px;">Next</button>
+  </div>
+  <div style="text-align:center;margin-top:8px;">
+    <button id="btn-submit" onclick="submitTest()" style="font-size:14px;padding:9px 28px;display:none;">Submit test</button>
+  </div>
+</div>
+
+<div id="screen-result" style="display:none;padding:1rem 0;">
+  <p style="font-size:22px;font-weight:500;margin:0 0 4px;color:var(--color-text-primary);">Test result</p>
+  <p class="meta" style="margin:0 0 1.25rem;">Week 12 · 100 questions</p>
+  <div class="stat-grid">
+    <div class="stat-box"><div class="stat-n" id="r-score" style="color:#1D9E75;"></div><div class="stat-l">Score / 100</div></div>
+    <div class="stat-box"><div class="stat-n" id="r-correct" style="color:#1D9E75;"></div><div class="stat-l">Correct</div></div>
+    <div class="stat-box"><div class="stat-n" id="r-wrong" style="color:#E24B4A;"></div><div class="stat-l">Wrong</div></div>
+    <div class="stat-box"><div class="stat-n" id="r-skip"></div><div class="stat-l">Skipped</div></div>
+  </div>
+  <div id="r-grade" style="text-align:center;padding:14px;border-radius:var(--border-radius-lg);background:var(--color-background-secondary);margin-bottom:1.25rem;">
+    <p style="font-size:20px;font-weight:500;margin:0;" id="r-grade-text"></p>
+    <p style="font-size:13px;color:var(--color-text-secondary);margin:4px 0 0;" id="r-grade-sub"></p>
+  </div>
+  <p style="font-size:14px;font-weight:500;margin:0 0 10px;color:var(--color-text-primary);">Detailed review — every question</p>
+  <div id="review-list"></div>
+  <div style="text-align:center;margin-top:1.25rem;">
+    <button onclick="restartTest()" style="font-size:14px;padding:9px 24px;">Retake test (new shuffle)</button>
+  </div>
+</div>
+
+<script>
+const POOL=[
+  {t:"Image Restoration",q:"What is the primary goal of image restoration?",o:["To compress images for storage","To recover a clean image from a degraded input","To convert images to grayscale","To increase image resolution only"],a:1},
+  {t:"Image Restoration",q:"Which of the following is NOT a type of image restoration?",o:["Deblurring","Denoising","Image compression","Super resolution"],a:2},
+  {t:"Image Restoration",q:"In the image degradation model, which formula represents the degraded image y?",o:["y = H(x) + noise","y = x − H","y = H × x²","y = noise only"],a:0},
+  {t:"Image Restoration",q:"When the degradation operator H is the identity matrix, the restoration task becomes:",o:["Super resolution","Image inpainting","Image denoising","Image deblurring"],a:2},
+  {t:"Image Restoration",q:"Image inpainting refers to:",o:["Adding noise to images","Recovering missing or corrupted regions of an image","Shrinking the image size","Converting image to binary"],a:1},
+  {t:"Image Restoration",q:"Low-dose CT denoising is an example of which task?",o:["Image generation","Image deblurring","Image denoising","Image translation"],a:2},
+  {t:"Image Restoration",q:"Which loss function is most commonly used in image restoration networks?",o:["Cross entropy loss","Dice loss","Mean Squared Error (MSE)","Triplet loss"],a:2},
+  {t:"Image Restoration",q:"The MSE loss trains the restoration network to map:",o:["Clean image to noisy image","Noisy image to clean image","Gray image to colored image","Small image to large image"],a:1},
+  {t:"Image Restoration",q:"MSE formula is: MSE = ?",o:["(1/N) Σ |ŷᵢ − yᵢ|","(1/N) Σ (ŷᵢ − yᵢ)²","Σ ŷᵢ × yᵢ","(1/N) Σ log(ŷᵢ / yᵢ)"],a:1},
+  {t:"Image Restoration",q:"Which statement about MSE is correct?",o:["MSE is insensitive to outliers","MSE penalizes large errors more due to squaring","MSE is only used in classification","MSE cannot be used for image tasks"],a:1},
+  {t:"Image Restoration Network",q:"What does the encoder part of a restoration network do?",o:["Up-samples image to higher resolution","Down-samples image to extract abstract features","Adds noise to the image","Applies color correction"],a:1},
+  {t:"Image Restoration Network",q:"What does the decoder in a restoration network do?",o:["Extracts features","Down-samples features","Up-samples to reconstruct the clean image","Classifies image categories"],a:2},
+  {t:"Image Restoration Network",q:"Convolutional layers in the restoration network serve primarily as:",o:["Image classifiers","Feature extractors that eliminate noise","Output generators","Upsampling modules"],a:1},
+  {t:"Image Restoration Network",q:"Deconvolutional layers in the restoration network serve primarily as:",o:["Feature extractors","Loss calculators","Image reconstruction modules","Normalization layers"],a:2},
+  {t:"Skip Connections",q:"What is the main purpose of skip connections in an image restoration network?",o:["To increase model size","To pass feature maps from encoder to decoder, preserving image details","To apply batch normalization","To reduce learning rate"],a:1},
+  {t:"Skip Connections",q:"Skip connections help improve backpropagation by:",o:["Stopping gradients from flowing","Providing an alternative gradient path, reducing vanishing gradient problem","Increasing batch size","Removing residuals"],a:1},
+  {t:"Skip Connections",q:"Without skip connections, deep restoration networks tend to:",o:["Train faster","Lose fine image details in deep layers","Produce sharper images","Reduce computation"],a:1},
+  {t:"Skip Connections",q:"Skip connections are also used in which famous architecture?",o:["AlexNet","VGG-16","ResNet","GoogLeNet"],a:2},
+  {t:"Dice Loss",q:"Dice coefficient of 1 means:",o:["No overlap between predicted and actual mask","Complete overlap between predicted and actual mask","50% overlap","Random overlap"],a:1},
+  {t:"Dice Loss",q:"Dice coefficient of 0 means:",o:["Perfect segmentation","Complete overlap","No overlap between masks","Maximum loss"],a:2},
+  {t:"Dice Loss",q:"The formula for Dice coefficient is:",o:["2|A∩B| / (|A| × |B|)","2|A∩B| / (|A| + |B|)","|A∩B| / (|A| + |B|)","(|A| + |B|) / 2|A∩B|"],a:1},
+  {t:"Dice Loss",q:"Dice Loss is defined as:",o:["1 + Dice coefficient","Dice coefficient","1 − Dice coefficient","−log(Dice coefficient)"],a:2},
+  {t:"Dice Loss",q:"Dice Loss is preferred over cross entropy in segmentation when:",o:["Images are very large","There is class imbalance (e.g., tiny tumor vs large background)","Batch size is small","Learning rate is high"],a:1},
+  {t:"Dice Loss",q:"How is |A∩B| computed in practice in Dice coefficient?",o:["Max of A and B","Element-wise multiplication of prediction and target, then summed","Sum of A and B","Subtraction of A from B"],a:1},
+  {t:"Pixel-wise Cross Entropy",q:"Pixel-wise cross entropy computes loss:",o:["Once for the entire image","Separately for each pixel, then averages","Only for boundary pixels","Only for foreground pixels"],a:1},
+  {t:"Pixel-wise Cross Entropy",q:"Pixel-wise cross entropy is mainly used for which task?",o:["Image classification","Object detection","Semantic segmentation","Image compression"],a:2},
+  {t:"Pixel-wise Cross Entropy",q:"The formula for pixel-wise cross entropy is:",o:["(1/N) Σ (ŷ−y)²","−(1/N) Σ p(x,y)·log q(x,y)","Σ p(x,y) / q(x,y)","N × Σ log p(x,y)"],a:1},
+  {t:"Semantic Segmentation",q:"Semantic segmentation assigns:",o:["One label to the entire image","A class label to every pixel in the image","Bounding boxes to objects","Labels only to edges"],a:1},
+  {t:"Semantic Segmentation",q:"In semantic segmentation, if three cars appear in an image, they are labeled as:",o:["Car-1, Car-2, Car-3 (distinct labels)","All labeled 'car' (same label)","Labeled by size","Left unlabeled"],a:1},
+  {t:"Semantic Segmentation",q:"Instance segmentation differs from semantic segmentation by:",o:["Operating on grayscale images only","Assigning unique labels to individual object instances","Ignoring class information","Only detecting edges"],a:1},
+  {t:"Semantic Segmentation",q:"FCN stands for:",o:["Fast Convolutional Network","Fully Connected Network","Fully Convolutional Network","Feature Compression Network"],a:2},
+  {t:"Semantic Segmentation",q:"FCN replaces fully connected layers with:",o:["Pooling layers","Recurrent layers","Convolutional layers","Dropout layers"],a:2},
+  {t:"Semantic Segmentation",q:"FCN-32s produces output that is:",o:["Very detailed (fine)","Coarse due to 32x upsampling","Same resolution as input","Binary segmentation only"],a:1},
+  {t:"Semantic Segmentation",q:"Skip connections in FCN (e.g., FCN-8s vs FCN-32s) produce:",o:["Coarser segmentation output","Finer and more detailed segmentation output","Slower training","Larger model size"],a:1},
+  {t:"VAE",q:"What does a traditional (vanilla) Autoencoder map input to?",o:["A probability distribution","A fixed deterministic latent vector","A set of class probabilities","A discrete code"],a:1},
+  {t:"VAE",q:"What does the encoder in a VAE output?",o:["A fixed latent vector","Mean (μ) and standard deviation (σ) of a latent distribution","Class probabilities","A reconstructed image"],a:1},
+  {t:"VAE",q:"In a VAE, the latent code z is obtained by:",o:["Directly using μ","Sampling from the distribution N(μ, σ²)","Taking the maximum of μ and σ","Using the median of the distribution"],a:1},
+  {t:"VAE",q:"The prior distribution assumed for the latent space in VAE is:",o:["Uniform distribution","Bernoulli distribution","Standard normal N(0, I)","Laplace distribution"],a:2},
+  {t:"VAE",q:"VAE total loss = ?",o:["Reconstruction loss only","KL divergence only","Reconstruction loss + KL divergence","Cross entropy + MSE"],a:2},
+  {t:"VAE",q:"In VAE, the reconstruction loss ensures:",o:["Latent space is smooth","Class-specific structure is maintained in latent space","KL divergence is minimized","Encoder is removed"],a:1},
+  {t:"VAE",q:"In VAE, the KL divergence loss ensures:",o:["Reconstructed images are sharp","Latent encodings are clustered near origin (smooth latent space)","Model has fewer parameters","Training is faster"],a:1},
+  {t:"VAE",q:"If only reconstruction loss is used (no KL) in VAE, the latent space will be:",o:["Smooth and continuous","Discontinuous with isolated clusters","Random and uniform","All zeros"],a:1},
+  {t:"VAE",q:"VAE enables which capability that traditional AE does not?",o:["Dimensionality reduction","Image compression","Generating new realistic samples by sampling from latent space","Faster training"],a:2},
+  {t:"VAE",q:"Vector arithmetic in VAE latent space (e.g., 'face with glasses' − 'face without glasses') is possible because:",o:["VAE uses more layers","VAE latent space is continuous and smooth","VAE uses MSE loss","VAE has a discriminator"],a:1},
+  {t:"KL Divergence",q:"KL divergence measures:",o:["Distance between two images","How much one probability distribution diverges from another","Mean of a distribution","Variance of a distribution"],a:1},
+  {t:"KL Divergence",q:"KL(P||Q) = 0 implies:",o:["P and Q are completely different","P and Q are identical distributions","KL is maximized","Q is the prior"],a:1},
+  {t:"KL Divergence",q:"KL divergence is always:",o:["Negative","Zero","Non-negative (≥ 0)","Equal to 1"],a:2},
+  {t:"KL Divergence",q:"Is KL divergence symmetric?",o:["Yes, KL(P||Q) = KL(Q||P) always","No, KL(P||Q) ≠ KL(Q||P) in general","Only for Gaussian distributions","Only when P = Q"],a:1},
+  {t:"KL Divergence",q:"The formula for KL divergence KL(P||Q) is:",o:["Σ Q(x) log[P(x)/Q(x)]","Σ P(x) log[P(x)/Q(x)]","Σ P(x) × Q(x)","Σ |P(x) − Q(x)|"],a:1},
+  {t:"KL Divergence",q:"In VAE, KL divergence is minimized between:",o:["Reconstruction and input","Encoder distribution Q(z|x) and prior P(z) = N(0,I)","Decoder output and noise","Generator and discriminator"],a:1},
+  {t:"KL Divergence",q:"ELBO stands for:",o:["Expected Loss Based Optimization","Evidence Lower BOund","Encoder Latent Backpropagation Output","Efficient Latent Bounded Objective"],a:1},
+  {t:"KL Divergence",q:"Maximizing ELBO in VAE means:",o:["Only minimizing KL","Only maximizing reconstruction","Maximizing reconstruction likelihood and minimizing KL divergence simultaneously","Maximizing KL only"],a:2},
+  {t:"Reparameterization",q:"Why is direct sampling from Q(z|x) a problem during VAE training?",o:["It makes the model too large","Sampling is non-differentiable, breaking backpropagation","It increases the loss","It slows down inference"],a:1},
+  {t:"Reparameterization",q:"In the reparameterization trick, z is expressed as:",o:["z = μ × σ","z = μ + σ ⊙ ε","z = ε / σ + μ","z = μ − σ"],a:1},
+  {t:"Reparameterization",q:"In the reparameterization trick, ε is sampled from:",o:["N(μ, σ²)","Uniform distribution U(0,1)","Standard normal N(0, I)","Bernoulli distribution"],a:2},
+  {t:"Reparameterization",q:"After reparameterization, gradients can flow through:",o:["ε only","μ and σ (learnable parameters)","The random variable directly","The decoder only"],a:1},
+  {t:"Reparameterization",q:"The reparameterization trick separates:",o:["Encoder from decoder","Randomness (ε) from learnable parameters (μ, σ)","Generator from discriminator","Loss from gradient"],a:1},
+  {t:"Reparameterization",q:"Without the reparameterization trick, VAE training would fail because:",o:["The encoder has too many layers","Gradients cannot propagate through a non-differentiable sampling operation","The KL divergence explodes","The decoder becomes too shallow"],a:1},
+  {t:"GAN",q:"What does GAN stand for?",o:["Generative Adaptive Network","Generative Adversarial Network","Gradient Adversarial Node","Generative Attention Network"],a:1},
+  {t:"GAN",q:"In a GAN, the Generator takes as input:",o:["A real image","A class label","Random noise vector z","Training data"],a:2},
+  {t:"GAN",q:"In a GAN, the Discriminator outputs:",o:["A generated image","P(input is real)","A class label","A latent vector"],a:1},
+  {t:"GAN",q:"The Discriminator training objective is to:",o:["Maximize D(real) and maximize D(fake)","Maximize D(real) and minimize D(fake)","Minimize D(real) and minimize D(fake)","Minimize D(real) and maximize D(fake)"],a:1},
+  {t:"GAN",q:"The Generator training objective is to:",o:["Minimize D(G(z))","Maximize D(G(z)) — fool the discriminator","Minimize D(real)","Maximize reconstruction loss"],a:1},
+  {t:"GAN",q:"D objective formula: maximize",o:["E[log D(G(z))]","E[log D(x)] only","E[log D(x)] + E[log(1−D(G(z)))]","E[log(1−D(x))]"],a:2},
+  {t:"GAN",q:"G objective formula: maximize",o:["E[log(1−D(G(z)))]","E[log D(x)]","E[log D(G(z))]","E[log D(x)] − E[log D(G(z))]"],a:2},
+  {t:"GAN",q:"GAN training involves:",o:["Only training the generator","Only training the discriminator","Alternately training D and G","Training both simultaneously with same loss"],a:2},
+  {t:"GAN",q:"GAN is described as which type of game?",o:["Cooperative game","Zero-sum / Minimax game","Multi-player game","Reward game"],a:1},
+  {t:"GAN",q:"What type of model is GAN (explicit or implicit)?",o:["Explicit generative model (defines P(x) directly)","Implicit generative model (samples from P(x) without explicit formula)","Discriminative model","Supervised model only"],a:1},
+  {t:"GAN",q:"Which of these is a real application of GANs?",o:["Image classification","Image-to-image translation (pix2pix)","Object detection","Image compression only"],a:1},
+  {t:"GAN",q:"The main difference between VAE and GAN generated images:",o:["VAE images are sharper than GAN","GAN images tend to be sharper; VAE images can be blurry","Both are identical quality","GAN requires labeled data; VAE does not"],a:1},
+  {t:"Triplet Loss",q:"Triplet loss is used in which application?",o:["Image segmentation","Image denoising","Face recognition (FaceNet)","Image super resolution"],a:2},
+  {t:"Triplet Loss",q:"A triplet consists of:",o:["Anchor, Positive, Negative","Input, Hidden, Output","Real, Fake, Neutral","Encoder, Decoder, Latent"],a:0},
+  {t:"Triplet Loss",q:"In triplet loss, the Positive sample is:",o:["A different person from the Anchor","The same person as the Anchor (different image)","A random image","A synthetic image"],a:1},
+  {t:"Triplet Loss",q:"In triplet loss, the Negative sample is:",o:["Same person, different pose","A different person from the Anchor","Same image as Anchor","A noisy version of Anchor"],a:1},
+  {t:"Triplet Loss",q:"The triplet loss constraint is:",o:["d(A,P) ≥ d(A,N) + α","d(A,P) + α ≤ d(A,N)","d(A,N) + α ≤ d(A,P)","d(A,P) = d(A,N)"],a:1},
+  {t:"Triplet Loss",q:"The margin α in triplet loss is used to:",o:["Speed up training","Prevent the trivial solution where all embeddings collapse to zero","Increase the learning rate","Reduce model size"],a:1},
+  {t:"Triplet Loss",q:"Triplet Loss formula L = ?",o:["max(d(A,P) + d(A,N) + α, 0)","max(d(A,P) − d(A,N) + α, 0)","min(d(A,P) − d(A,N) + α, 0)","d(A,P) − d(A,N) + α (no max)"],a:1},
+  {t:"Triplet Loss",q:"Hard positive is defined as:",o:["Easiest same-person pair","Most dissimilar same-person image (argmax d(A,P))","Random same-person image","Closest different-person image"],a:1},
+  {t:"Triplet Loss",q:"Hard negative is defined as:",o:["Most dissimilar different-person image","Most similar different-person image to Anchor (argmin d(A,N))","A random image","Same-person image"],a:1},
+  {t:"Triplet Loss",q:"Why is semi-hard negative preferred over hard negative?",o:["It is computationally cheaper","To avoid model collapse (all embeddings = 0)","It increases batch size","It removes the need for margin α"],a:1},
+  {t:"Triplet Loss",q:"One-shot learning means:",o:["Training with 100 samples","Learning to recognize a class from 1 or very few examples","Training for 1 epoch only","Using 1 layer only"],a:1},
+  {t:"Normalization",q:"Batch normalization normalizes across:",o:["All channels per sample","The batch dimension (N) per channel","Spatial dimensions only","Groups of channels"],a:1},
+  {t:"Normalization",q:"Batch normalization was introduced to address:",o:["Overfitting","Internal covariate shift","Vanishing gradients only","Data imbalance"],a:1},
+  {t:"Normalization",q:"Layer normalization is preferred over batch normalization for:",o:["CNNs with large batches","RNNs, Transformers, and small batch scenarios","Image segmentation only","GANs only"],a:1},
+  {t:"Normalization",q:"Instance normalization normalizes across:",o:["Batch dimension","All channels per sample","H × W per sample per channel","Groups of channels"],a:2},
+  {t:"Normalization",q:"Group normalization is best suited for:",o:["Large batch training","Very small batch sizes where BN fails","RNN training","Style transfer only"],a:1},
+  {t:"Normalization",q:"BN formula ŷ = γ·(x−μ)/σ + β — what are γ and β?",o:["Fixed hyperparameters","Learnable scale and shift parameters","Input mean and variance","Output mean and variance"],a:1},
+  {t:"Dropout",q:"During training, dropout sets neurons to zero with probability:",o:["0","1","p (dropout rate)","0.5 always"],a:2},
+  {t:"Dropout",q:"During testing, dropout:",o:["Still randomly drops neurons","Keeps all neurons active (weights scaled by (1−p))","Doubles all weights","Uses p = 1"],a:1},
+  {t:"Dropout",q:"The main purpose of dropout is to:",o:["Speed up inference","Prevent overfitting by reducing co-adaptation of neurons","Increase model accuracy always","Reduce number of layers"],a:1},
+  {t:"Dropout",q:"L1 regularization encourages:",o:["Large weights","Small but non-zero weights","Sparse weights (many weights → 0)","Uniform weight distribution"],a:2},
+  {t:"Dropout",q:"L2 regularization (weight decay) penalizes:",o:["Sparse weights","Large weights (adds w² to cost)","All weights equally","Zero weights"],a:1},
+  {t:"Dropout",q:"Early stopping monitors which metric to decide when to stop training?",o:["Training loss only","Validation loss","Test accuracy","Gradient magnitude"],a:1},
+  {t:"Optimizers",q:"Momentum optimizer improves upon SGD by:",o:["Eliminating the learning rate","Accumulating velocity (past gradient history) to escape saddle points","Using separate LR per parameter","Normalizing gradients"],a:1},
+  {t:"Optimizers",q:"NAG (Nesterov Accelerated Gradient) differs from standard Momentum by:",o:["Using a larger batch size","Computing gradient at the lookahead (future) position","Removing the velocity term","Using adaptive learning rate"],a:1},
+  {t:"Optimizers",q:"Adagrad adapts the learning rate by:",o:["Using momentum only","Dividing LR by the square root of the sum of all historical squared gradients","Using exponential decay","Ignoring gradient history"],a:1},
+  {t:"Optimizers",q:"What is the main problem with Adagrad for non-convex optimization?",o:["Learning rate increases unboundedly","Learning rate decreases to near zero, stopping learning","Gradients explode","Model overfits"],a:1},
+  {t:"Optimizers",q:"RMSProp fixes Adagrad's problem by:",o:["Removing gradient history entirely","Using exponentially decaying average of squared gradients","Adding momentum term","Using fixed learning rate"],a:1},
+  {t:"Optimizers",q:"Adam optimizer combines:",o:["SGD and Adagrad","Momentum (1st moment) and RMSProp (2nd moment) with bias correction","L1 and L2 regularization","Batch norm and dropout"],a:1},
+  {t:"Optimizers",q:"Default β₁ value in Adam is:",o:["0.999","0.5","0.9","0.1"],a:2},
+  {t:"Optimizers",q:"Default β₂ value in Adam is:",o:["0.9","0.999","0.5","0.1"],a:1},
+  {t:"ResNet",q:"ResNet's key innovation is:",o:["Using more pooling layers","Skip/identity shortcut connections that allow learning residual mappings","Removing all activation functions","Using depthwise convolutions"],a:1},
+  {t:"ResNet",q:"In ResNet, a layer learns F(x) = H(x) − x. This is called:",o:["Identity mapping","Residual mapping","Skip learning","Delta learning"],a:1},
+  {t:"ResNet",q:"Skip connections in ResNet primarily help by:",o:["Increasing model parameters","Allowing gradient to flow to any earlier layer, alleviating vanishing gradient","Reducing input size","Replacing batch normalization"],a:1},
+  {t:"GoogLeNet",q:"The Inception module applies convolutions of which sizes in parallel?",o:["3×3 and 5×5 only","1×1 only","1×1, 3×3, 5×5 and MaxPooling","2×2 and 4×4"],a:2},
+  {t:"GoogLeNet",q:"Auxiliary classifiers in GoogLeNet are used during:",o:["Inference only","Training only (discarded at test time)","Both training and testing","Neither"],a:1},
+  {t:"GoogLeNet",q:"The weight given to auxiliary classifier loss in GoogLeNet training is:",o:["1.0","0.5","0.3","0.1"],a:2},
+  {t:"GoogLeNet",q:"1×1 convolutions in the Inception module are used primarily for:",o:["Detecting small features","Dimensionality reduction to reduce computation","Adding nonlinearity only","Replacing pooling"],a:1},
+];
+
+function shuffle(arr){for(let i=arr.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[arr[i],arr[j]]=[arr[j],arr[i]];}return arr;}
+
+let questions=[];
+let answers=[];
+let current=0;
+
+function startTest(){
+  questions=shuffle([...POOL]).slice(0,100);
+  answers=new Array(100).fill(-1);
+  current=0;
+  document.getElementById('screen-start').style.display='none';
+  document.getElementById('screen-test').style.display='block';
+  renderQ();
+}
+
+function renderQ(){
+  const q=questions[current];
+  document.getElementById('q-counter').textContent='Question '+(current+1)+' of 100';
+  document.getElementById('q-topic').textContent=q.t;
+  const pct=Math.round((current/100)*100);
+  document.getElementById('prog-fill').style.width=pct+'%';
+  const answered=answers.filter(x=>x!==-1).length;
+  document.getElementById('answered-count').textContent=answered+' answered';
+  document.getElementById('btn-prev').style.visibility=current>0?'visible':'hidden';
+  document.getElementById('btn-next').textContent=current<99?'Next':'Review';
+  const showSubmit=answers.filter(x=>x!==-1).length===100||current===99;
+  document.getElementById('btn-submit').style.display=showSubmit?'inline-block':'none';
+
+  let html='<div class="qcard"><div class="qnum">Q'+(current+1)+'</div><div class="qtxt">'+q.q+'</div>';
+  const letters=['A','B','C','D'];
+  q.o.forEach((opt,i)=>{
+    let cls='opt';
+    if(answers[current]===i) cls+=' selected';
+    html+='<div class="'+cls+'" onclick="selectOpt('+i+')"><span class="opt-letter">'+letters[i]+'</span><span>'+opt+'</span></div>';
+  });
+  html+='</div>';
+  document.getElementById('qcard-wrap').innerHTML=html;
+}
+
+function selectOpt(i){
+  answers[current]=i;
+  renderQ();
+  if(current<99){setTimeout(()=>go(1),350);}
+}
+
+function go(dir){
+  current=Math.min(99,Math.max(0,current+dir));
+  renderQ();
+}
+
+function submitTest(){
+  const correct=answers.filter((a,i)=>a===questions[i].a).length;
+  const wrong=answers.filter((a,i)=>a!==-1&&a!==questions[i].a).length;
+  const skip=answers.filter(a=>a===-1).length;
+  const score=correct;
+
+  document.getElementById('r-score').textContent=score;
+  document.getElementById('r-correct').textContent=correct;
+  document.getElementById('r-wrong').textContent=wrong;
+  document.getElementById('r-skip').textContent=skip;
+
+  let grade,sub,gc;
+  if(score>=80){grade='Excellent!';sub='Outstanding performance — you are exam ready.';gc='#1D9E75';}
+  else if(score>=60){grade='Good';sub='Solid understanding — review the wrong ones.';gc='#854F0B';}
+  else if(score>=40){grade='Average';sub='More practice needed on weak topics.';gc='#E24B4A';}
+  else{grade='Needs work';sub='Revise all concepts carefully before exam.';gc='#E24B4A';}
+  document.getElementById('r-grade-text').textContent=score+' / 100 — '+grade;
+  document.getElementById('r-grade-text').style.color=gc;
+  document.getElementById('r-grade-sub').textContent=sub;
+
+  const letters=['A','B','C','D'];
+  let rhtml='';
+  questions.forEach((q,i)=>{
+    const ua=answers[i];
+    const isCorrect=ua===q.a;
+    const isSkip=ua===-1;
+    rhtml+='<div class="result-card">';
+    rhtml+='<div style="display:flex;justify-content:space-between;align-items:flex-start;gap:8px;"><p class="rc-q">Q'+(i+1)+'. '+q.q+'</p>';
+    if(isSkip) rhtml+='<span style="font-size:11px;color:var(--color-text-tertiary);white-space:nowrap;">Skipped</span>';
+    else if(isCorrect) rhtml+='<span class="badge-c">Correct</span>';
+    else rhtml+='<span class="badge-w">Wrong</span>';
+    rhtml+='</div>';
+    if(!isSkip&&!isCorrect){
+      rhtml+='<div class="rc-row" style="color:#791F1F;">Your answer: '+letters[ua]+'. '+q.o[ua]+'</div>';
+    }
+    rhtml+='<div class="rc-row" style="color:#085041;">Correct: '+letters[q.a]+'. '+q.o[q.a]+'</div>';
+    rhtml+='</div>';
+  });
+  document.getElementById('review-list').innerHTML=rhtml;
+
+  document.getElementById('screen-test').style.display='none';
+  document.getElementById('screen-result').style.display='block';
+}
+
+function restartTest(){
+  document.getElementById('screen-result').style.display='none';
+  document.getElementById('screen-start').style.display='block';
+}
+</script>
+
+<h2 class="sr-only">NPTEL Deep Learning Week 12 — 100 question practice MCQ test with score shown only at the end</h2>
+<style>
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);}
+*{box-sizing:border-box;}
+#screen-start,#screen-test,#screen-result{width:100%;}
+.meta{font-size:13px;color:var(--color-text-secondary);}
+.qcard{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:1.25rem 1.25rem 1rem;margin-bottom:12px;}
+.qnum{font-size:11px;color:var(--color-text-tertiary);margin-bottom:6px;}
+.qtxt{font-size:14px;font-weight:500;color:var(--color-text-primary);margin:0 0 12px;line-height:1.55;}
+.opt{display:flex;align-items:flex-start;gap:10px;padding:8px 10px;border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-md);cursor:pointer;margin-bottom:6px;font-size:13px;color:var(--color-text-secondary);transition:background 0.1s;}
+.opt:hover{background:var(--color-background-secondary);}
+.opt.selected{border-color:var(--color-border-info);background:var(--color-background-info);color:var(--color-text-info);}
+.opt.correct{border-color:#1D9E75;background:#E1F5EE;color:#085041;}
+.opt.wrong{border-color:#E24B4A;background:#FCEBEB;color:#791F1F;}
+.opt.reveal-correct{border-color:#1D9E75;background:#E1F5EE;color:#085041;}
+.opt-letter{font-weight:500;min-width:18px;font-size:13px;}
+.prog-bar{height:4px;background:var(--color-background-secondary);border-radius:2px;margin-bottom:1.25rem;}
+.prog-fill{height:4px;background:#1D9E75;border-radius:2px;transition:width 0.3s;}
+.stat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:1.5rem;}
+.stat-box{background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:12px;text-align:center;}
+.stat-n{font-size:24px;font-weight:500;color:var(--color-text-primary);}
+.stat-l{font-size:12px;color:var(--color-text-secondary);margin-top:2px;}
+.result-card{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:1rem 1.25rem;margin-bottom:8px;}
+.rc-q{font-size:13px;font-weight:500;color:var(--color-text-primary);margin:0 0 6px;}
+.rc-row{font-size:12px;margin:3px 0;}
+.badge-c{display:inline-block;padding:2px 8px;border-radius:var(--border-radius-md);background:#E1F5EE;color:#085041;font-size:11px;font-weight:500;}
+.badge-w{display:inline-block;padding:2px 8px;border-radius:var(--border-radius-md);background:#FCEBEB;color:#791F1F;font-size:11px;font-weight:500;}
+.nav-row{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:0.75rem 0;}
+</style>
+
+<div id="screen-start" style="padding:1.5rem 0 1rem;">
+  <p style="font-size:22px;font-weight:500;margin:0 0 6px;color:var(--color-text-primary);">NPTEL Deep Learning — Practice Test</p>
+  <p class="meta" style="margin:0 0 1.5rem;">100 questions · Week 12 · Marks shown only at the end</p>
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px;margin-bottom:1.5rem;">
+    <div class="stat-box"><div class="stat-n">100</div><div class="stat-l">Questions</div></div>
+    <div class="stat-box"><div class="stat-n">1</div><div class="stat-l">Mark each</div></div>
+    <div class="stat-box"><div class="stat-n">0</div><div class="stat-l">Negative marking</div></div>
+    <div class="stat-box"><div class="stat-n" style="font-size:16px;">End only</div><div class="stat-l">Score visible</div></div>
+  </div>
+  <button onclick="startTest()" style="font-size:15px;padding:10px 28px;">Start test</button>
+</div>
+
+<div id="screen-test" style="display:none;padding:1rem 0;">
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+    <span id="q-counter" class="meta"></span>
+    <span id="q-topic" style="font-size:11px;color:var(--color-text-tertiary);"></span>
+  </div>
+  <div class="prog-bar"><div class="prog-fill" id="prog-fill" style="width:0%"></div></div>
+  <div id="qcard-wrap"></div>
+  <div class="nav-row">
+    <button id="btn-prev" onclick="go(-1)" style="font-size:13px;padding:7px 18px;">Prev</button>
+    <span id="answered-count" class="meta"></span>
+    <button id="btn-next" onclick="go(1)" style="font-size:13px;padding:7px 18px;">Next</button>
+  </div>
+  <div style="text-align:center;margin-top:8px;">
+    <button id="btn-submit" onclick="submitTest()" style="font-size:14px;padding:9px 28px;display:none;">Submit test</button>
+  </div>
+</div>
+
+<div id="screen-result" style="display:none;padding:1rem 0;">
+  <p style="font-size:22px;font-weight:500;margin:0 0 4px;color:var(--color-text-primary);">Test result</p>
+  <p class="meta" style="margin:0 0 1.25rem;">Week 12 · 100 questions</p>
+  <div class="stat-grid">
+    <div class="stat-box"><div class="stat-n" id="r-score" style="color:#1D9E75;"></div><div class="stat-l">Score / 100</div></div>
+    <div class="stat-box"><div class="stat-n" id="r-correct" style="color:#1D9E75;"></div><div class="stat-l">Correct</div></div>
+    <div class="stat-box"><div class="stat-n" id="r-wrong" style="color:#E24B4A;"></div><div class="stat-l">Wrong</div></div>
+    <div class="stat-box"><div class="stat-n" id="r-skip"></div><div class="stat-l">Skipped</div></div>
+  </div>
+  <div id="r-grade" style="text-align:center;padding:14px;border-radius:var(--border-radius-lg);background:var(--color-background-secondary);margin-bottom:1.25rem;">
+    <p style="font-size:20px;font-weight:500;margin:0;" id="r-grade-text"></p>
+    <p style="font-size:13px;color:var(--color-text-secondary);margin:4px 0 0;" id="r-grade-sub"></p>
+  </div>
+  <p style="font-size:14px;font-weight:500;margin:0 0 10px;color:var(--color-text-primary);">Detailed review — every question</p>
+  <div id="review-list"></div>
+  <div style="text-align:center;margin-top:1.25rem;">
+    <button onclick="restartTest()" style="font-size:14px;padding:9px 24px;">Retake test (new shuffle)</button>
+  </div>
+</div>
+
+<script>
+const POOL=[
+  {t:"Image Restoration",q:"What is the primary goal of image restoration?",o:["To compress images for storage","To recover a clean image from a degraded input","To convert images to grayscale","To increase image resolution only"],a:1},
+  {t:"Image Restoration",q:"Which of the following is NOT a type of image restoration?",o:["Deblurring","Denoising","Image compression","Super resolution"],a:2},
+  {t:"Image Restoration",q:"In the image degradation model, which formula represents the degraded image y?",o:["y = H(x) + noise","y = x − H","y = H × x²","y = noise only"],a:0},
+  {t:"Image Restoration",q:"When the degradation operator H is the identity matrix, the restoration task becomes:",o:["Super resolution","Image inpainting","Image denoising","Image deblurring"],a:2},
+  {t:"Image Restoration",q:"Image inpainting refers to:",o:["Adding noise to images","Recovering missing or corrupted regions of an image","Shrinking the image size","Converting image to binary"],a:1},
+  {t:"Image Restoration",q:"Low-dose CT denoising is an example of which task?",o:["Image generation","Image deblurring","Image denoising","Image translation"],a:2},
+  {t:"Image Restoration",q:"Which loss function is most commonly used in image restoration networks?",o:["Cross entropy loss","Dice loss","Mean Squared Error (MSE)","Triplet loss"],a:2},
+  {t:"Image Restoration",q:"The MSE loss trains the restoration network to map:",o:["Clean image to noisy image","Noisy image to clean image","Gray image to colored image","Small image to large image"],a:1},
+  {t:"Image Restoration",q:"MSE formula is: MSE = ?",o:["(1/N) Σ |ŷᵢ − yᵢ|","(1/N) Σ (ŷᵢ − yᵢ)²","Σ ŷᵢ × yᵢ","(1/N) Σ log(ŷᵢ / yᵢ)"],a:1},
+  {t:"Image Restoration",q:"Which statement about MSE is correct?",o:["MSE is insensitive to outliers","MSE penalizes large errors more due to squaring","MSE is only used in classification","MSE cannot be used for image tasks"],a:1},
+  {t:"Image Restoration Network",q:"What does the encoder part of a restoration network do?",o:["Up-samples image to higher resolution","Down-samples image to extract abstract features","Adds noise to the image","Applies color correction"],a:1},
+  {t:"Image Restoration Network",q:"What does the decoder in a restoration network do?",o:["Extracts features","Down-samples features","Up-samples to reconstruct the clean image","Classifies image categories"],a:2},
+  {t:"Image Restoration Network",q:"Convolutional layers in the restoration network serve primarily as:",o:["Image classifiers","Feature extractors that eliminate noise","Output generators","Upsampling modules"],a:1},
+  {t:"Image Restoration Network",q:"Deconvolutional layers in the restoration network serve primarily as:",o:["Feature extractors","Loss calculators","Image reconstruction modules","Normalization layers"],a:2},
+  {t:"Skip Connections",q:"What is the main purpose of skip connections in an image restoration network?",o:["To increase model size","To pass feature maps from encoder to decoder, preserving image details","To apply batch normalization","To reduce learning rate"],a:1},
+  {t:"Skip Connections",q:"Skip connections help improve backpropagation by:",o:["Stopping gradients from flowing","Providing an alternative gradient path, reducing vanishing gradient problem","Increasing batch size","Removing residuals"],a:1},
+  {t:"Skip Connections",q:"Without skip connections, deep restoration networks tend to:",o:["Train faster","Lose fine image details in deep layers","Produce sharper images","Reduce computation"],a:1},
+  {t:"Skip Connections",q:"Skip connections are also used in which famous architecture?",o:["AlexNet","VGG-16","ResNet","GoogLeNet"],a:2},
+  {t:"Dice Loss",q:"Dice coefficient of 1 means:",o:["No overlap between predicted and actual mask","Complete overlap between predicted and actual mask","50% overlap","Random overlap"],a:1},
+  {t:"Dice Loss",q:"Dice coefficient of 0 means:",o:["Perfect segmentation","Complete overlap","No overlap between masks","Maximum loss"],a:2},
+  {t:"Dice Loss",q:"The formula for Dice coefficient is:",o:["2|A∩B| / (|A| × |B|)","2|A∩B| / (|A| + |B|)","|A∩B| / (|A| + |B|)","(|A| + |B|) / 2|A∩B|"],a:1},
+  {t:"Dice Loss",q:"Dice Loss is defined as:",o:["1 + Dice coefficient","Dice coefficient","1 − Dice coefficient","−log(Dice coefficient)"],a:2},
+  {t:"Dice Loss",q:"Dice Loss is preferred over cross entropy in segmentation when:",o:["Images are very large","There is class imbalance (e.g., tiny tumor vs large background)","Batch size is small","Learning rate is high"],a:1},
+  {t:"Dice Loss",q:"How is |A∩B| computed in practice in Dice coefficient?",o:["Max of A and B","Element-wise multiplication of prediction and target, then summed","Sum of A and B","Subtraction of A from B"],a:1},
+  {t:"Pixel-wise Cross Entropy",q:"Pixel-wise cross entropy computes loss:",o:["Once for the entire image","Separately for each pixel, then averages","Only for boundary pixels","Only for foreground pixels"],a:1},
+  {t:"Pixel-wise Cross Entropy",q:"Pixel-wise cross entropy is mainly used for which task?",o:["Image classification","Object detection","Semantic segmentation","Image compression"],a:2},
+  {t:"Pixel-wise Cross Entropy",q:"The formula for pixel-wise cross entropy is:",o:["(1/N) Σ (ŷ−y)²","−(1/N) Σ p(x,y)·log q(x,y)","Σ p(x,y) / q(x,y)","N × Σ log p(x,y)"],a:1},
+  {t:"Semantic Segmentation",q:"Semantic segmentation assigns:",o:["One label to the entire image","A class label to every pixel in the image","Bounding boxes to objects","Labels only to edges"],a:1},
+  {t:"Semantic Segmentation",q:"In semantic segmentation, if three cars appear in an image, they are labeled as:",o:["Car-1, Car-2, Car-3 (distinct labels)","All labeled 'car' (same label)","Labeled by size","Left unlabeled"],a:1},
+  {t:"Semantic Segmentation",q:"Instance segmentation differs from semantic segmentation by:",o:["Operating on grayscale images only","Assigning unique labels to individual object instances","Ignoring class information","Only detecting edges"],a:1},
+  {t:"Semantic Segmentation",q:"FCN stands for:",o:["Fast Convolutional Network","Fully Connected Network","Fully Convolutional Network","Feature Compression Network"],a:2},
+  {t:"Semantic Segmentation",q:"FCN replaces fully connected layers with:",o:["Pooling layers","Recurrent layers","Convolutional layers","Dropout layers"],a:2},
+  {t:"Semantic Segmentation",q:"FCN-32s produces output that is:",o:["Very detailed (fine)","Coarse due to 32x upsampling","Same resolution as input","Binary segmentation only"],a:1},
+  {t:"Semantic Segmentation",q:"Skip connections in FCN (e.g., FCN-8s vs FCN-32s) produce:",o:["Coarser segmentation output","Finer and more detailed segmentation output","Slower training","Larger model size"],a:1},
+  {t:"VAE",q:"What does a traditional (vanilla) Autoencoder map input to?",o:["A probability distribution","A fixed deterministic latent vector","A set of class probabilities","A discrete code"],a:1},
+  {t:"VAE",q:"What does the encoder in a VAE output?",o:["A fixed latent vector","Mean (μ) and standard deviation (σ) of a latent distribution","Class probabilities","A reconstructed image"],a:1},
+  {t:"VAE",q:"In a VAE, the latent code z is obtained by:",o:["Directly using μ","Sampling from the distribution N(μ, σ²)","Taking the maximum of μ and σ","Using the median of the distribution"],a:1},
+  {t:"VAE",q:"The prior distribution assumed for the latent space in VAE is:",o:["Uniform distribution","Bernoulli distribution","Standard normal N(0, I)","Laplace distribution"],a:2},
+  {t:"VAE",q:"VAE total loss = ?",o:["Reconstruction loss only","KL divergence only","Reconstruction loss + KL divergence","Cross entropy + MSE"],a:2},
+  {t:"VAE",q:"In VAE, the reconstruction loss ensures:",o:["Latent space is smooth","Class-specific structure is maintained in latent space","KL divergence is minimized","Encoder is removed"],a:1},
+  {t:"VAE",q:"In VAE, the KL divergence loss ensures:",o:["Reconstructed images are sharp","Latent encodings are clustered near origin (smooth latent space)","Model has fewer parameters","Training is faster"],a:1},
+  {t:"VAE",q:"If only reconstruction loss is used (no KL) in VAE, the latent space will be:",o:["Smooth and continuous","Discontinuous with isolated clusters","Random and uniform","All zeros"],a:1},
+  {t:"VAE",q:"VAE enables which capability that traditional AE does not?",o:["Dimensionality reduction","Image compression","Generating new realistic samples by sampling from latent space","Faster training"],a:2},
+  {t:"VAE",q:"Vector arithmetic in VAE latent space (e.g., 'face with glasses' − 'face without glasses') is possible because:",o:["VAE uses more layers","VAE latent space is continuous and smooth","VAE uses MSE loss","VAE has a discriminator"],a:1},
+  {t:"KL Divergence",q:"KL divergence measures:",o:["Distance between two images","How much one probability distribution diverges from another","Mean of a distribution","Variance of a distribution"],a:1},
+  {t:"KL Divergence",q:"KL(P||Q) = 0 implies:",o:["P and Q are completely different","P and Q are identical distributions","KL is maximized","Q is the prior"],a:1},
+  {t:"KL Divergence",q:"KL divergence is always:",o:["Negative","Zero","Non-negative (≥ 0)","Equal to 1"],a:2},
+  {t:"KL Divergence",q:"Is KL divergence symmetric?",o:["Yes, KL(P||Q) = KL(Q||P) always","No, KL(P||Q) ≠ KL(Q||P) in general","Only for Gaussian distributions","Only when P = Q"],a:1},
+  {t:"KL Divergence",q:"The formula for KL divergence KL(P||Q) is:",o:["Σ Q(x) log[P(x)/Q(x)]","Σ P(x) log[P(x)/Q(x)]","Σ P(x) × Q(x)","Σ |P(x) − Q(x)|"],a:1},
+  {t:"KL Divergence",q:"In VAE, KL divergence is minimized between:",o:["Reconstruction and input","Encoder distribution Q(z|x) and prior P(z) = N(0,I)","Decoder output and noise","Generator and discriminator"],a:1},
+  {t:"KL Divergence",q:"ELBO stands for:",o:["Expected Loss Based Optimization","Evidence Lower BOund","Encoder Latent Backpropagation Output","Efficient Latent Bounded Objective"],a:1},
+  {t:"KL Divergence",q:"Maximizing ELBO in VAE means:",o:["Only minimizing KL","Only maximizing reconstruction","Maximizing reconstruction likelihood and minimizing KL divergence simultaneously","Maximizing KL only"],a:2},
+  {t:"Reparameterization",q:"Why is direct sampling from Q(z|x) a problem during VAE training?",o:["It makes the model too large","Sampling is non-differentiable, breaking backpropagation","It increases the loss","It slows down inference"],a:1},
+  {t:"Reparameterization",q:"In the reparameterization trick, z is expressed as:",o:["z = μ × σ","z = μ + σ ⊙ ε","z = ε / σ + μ","z = μ − σ"],a:1},
+  {t:"Reparameterization",q:"In the reparameterization trick, ε is sampled from:",o:["N(μ, σ²)","Uniform distribution U(0,1)","Standard normal N(0, I)","Bernoulli distribution"],a:2},
+  {t:"Reparameterization",q:"After reparameterization, gradients can flow through:",o:["ε only","μ and σ (learnable parameters)","The random variable directly","The decoder only"],a:1},
+  {t:"Reparameterization",q:"The reparameterization trick separates:",o:["Encoder from decoder","Randomness (ε) from learnable parameters (μ, σ)","Generator from discriminator","Loss from gradient"],a:1},
+  {t:"Reparameterization",q:"Without the reparameterization trick, VAE training would fail because:",o:["The encoder has too many layers","Gradients cannot propagate through a non-differentiable sampling operation","The KL divergence explodes","The decoder becomes too shallow"],a:1},
+  {t:"GAN",q:"What does GAN stand for?",o:["Generative Adaptive Network","Generative Adversarial Network","Gradient Adversarial Node","Generative Attention Network"],a:1},
+  {t:"GAN",q:"In a GAN, the Generator takes as input:",o:["A real image","A class label","Random noise vector z","Training data"],a:2},
+  {t:"GAN",q:"In a GAN, the Discriminator outputs:",o:["A generated image","P(input is real)","A class label","A latent vector"],a:1},
+  {t:"GAN",q:"The Discriminator training objective is to:",o:["Maximize D(real) and maximize D(fake)","Maximize D(real) and minimize D(fake)","Minimize D(real) and minimize D(fake)","Minimize D(real) and maximize D(fake)"],a:1},
+  {t:"GAN",q:"The Generator training objective is to:",o:["Minimize D(G(z))","Maximize D(G(z)) — fool the discriminator","Minimize D(real)","Maximize reconstruction loss"],a:1},
+  {t:"GAN",q:"D objective formula: maximize",o:["E[log D(G(z))]","E[log D(x)] only","E[log D(x)] + E[log(1−D(G(z)))]","E[log(1−D(x))]"],a:2},
+  {t:"GAN",q:"G objective formula: maximize",o:["E[log(1−D(G(z)))]","E[log D(x)]","E[log D(G(z))]","E[log D(x)] − E[log D(G(z))]"],a:2},
+  {t:"GAN",q:"GAN training involves:",o:["Only training the generator","Only training the discriminator","Alternately training D and G","Training both simultaneously with same loss"],a:2},
+  {t:"GAN",q:"GAN is described as which type of game?",o:["Cooperative game","Zero-sum / Minimax game","Multi-player game","Reward game"],a:1},
+  {t:"GAN",q:"What type of model is GAN (explicit or implicit)?",o:["Explicit generative model (defines P(x) directly)","Implicit generative model (samples from P(x) without explicit formula)","Discriminative model","Supervised model only"],a:1},
+  {t:"GAN",q:"Which of these is a real application of GANs?",o:["Image classification","Image-to-image translation (pix2pix)","Object detection","Image compression only"],a:1},
+  {t:"GAN",q:"The main difference between VAE and GAN generated images:",o:["VAE images are sharper than GAN","GAN images tend to be sharper; VAE images can be blurry","Both are identical quality","GAN requires labeled data; VAE does not"],a:1},
+  {t:"Triplet Loss",q:"Triplet loss is used in which application?",o:["Image segmentation","Image denoising","Face recognition (FaceNet)","Image super resolution"],a:2},
+  {t:"Triplet Loss",q:"A triplet consists of:",o:["Anchor, Positive, Negative","Input, Hidden, Output","Real, Fake, Neutral","Encoder, Decoder, Latent"],a:0},
+  {t:"Triplet Loss",q:"In triplet loss, the Positive sample is:",o:["A different person from the Anchor","The same person as the Anchor (different image)","A random image","A synthetic image"],a:1},
+  {t:"Triplet Loss",q:"In triplet loss, the Negative sample is:",o:["Same person, different pose","A different person from the Anchor","Same image as Anchor","A noisy version of Anchor"],a:1},
+  {t:"Triplet Loss",q:"The triplet loss constraint is:",o:["d(A,P) ≥ d(A,N) + α","d(A,P) + α ≤ d(A,N)","d(A,N) + α ≤ d(A,P)","d(A,P) = d(A,N)"],a:1},
+  {t:"Triplet Loss",q:"The margin α in triplet loss is used to:",o:["Speed up training","Prevent the trivial solution where all embeddings collapse to zero","Increase the learning rate","Reduce model size"],a:1},
+  {t:"Triplet Loss",q:"Triplet Loss formula L = ?",o:["max(d(A,P) + d(A,N) + α, 0)","max(d(A,P) − d(A,N) + α, 0)","min(d(A,P) − d(A,N) + α, 0)","d(A,P) − d(A,N) + α (no max)"],a:1},
+  {t:"Triplet Loss",q:"Hard positive is defined as:",o:["Easiest same-person pair","Most dissimilar same-person image (argmax d(A,P))","Random same-person image","Closest different-person image"],a:1},
+  {t:"Triplet Loss",q:"Hard negative is defined as:",o:["Most dissimilar different-person image","Most similar different-person image to Anchor (argmin d(A,N))","A random image","Same-person image"],a:1},
+  {t:"Triplet Loss",q:"Why is semi-hard negative preferred over hard negative?",o:["It is computationally cheaper","To avoid model collapse (all embeddings = 0)","It increases batch size","It removes the need for margin α"],a:1},
+  {t:"Triplet Loss",q:"One-shot learning means:",o:["Training with 100 samples","Learning to recognize a class from 1 or very few examples","Training for 1 epoch only","Using 1 layer only"],a:1},
+  {t:"Normalization",q:"Batch normalization normalizes across:",o:["All channels per sample","The batch dimension (N) per channel","Spatial dimensions only","Groups of channels"],a:1},
+  {t:"Normalization",q:"Batch normalization was introduced to address:",o:["Overfitting","Internal covariate shift","Vanishing gradients only","Data imbalance"],a:1},
+  {t:"Normalization",q:"Layer normalization is preferred over batch normalization for:",o:["CNNs with large batches","RNNs, Transformers, and small batch scenarios","Image segmentation only","GANs only"],a:1},
+  {t:"Normalization",q:"Instance normalization normalizes across:",o:["Batch dimension","All channels per sample","H × W per sample per channel","Groups of channels"],a:2},
+  {t:"Normalization",q:"Group normalization is best suited for:",o:["Large batch training","Very small batch sizes where BN fails","RNN training","Style transfer only"],a:1},
+  {t:"Normalization",q:"BN formula ŷ = γ·(x−μ)/σ + β — what are γ and β?",o:["Fixed hyperparameters","Learnable scale and shift parameters","Input mean and variance","Output mean and variance"],a:1},
+  {t:"Dropout",q:"During training, dropout sets neurons to zero with probability:",o:["0","1","p (dropout rate)","0.5 always"],a:2},
+  {t:"Dropout",q:"During testing, dropout:",o:["Still randomly drops neurons","Keeps all neurons active (weights scaled by (1−p))","Doubles all weights","Uses p = 1"],a:1},
+  {t:"Dropout",q:"The main purpose of dropout is to:",o:["Speed up inference","Prevent overfitting by reducing co-adaptation of neurons","Increase model accuracy always","Reduce number of layers"],a:1},
+  {t:"Dropout",q:"L1 regularization encourages:",o:["Large weights","Small but non-zero weights","Sparse weights (many weights → 0)","Uniform weight distribution"],a:2},
+  {t:"Dropout",q:"L2 regularization (weight decay) penalizes:",o:["Sparse weights","Large weights (adds w² to cost)","All weights equally","Zero weights"],a:1},
+  {t:"Dropout",q:"Early stopping monitors which metric to decide when to stop training?",o:["Training loss only","Validation loss","Test accuracy","Gradient magnitude"],a:1},
+  {t:"Optimizers",q:"Momentum optimizer improves upon SGD by:",o:["Eliminating the learning rate","Accumulating velocity (past gradient history) to escape saddle points","Using separate LR per parameter","Normalizing gradients"],a:1},
+  {t:"Optimizers",q:"NAG (Nesterov Accelerated Gradient) differs from standard Momentum by:",o:["Using a larger batch size","Computing gradient at the lookahead (future) position","Removing the velocity term","Using adaptive learning rate"],a:1},
+  {t:"Optimizers",q:"Adagrad adapts the learning rate by:",o:["Using momentum only","Dividing LR by the square root of the sum of all historical squared gradients","Using exponential decay","Ignoring gradient history"],a:1},
+  {t:"Optimizers",q:"What is the main problem with Adagrad for non-convex optimization?",o:["Learning rate increases unboundedly","Learning rate decreases to near zero, stopping learning","Gradients explode","Model overfits"],a:1},
+  {t:"Optimizers",q:"RMSProp fixes Adagrad's problem by:",o:["Removing gradient history entirely","Using exponentially decaying average of squared gradients","Adding momentum term","Using fixed learning rate"],a:1},
+  {t:"Optimizers",q:"Adam optimizer combines:",o:["SGD and Adagrad","Momentum (1st moment) and RMSProp (2nd moment) with bias correction","L1 and L2 regularization","Batch norm and dropout"],a:1},
+  {t:"Optimizers",q:"Default β₁ value in Adam is:",o:["0.999","0.5","0.9","0.1"],a:2},
+  {t:"Optimizers",q:"Default β₂ value in Adam is:",o:["0.9","0.999","0.5","0.1"],a:1},
+  {t:"ResNet",q:"ResNet's key innovation is:",o:["Using more pooling layers","Skip/identity shortcut connections that allow learning residual mappings","Removing all activation functions","Using depthwise convolutions"],a:1},
+  {t:"ResNet",q:"In ResNet, a layer learns F(x) = H(x) − x. This is called:",o:["Identity mapping","Residual mapping","Skip learning","Delta learning"],a:1},
+  {t:"ResNet",q:"Skip connections in ResNet primarily help by:",o:["Increasing model parameters","Allowing gradient to flow to any earlier layer, alleviating vanishing gradient","Reducing input size","Replacing batch normalization"],a:1},
+  {t:"GoogLeNet",q:"The Inception module applies convolutions of which sizes in parallel?",o:["3×3 and 5×5 only","1×1 only","1×1, 3×3, 5×5 and MaxPooling","2×2 and 4×4"],a:2},
+  {t:"GoogLeNet",q:"Auxiliary classifiers in GoogLeNet are used during:",o:["Inference only","Training only (discarded at test time)","Both training and testing","Neither"],a:1},
+  {t:"GoogLeNet",q:"The weight given to auxiliary classifier loss in GoogLeNet training is:",o:["1.0","0.5","0.3","0.1"],a:2},
+  {t:"GoogLeNet",q:"1×1 convolutions in the Inception module are used primarily for:",o:["Detecting small features","Dimensionality reduction to reduce computation","Adding nonlinearity only","Replacing pooling"],a:1},
+];
+
+function shuffle(arr){for(let i=arr.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[arr[i],arr[j]]=[arr[j],arr[i]];}return arr;}
+
+let questions=[];
+let answers=[];
+let current=0;
+
+function startTest(){
+  questions=shuffle([...POOL]).slice(0,100);
+  answers=new Array(100).fill(-1);
+  current=0;
+  document.getElementById('screen-start').style.display='none';
+  document.getElementById('screen-test').style.display='block';
+  renderQ();
+}
+
+function renderQ(){
+  const q=questions[current];
+  document.getElementById('q-counter').textContent='Question '+(current+1)+' of 100';
+  document.getElementById('q-topic').textContent=q.t;
+  const pct=Math.round((current/100)*100);
+  document.getElementById('prog-fill').style.width=pct+'%';
+  const answered=answers.filter(x=>x!==-1).length;
+  document.getElementById('answered-count').textContent=answered+' answered';
+  document.getElementById('btn-prev').style.visibility=current>0?'visible':'hidden';
+  document.getElementById('btn-next').textContent=current<99?'Next':'Review';
+  const showSubmit=answers.filter(x=>x!==-1).length===100||current===99;
+  document.getElementById('btn-submit').style.display=showSubmit?'inline-block':'none';
+
+  let html='<div class="qcard"><div class="qnum">Q'+(current+1)+'</div><div class="qtxt">'+q.q+'</div>';
+  const letters=['A','B','C','D'];
+  q.o.forEach((opt,i)=>{
+    let cls='opt';
+    if(answers[current]===i) cls+=' selected';
+    html+='<div class="'+cls+'" onclick="selectOpt('+i+')"><span class="opt-letter">'+letters[i]+'</span><span>'+opt+'</span></div>';
+  });
+  html+='</div>';
+  document.getElementById('qcard-wrap').innerHTML=html;
+}
+
+function selectOpt(i){
+  answers[current]=i;
+  renderQ();
+  if(current<99){setTimeout(()=>go(1),350);}
+}
+
+function go(dir){
+  current=Math.min(99,Math.max(0,current+dir));
+  renderQ();
+}
+
+function submitTest(){
+  const correct=answers.filter((a,i)=>a===questions[i].a).length;
+  const wrong=answers.filter((a,i)=>a!==-1&&a!==questions[i].a).length;
+  const skip=answers.filter(a=>a===-1).length;
+  const score=correct;
+
+  document.getElementById('r-score').textContent=score;
+  document.getElementById('r-correct').textContent=correct;
+  document.getElementById('r-wrong').textContent=wrong;
+  document.getElementById('r-skip').textContent=skip;
+
+  let grade,sub,gc;
+  if(score>=80){grade='Excellent!';sub='Outstanding performance — you are exam ready.';gc='#1D9E75';}
+  else if(score>=60){grade='Good';sub='Solid understanding — review the wrong ones.';gc='#854F0B';}
+  else if(score>=40){grade='Average';sub='More practice needed on weak topics.';gc='#E24B4A';}
+  else{grade='Needs work';sub='Revise all concepts carefully before exam.';gc='#E24B4A';}
+  document.getElementById('r-grade-text').textContent=score+' / 100 — '+grade;
+  document.getElementById('r-grade-text').style.color=gc;
+  document.getElementById('r-grade-sub').textContent=sub;
+
+  const letters=['A','B','C','D'];
+  let rhtml='';
+  questions.forEach((q,i)=>{
+    const ua=answers[i];
+    const isCorrect=ua===q.a;
+    const isSkip=ua===-1;
+    rhtml+='<div class="result-card">';
+    rhtml+='<div style="display:flex;justify-content:space-between;align-items:flex-start;gap:8px;"><p class="rc-q">Q'+(i+1)+'. '+q.q+'</p>';
+    if(isSkip) rhtml+='<span style="font-size:11px;color:var(--color-text-tertiary);white-space:nowrap;">Skipped</span>';
+    else if(isCorrect) rhtml+='<span class="badge-c">Correct</span>';
+    else rhtml+='<span class="badge-w">Wrong</span>';
+    rhtml+='</div>';
+    if(!isSkip&&!isCorrect){
+      rhtml+='<div class="rc-row" style="color:#791F1F;">Your answer: '+letters[ua]+'. '+q.o[ua]+'</div>';
+    }
+    rhtml+='<div class="rc-row" style="color:#085041;">Correct: '+letters[q.a]+'. '+q.o[q.a]+'</div>';
+    rhtml+='</div>';
+  });
+  document.getElementById('review-list').innerHTML=rhtml;
+
+  document.getElementById('screen-test').style.display='none';
+  document.getElementById('screen-result').style.display='block';
+}
+
+function restartTest(){
+  document.getElementById('screen-result').style.display='none';
+  document.getElementById('screen-start').style.display='block';
+}
+</script>
+
 </body>
 </html>
